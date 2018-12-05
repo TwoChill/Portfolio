@@ -1,2 +1,2 @@
 # Python_Projects
-Afgeronde projecten 
+These are a collection of Python programs written by MdeFrance. 
