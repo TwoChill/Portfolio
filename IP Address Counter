@@ -29,8 +29,12 @@
           
           #### THE CODE ####
 
+# !!!Try and Except plus While loop. Use of numbers only !!! #
 
 ip_num = input("Type an IP adress: ")
+
+# !!!Try and Except plus While loop. Use of numbers only !!! #
+
 again = "Y"
 while again == "Y":
 	if not ip_num == "":
