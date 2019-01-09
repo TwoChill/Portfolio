@@ -54,7 +54,7 @@ while again == "Y":
 				else:
 					print("Segment\t" + str(items) + "\thas " + str(len_char) + "\tcharacter \t>>>\t\t" + char)
 
-		again = input("\nDo you want to enter an other IP adress? Y/N:\n")
+		again = input("\nDo you want to enter another IP adress? Y/N:\n")
 		again = again.capitalize()
 		if again == "Y":
 			ip_num = input("Type an IP adress: ")
