@@ -1,2 +1,7 @@
+
 # Python_Projects
-These are a collection of Python programs written by MdeFrance. 
+These are collections of Python programs written by MdeFrance.
+
+I created this repository to showcase my current knowledge of Python.
+These programs are eigther created from scratch or they were a part of an exercise.
+(Which was then completed without first checking the correct answer)
