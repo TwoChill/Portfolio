@@ -56,7 +56,6 @@ def range_b(string):
 def quiz_questions(randomnr):
     answerd = 0
     total = 0
-    duplicate_randomnr = randomnr
 
     list_value = [v for v in dic_quiz]     # <---         Source: quora.com/How-do-I-convert-a-dictionary-to-a-list-in-Python
 
@@ -95,8 +94,8 @@ def quiz_questions(randomnr):
         elif ranges == 3:
             ranges = _and_
         elif ranges == 4:
-            ranges = or_and                                         # <--           This block is used to 'convert' the users chooice,
-        elif ranges == 5:                                           # <--           to the corrospondig range our program uses.
+            ranges = or_and                                                     # This block is used to 'convert' the users chooice,
+        elif ranges == 5:                                                       # to the corrospondig range our program uses.
             ranges = not_or
         elif ranges == 6:
             ranges = not_and
@@ -108,55 +107,68 @@ def quiz_questions(randomnr):
             ranges = equal_to
         elif ranges == 10:
             ranges = not_equal_and_equal_to
-        else:
-            print("\nWhat?! I didn't get that.\nI've choosen number 1 for you.\n")
-            ranges = all_questions                                  # <--           Error handeling incase another integer has been given.
-
     except:
         if ValueError:
             print("\nWhat?! I didn't get that.\nI've choosen number 1 for you.\n")
-            ranges = all_questions                                  # <--           Error handeling incase another integer has been given.
-        else:
-            print("GOT an ERROR!")
+            ranges = all_questions                                              # Error handeling incase another integer has been given.
+
 
     print("\n\n### !Don' forget to type 'quit' to exit! ###")
 
 
     while True:
-        randomnr = random.randint(range_a(ranges),range_b(ranges))
+        previous_randomnr = randomnr
+        randomnr = random.randint(range_a(ranges),range_b(ranges))              # Random number generated which corrolates to random question asked.
         question = list_value[randomnr]
+        if previous_randomnr == randomnr:
+            continue
 
-        print("\nQuestion:\t-->\t{}".format(question,randomnr, duplicate_randomnr))                 # print("\nQuestion:\t-->\t{}\trandomnr:{}\tduplicateNR:{}".format(question,randomnr, duplicate_randomnr))
+        print("\nQuestion:\t-->\t{}".format(question))                          # print("\nQuestion:\t-->\t{}\trandomnr:{}\tduplicateNR:{}".format(question,randomnr, duplicate_randomnr))
         answer = input("True or False?:\t-->\t").capitalize()
 
 
         if answer == "Quit":
             try:
-                print("\n\n\nCorrect:\t\t{}\nTotal Questions:\t{}\n\nYour grade:\t\t{}".format(answerd, total, grade))
+                print("\n\n\nCorrect Answerd:\t{}\nTotal Questions:\t{}\n\nYour grade is:\t\t{}".format(answerd, total, grade))
                 if grade <= 5:
-                    print("\nYou should study WAY more!\n\nRESTART this program!\nAND TRY AGAIN!\n")
-                elif 5 > grade <= 8:
-                    print("\nYou've done a great job.\n\nKeep practicing though!")
+                    print("\n\nYou should study WAY more!\n\nRESTART this program!\nAND TRY AGAIN!\n")
+                elif (grade >= 6) and (grade <= 8):
+                    print("\n\nYou've done a great job.\n\nKeep practicing though!")
                 else:
-                    print("\nEXCELLENT!\n\nGreat job in getting a ", grade, "!\nHow Try Again and beat your best!" )
+                    print("\n\nEXCELLENT! EXCELLENT! EXCELLENT!\n\n\nGreat job in getting a ", grade, "!\nHow Try Again and beat your best!\n" )
                 break
             except:
                 if ZeroDivisionError:
-                    grade = 0
-                    print("\n\n\nZ_Correct:\t\t{}\nTotal Questions:\t{}\n\nYour grade:\t\t{}".format(answerd, total, grade))
-                    break
-        elif answer == '':
-            while answer == '':
-                answer = input("Enter your answer : ").capitalize()
-                if answer == "Quit":
+                    print("\nWell, You tried.\nRestart me to try again.\n")
                     break
 
-        if randomnr == duplicate_randomnr:
+        elif answer == '':
+            while answer == '':
+                answer = input("True or False?:\t-->\t").capitalize()
+                if answer == "Quit":
+                    break
+            try:
+                print("\n\n\nCorrect Answerd:\t{}\nTotal Questions:\t{}\n\nYour grade is:\t\t{}".format(answerd, total, grade))
+                if grade <= 5:
+                    print("\n\nYou should study WAY more!\n\nRESTART this program!\nAND TRY AGAIN!\n")
+                elif (grade >= 6) and (grade <= 8):
+                    print("\n\nYou've done a great job.\n\nKeep practicing though!")
+                else:
+                    print("\n\nEXCELLENT! EXCELLENT! EXCELLENT!\n\n\nGreat job in getting a ", grade, "!\nHow Try Again and beat your best!\n" )
+                break
+            except:
+                if ZeroDivisionError:
+                    print("\nWell, You tried.\nRestart me to try again.\n")
+                    break
+
+
+        if randomnr == previous_randomnr:
             if total == 0:
                 total = 0
             else:
                 total -= 1
                 continue
+
 
         elif answer == dic_quiz.get(question):
             print("\t\t\t\t\tCORRECT!")
@@ -166,6 +178,7 @@ def quiz_questions(randomnr):
             print("\t\t\t\t\tNOT CORRECT!!")
             total += 1
 
+        previous_randomnr = randomnr
         grade = int(answerd * 10 / total)
 
 
