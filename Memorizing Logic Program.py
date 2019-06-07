@@ -16,8 +16,8 @@ dic_quiz = {
 "False or False": "False",
 
 "True and False": "False",
-"True and True": "True",                                                  # <-- Dictonary with questions on the left
-"False and True": "False",                                                # <-- and the answers to the right.
+"True and True": "True",                                                        # Dictonary with questions on the left
+"False and True": "False",                                                      # and the answers to the right.
 "False and False": "False",
 
 "not(True or False)": "False",
@@ -57,20 +57,20 @@ def quiz_questions(randomnr):
     answerd = 0
     total = 0
 
-    list_value = [v for v in dic_quiz]     # <---         Source: quora.com/How-do-I-convert-a-dictionary-to-a-list-in-Python
-
+    list_value = [v for v in dic_quiz]                                          # Source: quora.com/
+                                                                                # How-do-I-convert-a-dictionary-to-a-list-in-Python
     all_questions = 2,25
     _or_ = 2,5
     _and_ = 6,9
     or_and = 2,9
-    not_or = 10,13                                                 # <--            Range values to pass into the function later.
-    not_and = 14,17                                                # <--            Users can choose between questions (ranges).
+    not_or = 10,13                                                              # Range values to pass into the function later.
+    not_and = 14,17                                                             # Users can choose between questions (ranges).
     not_or_not_and = 10,17
     not_equal = 18,21
     equal_to = 22,25
     not_equal_and_equal_to = 18,25
 
-    try:                                                           # <--            This print block is to prompt user to choose a catagory.
+    try:                                                                        # This print block is to prompt user to choose a catagory.
         ranges = int(input(('''
         Which do you want to learn?
 
@@ -123,7 +123,7 @@ def quiz_questions(randomnr):
         if previous_randomnr == randomnr:
             continue
 
-        print("\nQuestion:\t-->\t{}".format(question))                          # print("\nQuestion:\t-->\t{}\trandomnr:{}\tduplicateNR:{}".format(question,randomnr, duplicate_randomnr))
+        print("\nQuestion:\t-->\t{}".format(question))
         answer = input("True or False?:\t-->\t").capitalize()
 
 
