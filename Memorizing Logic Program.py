@@ -4,10 +4,8 @@
 # I thought it would be a good practice for me to try out to make
 # little program to help me study these booleans.
 
-
-
 import random
-        # choice wiht ranges
+
 dic_quiz = {
 "not False": "True",
 "not True": "False",
@@ -18,8 +16,8 @@ dic_quiz = {
 "False or False": "False",
 
 "True and False": "False",
-"True and True": "True",
-"False and True": "False",
+"True and True": "True",                                                  # <-- Dictonary with questions on the left
+"False and True": "False",                                                # <-- and the answers to the right.
 "False and False": "False",
 
 "not(True or False)": "False",
@@ -41,28 +39,100 @@ dic_quiz = {
 "1 == 1": "True",
 "0 == 1": "False",
 "0 == 0": "True",
+
 }
 
 print("\nTruth or False Quiz")
+
+def range_a(string):
+    a = string[0]
+    return a
+
+def range_b(string):
+    b = string[1]
+    return b
+
 
 def quiz_questions(randomnr):
     answerd = 0
     total = 0
     duplicate_randomnr = randomnr
 
+    list_value = [v for v in dic_quiz]     # <---         Source: quora.com/How-do-I-convert-a-dictionary-to-a-list-in-Python
+
+    all_questions = 2,25
+    _or_ = 2,5
+    _and_ = 6,9
+    or_and = 2,9
+    not_or = 10,13                                                 # <--            Range values to pass into the function later.
+    not_and = 14,17                                                # <--            Users can choose between questions (ranges).
+    not_or_not_and = 10,17
+    not_equal = 18,21
+    equal_to = 22,25
+    not_equal_and_equal_to = 18,25
+
+    try:                                                           # <--            This print block is to prompt user to choose a catagory.
+        ranges = int(input(('''
+        Which do you want to learn?
+
+         1. All Questions
+         2. Or
+         3. And
+         4. Or & And
+         5. Not(_or_)
+         6. Not (_and_)
+         7. Not(_or_) & Not (_and_)
+         8. Not Equal (!=)
+         9. Equal To (==)
+        10. Not Equal (!=) & Equal To (==)
+
+        :> ''')))
+
+        if ranges == 1:
+            ranges = all_questions
+        elif ranges == 2:
+            ranges = _or_
+        elif ranges == 3:
+            ranges = _and_
+        elif ranges == 4:
+            ranges = or_and                                         # <--           This block is used to 'convert' the users chooice,
+        elif ranges == 5:                                           # <--           to the corrospondig range our program uses.
+            ranges = not_or
+        elif ranges == 6:
+            ranges = not_and
+        elif ranges == 7:
+            ranges = not_or_not_and
+        elif ranges == 8:
+            ranges = not_equal
+        elif ranges == 9:
+            ranges = equal_to
+        elif ranges == 10:
+            ranges = not_equal_and_equal_to
+        else:
+            print("\nWhat?! I didn't get that.\nI've choosen number 1 for you.\n")
+            ranges = all_questions                                  # <--           Error handeling incase another integer has been given.
+
+    except:
+        if ValueError:
+            print("\nWhat?! I didn't get that.\nI've choosen number 1 for you.\n")
+            ranges = all_questions                                  # <--           Error handeling incase another integer has been given.
+        else:
+            print("GOT an ERROR!")
+
+    print("\n\n### !Don' forget to type 'quit' to exit! ###")
+
+
     while True:
-        list_value = [v for v in dic_quiz]     # <---         Source: quora.com/How-do-I-convert-a-dictionary-to-a-list-in-Python
-
+        randomnr = random.randint(range_a(ranges),range_b(ranges))
         question = list_value[randomnr]
-        print("\t\t\t\t\t\t\tType 'quit' to exit!")
-        print("\nQuestion:\t-->\t{}".format(question))
 
+        print("\nQuestion:\t-->\t{}".format(question,randomnr, duplicate_randomnr))                 # print("\nQuestion:\t-->\t{}\trandomnr:{}\tduplicateNR:{}".format(question,randomnr, duplicate_randomnr))
         answer = input("True or False?:\t-->\t").capitalize()
-        randomnr = random.randint(0,7)
+
 
         if answer == "Quit":
             try:
-                print("\n\n\nYou've correctly answerd {} out of {} questions.\n\nYour grade is a:".format(answerd, total), grade, "\n")
+                print("\n\n\nCorrect:\t\t{}\nTotal Questions:\t{}\n\nYour grade:\t\t{}".format(answerd, total, grade))
                 if grade <= 5:
                     print("\nYou should study WAY more!\n\nRESTART this program!\nAND TRY AGAIN!\n")
                 elif 5 > grade <= 8:
@@ -72,7 +142,8 @@ def quiz_questions(randomnr):
                 break
             except:
                 if ZeroDivisionError:
-                    print("Well, that was quick!\n!!Game Over!!")
+                    grade = 0
+                    print("\n\n\nZ_Correct:\t\t{}\nTotal Questions:\t{}\n\nYour grade:\t\t{}".format(answerd, total, grade))
                     break
         elif answer == '':
             while answer == '':
@@ -81,7 +152,11 @@ def quiz_questions(randomnr):
                     break
 
         if randomnr == duplicate_randomnr:
-            total -+ 2
+            if total == 0:
+                total = 0
+            else:
+                total -= 1
+                continue
 
         elif answer == dic_quiz.get(question):
             print("\t\t\t\t\tCORRECT!")
@@ -95,5 +170,5 @@ def quiz_questions(randomnr):
 
 
 
-randomnr = random.randint(0,7)
+randomnr = random.randint(0,26)
 quiz_questions(randomnr)
