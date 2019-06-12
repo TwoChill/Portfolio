@@ -1,11 +1,11 @@
-## Truth or False Quiz ##
+name = "Boolean Expression Quiz"
 
 # Exercise 27 is all about memorizing logic statements.
 # I thought it would be a good practice for me to try out to make
 # little program to help me study these booleans.
 
 import random
-
+                                                                                                                                                  # to delay closing window afther input == 'quit'.
 dic_quiz = {
 "not False": "True",
 "not True": "False",
@@ -42,7 +42,9 @@ dic_quiz = {
 
 }
 
-print("\nTruth or False Quiz")
+print("\n")
+print("=" * len(name),f"\n{name}")
+print("=" * len(name))
 
 def range_a(string):
     a = string[0]
@@ -54,8 +56,10 @@ def range_b(string):
 
 
 def quiz_questions(randomnr):
-    answerd = 0
-    total = 0
+    correct_answerd = 0
+    total_answerd = 0
+    incorrect_answerd = total_answerd - correct_answerd
+    grade = 0
 
     list_value = [v for v in dic_quiz]                                          # Source: quora.com/
                                                                                 # How-do-I-convert-a-dictionary-to-a-list-in-Python
@@ -73,6 +77,7 @@ def quiz_questions(randomnr):
     try:                                                                        # This print block is to prompt user to choose a catagory.
         ranges = int(input(('''
         Which do you want to learn?
+        ===========================
 
          1. All Questions
          2. Or
@@ -113,73 +118,106 @@ def quiz_questions(randomnr):
             ranges = all_questions                                              # Error handeling incase another integer has been given.
 
 
-    print("\n\n### !Don' forget to type 'quit' to exit! ###")
+    print("\n")
+    print("=" * 36)
+    print("Don't forget to type 'quit' to exit!")
+    print("=" * 36)
 
 
     while True:
         previous_randomnr = randomnr
         randomnr = random.randint(range_a(ranges),range_b(ranges))              # Random number generated which corrolates to random question asked.
-        question = list_value[randomnr]
         if previous_randomnr == randomnr:
-            continue
+            continue                                                            # This will prevent the program to ask the same question (randomnr) right afther each other.
+
+        question = list_value[randomnr]                                         # This will match the randomnr with a question
 
         print("\nQuestion:\t-->\t{}".format(question))
         answer = input("True or False?:\t-->\t").capitalize()
 
 
-        if answer == "Quit":
-            try:
-                print("\n\n\nCorrect Answerd:\t{}\nTotal Questions:\t{}\n\nYour grade is:\t\t{}".format(answerd, total, grade))
-                if grade <= 5:
-                    print("\n\nYou should study WAY more!\n\nRESTART this program!\nAND TRY AGAIN!\n")
-                elif (grade >= 6) and (grade <= 8):
-                    print("\n\nYou've done a great job.\n\nKeep practicing though!")
-                else:
-                    print("\n\nEXCELLENT! EXCELLENT! EXCELLENT!\n\n\nGreat job in getting a ", grade, "!\nHow Try Again and beat your best!\n" )
-                break
-            except:
-                if ZeroDivisionError:
-                    print("\nWell, You tried.\nRestart me to try again.\n")
-                    break
+        if (answer == "Quit") and (grade <= 9):
+            print(f'''
 
-        elif answer == '':
+===================================
+Boolean Expression Quiz -  Results:
+===================================
+        Correct Answerd:    {correct_answerd}      |
+        Incorrect Answerd:  {incorrect_answerd}      |
+        Total Questions:    {total_answerd}      |
+                                   |
+        Grade:              {grade}      |
+===================================
+'''); break
+
+        elif (answer == "Quit") and (grade == 10):
+            print("grade2: ", grade)
+            print(f'''
+
+===================================
+Boolean Expression Quiz -  Results:
+===================================
+        Correct Answerd:    {correct_answerd}      |
+        Incorrect Answerd:  {incorrect_answerd}      |
+        Total Questions:    {total_answerd}      |
+                                   |
+Grade:              {grade}     |
+===================================
+'''); break
+
+        if answer == '':
             while answer == '':
                 answer = input("True or False?:\t-->\t").capitalize()
-                if answer == "Quit":
-                    break
-            try:
-                print("\n\n\nCorrect Answerd:\t{}\nTotal Questions:\t{}\n\nYour grade is:\t\t{}".format(answerd, total, grade))
-                if grade <= 5:
-                    print("\n\nYou should study WAY more!\n\nRESTART this program!\nAND TRY AGAIN!\n")
-                elif (grade >= 6) and (grade <= 8):
-                    print("\n\nYou've done a great job.\n\nKeep practicing though!")
-                else:
-                    print("\n\nEXCELLENT! EXCELLENT! EXCELLENT!\n\n\nGreat job in getting a ", grade, "!\nHow Try Again and beat your best!\n" )
+
+                if answer == '':
+                    continue
+
+                elif (answer == "Quit") and (grade <= 9):
+                    print(f'''
+
+===================================
+Boolean Expression Quiz -  Results:
+===================================
+        Correct Answerd:    {correct_answerd}      |
+        Incorrect Answerd:  {incorrect_answerd}      |
+        Total Questions:    {total_answerd}      |
+                                   |
+        Grade:              {grade}      |
+===================================
+'''); break
+                if (answer == "Quit") and (grade == 10):
+                    print(f'''
+
+===================================
+4Boolean Expression Quiz -  Results:
+===================================
+        Correct Answerd:    {correct_answerd}      |
+        Incorrect Answerd:  {incorrect_answerd}      |
+        Total Questions:    {total_answerd}      |
+                                   |
+        Grade:              {grade}     |
+===================================
+'''); break
+
+            else:                                                                  # This else breaks while =''
                 break
-            except:
-                if ZeroDivisionError:
-                    print("\nWell, You tried.\nRestart me to try again.\n")
-                    break
+
+        if answer == dic_quiz.get(question):
+            print("\t\t\t\t\tCORRECT!\n\t\t\t\t\t========")
+            correct_answerd += 1
+            total_answerd += 1
 
 
-        if randomnr == previous_randomnr:
-            if total == 0:
-                total = 0
-            else:
-                total -= 1
-                continue
-
-
-        elif answer == dic_quiz.get(question):
-            print("\t\t\t\t\tCORRECT!")
-            answerd += 1
-            total += 1
         else:
-            print("\t\t\t\t\tNOT CORRECT!!")
-            total += 1
+            print("\t\t\t\t\tINCORRECT!!\n\t\t\t\t\t===========")
+            total_answerd += 1
+
 
         previous_randomnr = randomnr
-        grade = int(answerd * 10 / total)
+        grade = int(correct_answerd * 10 / total_answerd)
+
+
+
 
 
 
