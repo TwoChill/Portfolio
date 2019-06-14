@@ -1,3 +1,6 @@
+#______________________________________________________________________________#
+#______________________________________________________________________________#
+
 name = "Boolean Expression Quiz"
 
 # Exercise 27 is all about memorizing logic statements.
@@ -5,7 +8,9 @@ name = "Boolean Expression Quiz"
 # little program to help me study these booleans.
 
 import random
-                                                                                                                                                  # to delay closing window afther input == 'quit'.
+import time                                                                     # to delay closing window afther input == 'quit'.
+#______________________________________________________________________________#
+
 dic_quiz = {
 "not False": "True",
 "not True": "False",
@@ -39,12 +44,13 @@ dic_quiz = {
 "1 == 1": "True",
 "0 == 1": "False",
 "0 == 0": "True",
-
 }
+#______________________________________________________________________________#
 
 print("\n")
 print("=" * len(name),f"\n{name}")
 print("=" * len(name))
+#______________________________________________________________________________#
 
 def range_a(string):
     a = string[0]
@@ -73,6 +79,7 @@ def quiz_questions(randomnr):
     not_equal = 18,21
     equal_to = 22,25
     not_equal_and_equal_to = 18,25
+#______________________________________________________________________________#
 
     try:                                                                        # This print block is to prompt user to choose a catagory.
         ranges = int(input(('''
@@ -93,114 +100,184 @@ def quiz_questions(randomnr):
         :> ''')))
 
         if ranges == 1:
+            print("\n\t:> All Questions")
             ranges = all_questions
         elif ranges == 2:
+            print("\n\t:> Or")
             ranges = _or_
         elif ranges == 3:
+            print("\n\t:> Or & And")
             ranges = _and_
         elif ranges == 4:
+            print("\n\t:> Or & And")
             ranges = or_and                                                     # This block is used to 'convert' the users chooice,
         elif ranges == 5:                                                       # to the corrospondig range our program uses.
+            print("\n\t:> Not(_or_)")
             ranges = not_or
         elif ranges == 6:
+            print("\n\t:> Not (_and_)")
             ranges = not_and
         elif ranges == 7:
+            print("\n\t:> Not(_or_) & Not (_and_)")
             ranges = not_or_not_and
         elif ranges == 8:
+            print("\n\t:> Not Equal (!=)")
             ranges = not_equal
         elif ranges == 9:
+            print("\n\t:> Equal To (==)")
             ranges = equal_to
         elif ranges == 10:
+            print("\n\t:> Not Equal (!=) & Equal To (==)")
             ranges = not_equal_and_equal_to
-    except:
-        if ValueError:
-            print("\nWhat?! I didn't get that.\nI've choosen number 1 for you.\n")
-            ranges = all_questions                                              # Error handeling incase another integer has been given.
-
+        else:
+            print("\n\t:> All Questions")
+            ranges = all_questions
+    except ValueError:
+        print("\n\t:> All Questions")
+        ranges = all_questions                                                  # Error handeling incase another integer has been given.
+#______________________________________________________________________________#
 
     print("\n")
-    print("=" * 36)
-    print("Don't forget to type 'quit' to exit!")
-    print("=" * 36)
+    print("=" * 32)
+    print("Type 'quit' or 'result' to exit!")
+    print("=" * 32)
 
 
     while True:
         previous_randomnr = randomnr
-        randomnr = random.randint(range_a(ranges),range_b(ranges))              # Random number generated which corrolates to random question asked.
-        if previous_randomnr == randomnr:
-            continue                                                            # This will prevent the program to ask the same question (randomnr) right afther each other.
+        reminder_count = 0                                                      # reminder_count is used to skip the 'remember to type quit' print function twice.
 
-        question = list_value[randomnr]                                         # This will match the randomnr with a question
+        randomnr = random.randint(range_a(ranges),range_b(ranges))              # Random number generated which correlates to a random question being asked.
+        if (previous_randomnr == randomnr) and (reminder_count == 1):
+            reminder_count == 0
+            continue
+        elif previous_randomnr == randomnr:                                     # This will prevent the program from asking the same question (randomnr) right afther each other.
+            print("Type 'quit' or 'result' to exit!")
+            reminder_count += 1
+            continue
+#______________________________________________________________________________#
+
+        question = list_value[randomnr]                                         # This will match the randomnr with a question in {dic_quiz}.
+#______________________________________________________________________________#
 
         print("\nQuestion:\t-->\t{}".format(question))
-        answer = input("True or False?:\t-->\t").capitalize()
+        try:
+            answer = input("True or False?:\t-->\t").capitalize()
+        except:
+            if KeyboardInterrupt:
+                exit()
+#______________________________________________________________________________#
+#______________________________________________________________________________#
 
+        if (answer == "Quit" or answer == "Result") and (grade <= 9):
 
-        if (answer == "Quit") and (grade <= 9):
             print(f'''
+      ==================================
+      Boolean Expression Quiz -  Results:
+      ==================================
+     |       Correct Answerd:    {correct_answerd}      |
+     |       Incorrect Answerd:  {incorrect_answerd}      |
+     |       Total Questions:    {total_answerd}      |
+     |                                  |
+     |       Your Grade:         {grade}      |
+      ==================================
+    ''')
+            print("Press CTRL + C to quit.")
+            try:
+                time.sleep(15)
+                exit()
+            except:
+                if KeyboardInterrupt:
+                    exit()
 
-===================================
-Boolean Expression Quiz -  Results:
-===================================
-        Correct Answerd:    {correct_answerd}      |
-        Incorrect Answerd:  {incorrect_answerd}      |
-        Total Questions:    {total_answerd}      |
-                                   |
-        Grade:              {grade}      |
-===================================
-'''); break
+        elif (answer == "Quit" or answer == "Result") and (grade == 10):
 
-        elif (answer == "Quit") and (grade == 10):
-            print("grade2: ", grade)
             print(f'''
-
-===================================
-Boolean Expression Quiz -  Results:
-===================================
-        Correct Answerd:    {correct_answerd}      |
-        Incorrect Answerd:  {incorrect_answerd}      |
-        Total Questions:    {total_answerd}      |
-                                   |
-Grade:              {grade}     |
-===================================
-'''); break
+     ==================================
+     Boolean Expression Quiz -  Results:
+     ==================================
+    |       Correct Answerd:    {correct_answerd}      |
+    |       Incorrect Answerd:  {incorrect_answerd}      |
+    |       Total Questions:    {total_answerd}      |
+    |                                  |
+    |       Your Grade:        {grade}      |
+    ==================================
+    ''')
+            print("Press CTRL + C to quit.")
+            try:
+                time.sleep(15)
+                exit()
+            except:
+                if KeyboardInterrupt:
+                    exit()
+#______________________________________________________________________________#
 
         if answer == '':
             while answer == '':
-                answer = input("True or False?:\t-->\t").capitalize()
+                try:
+                    answer = input("True or False?:\t-->\t").capitalize()
+                except:
+                    if KeyboardInterrupt:
+                        #print("This is it")
+                        exit()
+                if (answer == "Quit" or answer == "Result") and (grade <= 9):
 
-                if answer == '':
-                    continue
-
-                elif (answer == "Quit") and (grade <= 9):
                     print(f'''
+     ==================================
+     Boolean Expression Quiz -  Results:
+     ==================================
+    |       Correct Answerd:    {correct_answerd}      |
+    |       Incorrect Answerd:  {incorrect_answerd}      |
+    |       Total Questions:    {total_answerd}      |
+    |                                  |
+    |       Your Grade:         {grade}      |
+    ==================================
+    ''')
+                    print("Press CTRL + C to quit.")
+                    try:
+                        time.sleep(15)
+                        exit()
+                    except:
+                        if KeyboardInterrupt:
+                            exit()
 
-===================================
-Boolean Expression Quiz -  Results:
-===================================
-        Correct Answerd:    {correct_answerd}      |
-        Incorrect Answerd:  {incorrect_answerd}      |
-        Total Questions:    {total_answerd}      |
-                                   |
-        Grade:              {grade}      |
-===================================
-'''); break
-                if (answer == "Quit") and (grade == 10):
+                elif (answer == "Quit" or answer == "Result") and (grade == 10):
+
                     print(f'''
+     ==================================
+     Boolean Expression Quiz -  Results:
+     ==================================
+    |       Correct Answerd:    {correct_answerd}      |
+    |       Incorrect Answerd:  {incorrect_answerd}      |
+    |       Total Questions:    {total_answerd}      |
+    |                                  |
+    |       Your Grade:        {grade}      |
+    ==================================
+    ''')
+                    print("Press CTRL + C to quit.")
+                    try:
+                        time.sleep(15)
+                        exit()
+                    except:
+                        if KeyboardInterrupt:
+                            exit()
+            else:
+                if answer == dic_quiz.get(question):
+                    print("\t\t\t\t\tCORRECT!\n\t\t\t\t\t========")
+                    correct_answerd += 1
+                    total_answerd += 1
 
-===================================
-4Boolean Expression Quiz -  Results:
-===================================
-        Correct Answerd:    {correct_answerd}      |
-        Incorrect Answerd:  {incorrect_answerd}      |
-        Total Questions:    {total_answerd}      |
-                                   |
-        Grade:              {grade}     |
-===================================
-'''); break
 
-            else:                                                                  # This else breaks while =''
-                break
+                else:
+                    print("\t\t\t\t\tINCORRECT!!\n\t\t\t\t\t===========")
+                    total_answerd += 1
+
+
+                previous_randomnr = randomnr
+                grade = int(correct_answerd * 10 / total_answerd)
+                continue
+#______________________________________________________________________________#
+#______________________________________________________________________________#
 
         if answer == dic_quiz.get(question):
             print("\t\t\t\t\tCORRECT!\n\t\t\t\t\t========")
@@ -215,11 +292,8 @@ Boolean Expression Quiz -  Results:
 
         previous_randomnr = randomnr
         grade = int(correct_answerd * 10 / total_answerd)
-
-
-
-
-
+#______________________________________________________________________________#
+#______________________________________________________________________________#
 
 randomnr = random.randint(0,26)
 quiz_questions(randomnr)
