@@ -160,9 +160,9 @@ def quiz_questions(randomnr):
         question = list_value[randomnr]                                         # This will match the randomnr with a question in {dic_quiz}.
 #______________________________________________________________________________#
 
-        print("\nQuestion:\t-->\t{}".format(question))
+        print("\n\nQuestion:\t-->\t{}".format(question))
         try:
-            answer = input("True or False?:\t-->\t").capitalize()
+            answer = input("Evaluates to?:\t-->\t").capitalize()
         except:
             if KeyboardInterrupt:
                 exit()
@@ -215,7 +215,7 @@ def quiz_questions(randomnr):
         if answer == '':
             while answer == '':
                 try:
-                    answer = input("True or False?:\t-->\t").capitalize()
+                    answer = input("Evaluates to?:\t-->\t").capitalize()
                 except:
                     if KeyboardInterrupt:
                         #print("This is it")
@@ -263,13 +263,14 @@ def quiz_questions(randomnr):
                             exit()
             else:
                 if answer == dic_quiz.get(question):
-                    print("\t\t\t\t\tCORRECT!\n\t\t\t\t\t========")
+                    print("\n\n\t\t\t\tCORRECT!\n\t\t\t\t========")
                     correct_answerd += 1
                     total_answerd += 1
 
 
                 else:
-                    print("\t\t\t\t\tINCORRECT!!\n\t\t\t\t\t===========")
+                    print("\n\n\t\t\t\tINCORRECT!!\n\t\t\t===========")
+                    print("\nCorrect answer:\t-->\t", dic_quiz.get(question).upper(), "\n\t\t\t", ("=" * len(dic_quiz.get(question))))
                     total_answerd += 1
 
 
@@ -280,13 +281,14 @@ def quiz_questions(randomnr):
 #______________________________________________________________________________#
 
         if answer == dic_quiz.get(question):
-            print("\t\t\t\t\tCORRECT!\n\t\t\t\t\t========")
+            print("\n\n\t\t\t\tCORRECT!\n\t\t\t\t========")
             correct_answerd += 1
             total_answerd += 1
 
 
         else:
-            print("\t\t\t\t\tINCORRECT!!\n\t\t\t\t\t===========")
+            print("\n\n\t\t\t\tINCORRECT!!\n\t\t\t\t===========")
+            print("\nCorrect answer:\t-->\t", dic_quiz.get(question).upper(), "\n\t\t\t", ("=" * len(dic_quiz.get(question))))
             total_answerd += 1
 
 
