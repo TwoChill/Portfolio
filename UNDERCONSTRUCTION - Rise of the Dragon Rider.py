@@ -1,6 +1,10 @@
-def start(usrName):
+def enter_command():
+    enter_command = str(input(":> "))
+    return enter_command
+
+def start(usrName, location):
     print('\n############################')
-    print('#  Rise of the Dragon Rider #')
+    print('# Rise of the Dragon Rider #')
     print('############################\n')
     print('          - Play -          ')
     print('          - Help -          ')
@@ -9,39 +13,39 @@ def start(usrName):
     print('       M.L. de France       ')
     print('\n############################\n')
 ###
-    start_answer = str(input(':> ')).capitalize()
+    start_answer = enter_command().capitalize()
 ###
     while True:
 
         if start_answer == 'Play':
-            player_info()
+            player_info(usrName, location)
             break
         elif start_answer == 'Help':
             help()
         elif start_answer == 'Quit':
             quit()
         else:
-            print('\nI din\'t get that!\n')
-            start_answer = str(input(':> ')).capitalize()
+            print('\nI didn\'t get that!\n')
+            start_answer = enter_command().capitalize()
 
     return start_answer
 
 def help():
-        print('\n############################')
+        print('\n\n############################')
         print('#         - Help -         #')
         print('############################\n')
-        print('- Type your commands to do them  ')
-        print('- Use up, down, left, right to move  ')
-#        print('- Use "look" to inspect surrounding  ')
-        print('- Use "dig" to investigate area  ')
-        print('- Good luck and have fun!  ')
+        print('- Type your commands to do them.')
+        print('- Use up, down, left, right to move.')
+#        print('- Use "look" to inspect surrounding.')
+        print('- Use "dig" to investigate area.')
+        print('- Good luck and have fun!.')
         print('\n############################')
 
         help_answer = str(input('\nPress ENTER to continue\n:>'))
 
         while True:
             if help_answer == "":
-                start(usrName)
+                start(usrName, location)
             else:
                 help_answer = str(input('\nPress ENTER to continue\n:>'))
 
@@ -50,44 +54,77 @@ def quit():
         exit(0)
 
 
-def player_info():
-    usrName = str(input("\nChoose character name:\t")).title()
+def player_info(usrName, location):
+    print("\n# INTRO GAME HERE #")
+
+    usrName = str(input("\n\nBut first!\n\nChoose your characters name:\t")).title()
 
     while True:
 
         if " " in usrName:
-            print('Only one name is allowd.\n')
-            usrName = str(input("\nChoose character name:\t")).title()
+            print('\nOnly one strong name is all you need ;)\n')
+            usrName = str(input("\nChoose your characters name:\t")).title()
         else:
-            answer = str(input((f'Is "{usrName}" correct? (Y/N): ')).upper())
-
-            if answer == 'Y':
-                home(usrName, 'Home')
-            elif answer == 'N':
-                while answer == 'N':
-                    usrName = str(input("\nChoose character name:\t")).title()
-                    if " " in usrName:
-                        break
-                    else:
-                        answer = str(input((f'Is "{usrName}" correct? (Y/N): ')).upper())
-                        if answer == 'Y':
-                            home(usrName, 'Home')
+            answer = str(input((f'Is "{usrName}" correct? (Y/N):\t')).upper())
+            if (answer == 'Y') or (answer == 'YES'):
+                outside_home(usrName, 'Outside_home')
+            else:
+                if answer == 'N' or answer == 'NO':
+                    while (answer == 'N') or (answer == 'NO'):
+                        usrName = str(input("\nChoose your characters name:\t")).title()
+                        if " " in usrName:
+                            break
+                        else:
+                            answer = str(input((f'Is "{usrName}" correct? (Y/N): \t')).upper())
+                            if (answer == 'Y') or (answer == 'YES'):
+                                outside_home(usrName, 'Outside_home')
+                            else:
+                                print('\nCan\'t be sure enough!\n')
+                                usrName = str(input("\nChoose your characters name:\t")).title()
 
             break
 
     return usrName
 
+def intro_setting(usrName, location):
 
-def home(usrName, location):
+    dic_intros = {
+'Home':f'''\n{location} INTRO HERE'''.upper().upper(),
+'Outside_home':f'''\n{location} INTRO HERE'''.upper(),
+'usrName_room': f'''\n{location} INTRO HERE'''.upper(),
+'Wildland':f'''\n{location} INTRO HERE'''.upper(),
+'North':f'''\n{location} INTRO HERE'''.upper(),
+'North_West':f'''\n{location} INTRO HERE'''.upper(),
+'West':f'''\n{location} INTRO HERE'''.upper(),
+'South_West':f'''\n{location} INTRO HERE'''.upper(),
+'South':f'''\n{location} INTRO HERE'''.upper(),
+'South_East':f'''\n{location} INTRO HERE'''.upper(),
+'East':f'''\n{location} INTRO HERE'''.upper(),
+'DarkLands':f'''\n{location} INTRO HERE'''.upper(),
+}
+    intro_setting = dic_intros.get(location)
+    return intro_setting
+
+
+
+def outside_home(usrName, location):
+    first_enterd = 0
+    if first_enterd == 0:
+        print(intro_setting(usrName, location))
+        first_enterd += 1
+
     print(f'\n\nWelcome {usrName} you are {location}.')
-    # Your home
-    # Your mentor
-    # Your room with Lore read    functie
-#
-# def outside_home():
+    # Asleep, outside, hammock, wake by mentor to go inside,
+    # options: look around, dig, go inside home
 #     # Serrounding like god of war
 #     # go to central
 #     # dig
+
+
+# def home():
+    # Your home
+    # Your mentor
+    # Your room with Lore read    functie
 #
 # def usrName_room():
 #     # here are some books with lore
@@ -118,6 +155,7 @@ def home(usrName, location):
 #     #  depending on location, items to find
 #     #  there's a time delay for this action
 #     # some books are only found throudigging
+#     # dictonarie clasified by region cost as value
 #
 # def shoptrader(location):
 #     # first static at calmlands()
@@ -178,5 +216,31 @@ def home(usrName, location):
 #     # can use w to obtain but this evil act will cause cloak to be dark
 #     # and gets banashed from dragon riders land for ever
 #
+# def princess_tower():
+#     # can hear princess
+#     # lock opens depends on items
+#     #
+#
+# def mid_lands():
+#
+#
+# def north():
+#
+# def norht_west():
+#
+# def west():
+#
+# def south_west():
+#
+# def south():
+#
+# def south_east():
+#
+# def east():
+#
+# def dark_lands():
+#
+
 usrName = ''
-start(usrName)
+location = ''
+start(usrName, location)
