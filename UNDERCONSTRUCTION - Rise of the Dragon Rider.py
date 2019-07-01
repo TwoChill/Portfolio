@@ -82,6 +82,7 @@ def player_info(usrName, location, usrGendr):
         if " " in usrName:
             print('\nI just need one strong name...\n')
             usrName = str(input("\n1Choose your characters name:\n:> ")).capitalize()
+            continue
         elif usrName == "":
             print('\nI just need one strong name...\n')
             usrName = str(input("\n2Choose your characters name:\n:> ")).capitalize()
