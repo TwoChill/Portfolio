@@ -81,17 +81,20 @@ def player_info(usrName, location, usrGendr):
     while True:
         if " " in usrName:
             print('\nI just need one strong name...\n')
-            usrName = str(input("\nChoose your characters name:\n:> ")).capitalize()
+            usrName = str(input("\n1Choose your characters name:\n:> ")).capitalize()
         elif usrName == "":
             print('\nI just need one strong name...\n')
-            usrName = str(input("\nChoose your characters name:\n:> ")).capitalize()
+            usrName = str(input("\n2Choose your characters name:\n:> ")).capitalize()
             continue
         else:
             answer = str(input((f'\nIs "{usrName}" correct? (Y/N):\n:> ')).upper())
-            if (answer == 'Y') or (answer == 'YES'):
+            if answer == "":
+                continue
+            elif (answer == 'Y') or (answer == 'YES'):
                 outside_home(usrName, 'Outside_home', usrGendr)
             elif (answer == 'N') or (answer == 'NO'):
-                usrName = str(input("\nChoose your characters name:\n:> ")).capitalize()
+                usrName = str(input("\n3Choose your characters name:\n:> ")).capitalize()
+                continue
             else:
                 continue
         break
