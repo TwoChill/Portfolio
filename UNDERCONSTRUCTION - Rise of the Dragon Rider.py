@@ -1,4 +1,5 @@
 import random
+import time
 
 def enter_command():
     enter_command = str(input(":> "))
@@ -49,11 +50,6 @@ def help(start_menu):
             else:
                 help_answer = str(input('\nPress ENTER to continue\n:>'))
 
-def quit():
-        print('\nThank you for playing Rise of the Dragon Rider!\n')
-        exit(0)
-
-
 def player_info(usrName, location, usrGendr):
     print("\n# INTRO GAME HERE #")
     # this is told from a 'god' perspective
@@ -80,30 +76,26 @@ def player_info(usrName, location, usrGendr):
             print("\nI think I'll make a girl from my rib.\n\n")
             usrGendr = usrGendr_girl
 
-    usrName = str(input("Now choose your characters name:\n:> ")).title()
+    usrName = str(input("Now choose your characters name:\n:> ")).capitalize()
 
     while True:
         if " " in usrName:
             print('\nI just need one strong name...\n')
-            usrName = str(input("\nChoose your characters name:\n:> ")).title()
+            usrName = str(input("\nChoose your characters name:\n:> ")).capitalize()
+        elif usrName == "":
+            print('\nI just need one strong name...\n')
+            usrName = str(input("\nChoose your characters name:\n:> ")).capitalize()
+            continue
         else:
             answer = str(input((f'\nIs "{usrName}" correct? (Y/N):\n:> ')).upper())
             if (answer == 'Y') or (answer == 'YES'):
                 outside_home(usrName, 'Outside_home', usrGendr)
+            elif (answer == 'N') or (answer == 'NO'):
+                usrName = str(input("\nChoose your characters name:\n:> ")).capitalize()
             else:
-                if (answer == 'N') or (answer == 'NO'):
-                    while (answer == 'N') or (answer == 'NO'):
-                        usrName = str(input("\nChoose your characters name:\n:> ")).title()
-                        if " " in usrName:
-                            break
-                        else:
-                            answer = str(input((f'\nIs "{usrName}" correct? (Y/N): \t')).upper())
-                            if (answer == 'Y') or (answer == 'YES'):
-                                outside_home(usrName, 'Outside_home', usrGendr)
-                            else:
-                                print('\nCan\'t be sure enough!\n')
-                                usrName = str(input("\nChoose your characters name:\n:> ")).title()
-            break
+                continue
+        break
+
     return usrName, usrGendr
 
 def look(usrName, location):
@@ -142,40 +134,45 @@ def outside_home(usrName, location, usrGendr):
     print(f'''
 {usrName} slowly opens {usrGendr[3]} eyes from {usrGendr[3]} hammock.
 
-The first thing {usrName} notice,
-is the warm sun on {usrGendr[2]} face,
-birds chirping faintly in the background,
+The first thing {usrName} notice
+is the warm sun on {usrGendr[2]} face
+birds chirping faintly in the background
 and a lukewarm breeze,
 that carries a sweet scent of primrose roses.
-''')
-    tutorial_menu(usrName, location)
-
-    # wake by mentor to go inside,
-    # options: look around, dig, go inside home
-    # Serrounding like god of war
-    # go to central
-    # dig
-
-def tutorial_menu(usrName, location):
-    while True:
-        usr_command = str(input('''
-- Look
-- Help
-- Quit
-:> ''').upper())
-
-        if usr_command == 'LOOK':
-            look(usrName, location)
-        elif usr_command == 'HELP':
-            help(false)
-        elif usr_command == 'QUIT':
-            answer = str(input(f'\nSure to quit {gameName}? (Y/N):\t').upper())
-            if (answer == 'Y') or (answer == 'YES'):
-                quit()
-            elif (answer == 'N') or (answer == 'NO'):
-                continue
-            else:
-                print("I didn't get that..")
+'''); time.sleep(15); print(f'''
+Afther a few seconds
+you hear the sound of a door opening.
+You look up and see your {mentorName} standing in a doorway.
+'''); time.sleep(10)
+#     tutorial_menu(usrName, location)
+#
+#     # wake by mentor to go inside,
+#     # options: look around, dig, go inside home
+#     # Serrounding like god of war
+#     # go to central
+#     # dig
+#
+# def tutorial_menu(usrName, location):
+#     time.sleep(10)
+#     while True:
+#         usr_command = str(input('''
+# - Look
+# - Help
+# - Quit
+# :> ''').upper())
+#
+#         if usr_command == 'LOOK':
+#             look(usrName, location)
+#         elif usr_command == 'HELP':
+#             help(false)
+#         elif usr_command == 'QUIT':
+#             answer = str(input(f'\nSure to quit {gameName}? (Y/N):\t').upper())
+#             if (answer == 'Y') or (answer == 'YES'):
+#                 quit()
+#             elif (answer == 'N') or (answer == 'NO'):
+#                 continue
+#             else:
+#                 print("I didn't get that..")
 
 # def home(location):
 #     # location = 'Home'
@@ -310,7 +307,12 @@ def tutorial_menu(usrName, location):
 # def dark_lands(location):
 #     location = 'DarkLands'
 
+def quit():
+        print('\nThank you for playing Rise of the Dragon Rider!\n')
+        exit(0)
+
 gameName = 'Rise of the Dragon Rider'
+mentorName = 'mentor'
 usrName = ''
 location = ''
 usrGendr = []
@@ -318,4 +320,5 @@ usrGendr_boy = ["he", "his", "him", "his"]
 usrGendr_girl = ["she", "hers", "her", "her"]
 true = True
 false = False
+
 start(usrName, location, usrGendr)
