@@ -16,6 +16,7 @@ def start(usrName, usrGendr, location):
 
     while True:
         start_answer = enter_command(usrName, usrGendr, location)
+
         if start_answer == 'PLAY':
             player_info(usrName, usrGendr, location)
             break
@@ -54,18 +55,23 @@ def help(start_menu):
 
 
 def player_info(usrName, usrGendr, location):
-    print("\n# INTRO GAME HERE #")
-    # this is told from a 'god' perspective
 
-    print("\n\nBut first let's create a character!\n\n")
+    print('''
+You are about to embark on a journey of the imagination.
+Full of everything your imagination can fill ...
 
-    usrGendr = str(input("Are you a Boy or a Girl?\n:> ")).upper()
+.. With a helping hand offcourse ..
+
+
+''')
+
+    usrGendr = str(input("Will you be playing as a Boy or a Girl?\n:> ")).upper()
 
     if usrGendr == 'BOY':
-        print('\nA Boy has been made!\n\n')
+        print('\nA Boy has been created!\n\n')
         usrGendr = usrGendr_boy
     elif usrGendr == 'GIRL':
-        print('\nA Girl has been made!\n\n')
+        print('\nA Girl has been created!\n\n')
         usrGendr = usrGendr_girl
     else:
         randomnr = random.randint(1, 3)
@@ -79,25 +85,29 @@ def player_info(usrName, usrGendr, location):
             print("\nI think I'll make a girl from my rib.\n\n")
             usrGendr = usrGendr_girl
 
-    usrName = str(input("Now choose your characters name:\n:> ")).capitalize()
+    usrName = str(input("Now choose your characters Name:\n:> ")).capitalize()
 
     while True:
         if " " in usrName:
             print('\nI just need one strong name...\n')
-            usrName = str(input("\nChoose your characters name:\n:> ")).capitalize()
+            usrName = str(
+                input("\nChoose your characters name:\n:> ")).capitalize()
             continue
         elif usrName == "":
             print('\nI just need one strong name...\n')
-            usrName = str(input("\nChoose your characters name:\n:> ")).capitalize()
+            usrName = str(
+                input("\nChoose your characters name:\n:> ")).capitalize()
             continue
         else:
-            answer = str(input((f'\nIs "{usrName}" correct? (Y/N):\n:> ')).upper())
+            answer = str(
+                input((f'\nIs "{usrName}" correct? (Y/N):\n:> ')).upper())
             if answer == "":
                 continue
             elif (answer == 'Y') or (answer == 'YES'):
                 tutorial_quest(usrName, usrGendr, location)
             elif (answer == 'N') or (answer == 'NO'):
-                usrName = str(input("\nChoose your characters name:\n:> ")).capitalize()
+                usrName = str(
+                    input("\nChoose your characters name:\n:> ")).capitalize()
                 continue
             else:
                 continue
@@ -134,12 +144,14 @@ def typing_text(text):
 
     return typing_text
 
+# Returns true or false if player vistited area before.
+
 
 def first_enterd(location, bool):
 
     dic_first_enterd = {
         'Home': true,
-        'Outside_Home': true,
+        'Garden': true,
         'usrName_room': true,
         'Wildland': true,
         'North': true,
@@ -151,9 +163,11 @@ def first_enterd(location, bool):
         'East': true,
         'DarkLands': true,
     }
+    # Change the value of a location to false
     if bool is False:
         dic_first_enterd[location] = false
 
+    # Returns the value of a location.
     return dic_first_enterd.get(location)
 
 
@@ -168,20 +182,38 @@ def dig(usrName, usrGendr, location):
 
 def look(usrName, usrGendr, location):
     print("look menu")
-    # (location = "") and (first_enterd(location, bool) == True):
-    # (location = "") and (first_enterd(location, bool) == True):
-    # (location = "") and (first_enterd(location, bool) == True):
-    # (location = "") and (first_enterd(location, bool) == True):
-    # (location = "") and (first_enterd(location, bool) == True):
-    # (location = "") and (first_enterd(location, bool) == True):
-    # (location = "") and (first_enterd(location, bool) == True):
+
+# if location == 'garden':
+#     garden(usrName, usrGendr, location)
+# elif location == 'Home':
+#     home(usrName, usrGendr, location)
+# elif location == 'North':
+#     north(usrName, usrGendr, location)
+# elif location == 'North_West':
+#     north_west(usrName, usrGendr, location)
+# elif location == 'West':
+#     west(usrName, usrGendr, location)
+# elif location == 'South_West':
+#     south_west(usrName, usrGendr, location)
+# elif location == 'South':
+#     south(usrName, usrGendr, location)
+# elif location == 'South_East':
+#     south_east(usrName, usrGendr, location)
+# elif location == 'East':
+#     east(usrName, usrGendr, location)
+# elif location == 'DarkLands':
+#     darklands(usrName, usrGendr, location)
+# elif location == 'Wildland':
+#     wildlands(usrName, usrGendr, location)
+# elif location == 'Tower':
+#     tower(usrName, usrGendr, location)
 
 
 def intro_setting(usrName, location):
 
     dic_intros = {
         'Home': f'''\n{location} INTRO HERE\n'''.upper(),
-        'Outside_Home': f'''\n{location} INTRO HERE\n'''.upper(),
+        'Garden': f'''\n{location} INTRO HERE\n'''.upper(),
         'usrName_room': f'''\n{location} INTRO HERE\n'''.upper(),
         'Wildland': f'''\n{location} INTRO HERE\n'''.upper(),
         'North': f'''\n{location} INTRO HERE\n'''.upper(),
@@ -197,8 +229,8 @@ def intro_setting(usrName, location):
     return intro_setting
 
 
-def outside_home(usrName, usrGendr, location):
-    print('OUTside HOME')
+def garden(usrName, usrGendr, location):
+    print('Garden')
 
 
 def home(usrName, usrGendr, location):
@@ -213,6 +245,8 @@ def home(usrName, usrGendr, location):
 
 
 def tutorial_quest(usrName, usrGendr, location):
+    location = 'Garden'
+    bool = false
 
     text = f'''
 {usrName} slowly opens {usrGendr[3]} eyes from {usrGendr[3]} hammock.
@@ -225,9 +259,9 @@ that carries a sweet scent of primrose roses.
 
 Afther a few seconds
 you hear the sound of a door opening.
-You look up and see your {mentorName} standing in a doorway.
+You look up and see your mentor standing in a doorway.
 '''
-    typing_text(text)
+    typing_text(text)  # Makes the tekst seems like it's typing
 
     time.sleep(1)
     print("\n\n# Tutorial: LOOK #")
@@ -244,17 +278,25 @@ There's a wooden chop-block at the end of the grassfield
 next to a stands sturdy man-made wooden log.
 
 A feeling of familiarity came over {usrName} as {usrGendr[0]} sees
-{usrGendr[3]} {mentorName} standing in the doorway of the log.
+{usrGendr[3]} mentor standing in the doorway of the log. '''
 
+    mentorName = str(input(f'\n\n{usrName} just woke up and can\'t remember his name..\n:> '))
+
+    text_2 = f'''
 With a confuced face, {usrName}'s {mentorName} walks up to {usrGendr[2]}.
 He asks {usrName} to help him find a map that he burried
 somewhere around {location}.
 
-You decide to help your {mentorName} and he places his hand
-on {usrName}'s' forhead while mumbling some kind of mantra.
+You decide to help {mentorName}.
+He places his hand on {usrName}'s forehead,
+while mumbling some kind of strange mantra.
 
-Afther a few seconds,
-{usrGendr[3]} {mentorName}'s hand flashes with rainbow-colored light.
+While listning to the mantra, {usrName} can't help but notice,
+a strang thermic force comming of {mentorName} body.
+
+Suddenly {mentorName}'s hand glows
+and a rainbow-colored thermic force shoots out of his hand ...
+
 
 A warm feeling came over {usrName}.
 
@@ -262,10 +304,15 @@ A warm feeling came over {usrName}.
 {usrGendr[0].capitalize()} accuired the abillity to DIG!
 =================================
 
-{usrName}'s {mentorName} pukes from excaustion! But also looks happy.
-Probeply beacuse now you can help him find his map.
+
+{mentorName} pukes from excaustion!
+But looks happy...
+Probably beacuse you can help find his map now.
+
+(((( He tells you its not dig as in shit is under the floor but you can dig inbetween dimentions.. )))))
 '''
-    typing_text(text)
+    typing_text(text)       # Makes the tekst seems like it's typing
+    typing_text(text_2)     # Makes the tekst seems like it's typing
 
     time.sleep(1)
     print("\n\n# Tutorial DIG #")
@@ -275,29 +322,47 @@ Probeply beacuse now you can help him find his map.
     input(':> ')
 
     text = f'''
-{usrName} uses dig! And finds the the map laying around {location}.
-{usrName} gives the map to {usrGendr[3]} {mentorName}. {mentorName} says its magic!
+{usrName} puts {usrGendr[3]} hand to the ground..
+and {usrGendr[0]} opens somehow a small portal
+with the same rainbow-colored thermic force from her hand.
+
+{usrGendr[0]} went through the ground's dimension and felt something...
+
+It was the map {mentorName} was looking for.
+{usrName} turns around and gives the map to {usrGendr[3]} mentor.
+
+With relieve {mentorName} looks at the map
+and with a snap of his fingers it vanishes .. !?!
+
+{mentorName} looks a {usrName} and ask to use the map ..
 '''
-    typing_text(text)
+    typing_text(text)   # Makes the tekst seems like it's typing
 
     time.sleep(1)
-    print("\n\n# Tutorial: MAP #")
+    print("\n\n\n# Tutorial: MAP #")
     time.sleep(2)
     print("\nType 'map' to see the map")
 
     input(':> ')
 
-    print(f'{usrName} looks at map!')
-    map(usrName, usrGendr, location)
+    print(f'\n\n{usrName} looks at map!\n') # Change tekst to how it appears
+    map(usrName, usrGendr, location, bool)
 
 
-def map(usrName, usrGendr, location):
-
-    land_name = ['NORTH', 'NORTH  WEST', 'WEST', 'SOUTH  WEST', 'SOUTH',
-                 'SOUTH  EAST', 'EAST', 'WILDLANDS', 'DARKLANDS', 'TOWER', 'HOME']
+def map(usrName, usrGendr, location, bool):
+    land_name = []          # Makes the map look empty..
+    # ..except by conditions below
+    if ((location == 'Home' or location == 'Garden') and (first_enterd(location, bool) == true)):
+        land_name = ['     ', '           ', '    ', '           ', '     ',
+                     '           ', '    ', '         ', '         ', '     ', 'HOME']
+    # Displays same map if player goes to Garden more the once but hasn't been to other areas.
+    elif ((location == 'Home' or location == 'Garden') and (first_enterd(location, bool) == false)):
+#        print('>>> bool is false =', bool)
+        land_name = ['     ', '           ', '    ', '           ', '     ',
+                     '           ', '    ', '         ', '         ', '     ', 'HOME']
 
     map = f'''
-    {usrName} opens {usrGendr[3]} map. (in {location})
+{usrName} opens {usrGendr[3]} map! (in {location})
                                        -----------
                                       |           |
                       -----------     |           |
@@ -325,40 +390,10 @@ def map(usrName, usrGendr, location):
      -----------      -----------      -----------
     '''
 
-    if ((location == 'Home' or location == 'Outside_Home') and (first_enterd(location, bool) == True)):
-        land_name = ['     ', '           ', '    ', '           ', '     ',
-                     '           ', '    ', '         ', '         ', '     ', 'HOME']
-    elif ((location == 'Home' or location == 'Outside_Home') and (first_enterd(location, bool) == False)):
-        land_name = ['     ', '           ', '    ', '           ', '     ',
-                     '           ', '    ', '         ', '         ', '     ', 'HOME']
-        print('>>> False')
     print(map)
-    input('Press to close the map.\n:> ')
-    print(f'{usrName} closes {usrGendr[3]} map!')
-    if location == 'Outside_Home':
-        outside_home(usrName, usrGendr, location)
-    elif location == 'Home':
-        home(usrName, usrGendr, location)
-    elif location == 'North':
-        north(usrName, usrGendr, location)
-    elif location == 'North_West':
-        north_west(usrName, usrGendr, location)
-    elif location == 'West':
-        west(usrName, usrGendr, location)
-    elif location == 'South_West':
-        south_west(usrName, usrGendr, location)
-    elif location == 'South':
-        south(usrName, usrGendr, location)
-    elif location == 'South_East':
-        south_east(usrName, usrGendr, location)
-    elif location == 'East':
-        east(usrName, usrGendr, location)
-    elif location == 'DarkLands':
-        darklands(usrName, usrGendr, location)
-    elif location == 'Wildland':
-        wildlands(usrName, usrGendr, location)
-    elif location == 'Tower':
-        tower(usrName, usrGendr, location)
+    input('Press ENTER to close the map :> ')
+    print(f'\n\n{usrName} closes {usrGendr[3]} map!\n\n')
+
 
 # def usrName_room(location):
 #     location = 'usrName_room'
@@ -507,7 +542,7 @@ true = True
 false = False
 
 
-# outside_home('Michael', 'BOY', 'Outside_home')
+# Garden('Michael', 'BOY', 'garden')
 start(usrName, usrGendr, location)
 
-print('\n\n\nTO BE CONINUED\n\n')
+print('\n\n\n!! !TO BE CONINUED! !!\n\n')
