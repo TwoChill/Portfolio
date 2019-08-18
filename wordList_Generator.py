@@ -33,24 +33,23 @@ for lines in range(rng1, (rng2 + 1)):
 tline = sum(p)
 print("\t[+] Numbers Of Total Lines :> ", tline, "\n\n")
 
-input('\r\r\t[+] Are You Ready? [Press Enter]')
+input('\r\t[+] Are You Ready? [Press Enter]')
 
 print('\n++++++++++++++++++++++++ Please Wait +++++++++++++++++++++++++\n')
 
 wordList = open(output_file, 'a')
-with tqdm(total=tline, position=0) as loop:
-
-    for i in range(len(char), (len(char) + 1)):
-        for xt in itertools.product(char, repeat=i):
-            loop.set_description('Processing.... ')
-            cnts = [sum(1 for i in grp[1]) for grp in itertools.groupby(xt)]
-            if max(cnts) > exclude:
-                loop.update(1)
-                continue
-            wordList.write(''.join(xt) + '\n')
+loop = tqdm(total=tline, position=0)
+for i in range(len(char), (len(char) + 1)):
+    for xt in itertools.product(char, repeat=i):
+        loop.set_description('Progress....')
+        cnts = [sum(1 for i in grp[1]) for grp in itertools.groupby(xt)]
+        if max(cnts) > exclude:
             loop.update(1)
-    wordList.close()
-    loop.close()
+            continue
+        wordList.write(''.join(xt) + '\n')
+        loop.update(1)
+wordList.close()
+loop.close()
 
 print("\nDone Sucessfully\n")
 
