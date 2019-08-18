@@ -1,5 +1,6 @@
 import itertools
 import time
+import sys
 
 from tqdm.auto import tqdm
 
@@ -48,14 +49,13 @@ for i in range(len(char), (len(char) + 1)):
         cnts = [sum(1 for i in grp[1]) for grp in itertools.groupby(xt)]
         if max(cnts) > exclude:
             loop.update()
-            print('EXCLUDE:', xt)
             continue
         wordList.write(''.join(xt) + '\n')
         loop.update()
 wordList.close()
 loop.close()
 
-print("\nDone Sucessfully\n")
+sys.stdout.write("\nDone Sucessfully\n")
 
 print('\n\n+++++++++++++++++++++++ Process Report +++++++++++++++++++++++\n')
 
