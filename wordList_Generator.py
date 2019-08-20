@@ -1,7 +1,6 @@
 import itertools
 import sys
 import time
-import sys
 
 from tqdm.auto import tqdm
 
@@ -16,12 +15,15 @@ rng2 = int(input("\t[+] Please Enter Maximum Lenth Of Words :> "))
 print('\n')
 
 charLen = len(char[rng1:(rng2 + 1)])
+# print(charLen)
 exclude = int(
     input("\t[+] How Much Sequential Charachter Should Be Excluded? :> "))
 
+# Needs to be there because it will remove the correct amout of sequentail characters.
 exclude -= 1
+# I Think this part breaks stuff up
 if exclude <= 0:
-    exclude = charLen
+    exclude = charLen # Check if this is the correct way
 
 time1 = time.asctime()
 start = time.time()
@@ -29,14 +31,15 @@ print('\n')
 output_file = input("\t[+] Please Enter The Path Of Wordlist File :> ")
 print('\n')
 
-# Passes correct number of lines to the progress bar.
+# EXCLUDE NR. is not GIVEN.
 if exclude == charLen:
     p = []
     for lines in range(rng1, (rng2 + 1)):
         ans = ((len(char)**lines))
         p.append(ans)
     tline = sum(p)
-# Passes correct number of lines to the progress bar when exclusion is given.
+
+# EXCLUDE NR. is GIVEN.
 else:
     l = charLen - (exclude - 1)
     repeat = 1
@@ -63,20 +66,12 @@ loop = tqdm(total=tline, position=0)
 
 for i in range(rng1, (rng2 + 1)):
     for xt in itertools.product(char, repeat=i):
-<<<<<<< HEAD
         loop.set_description('Progress..')
         if exclude != charLen:
             cnts = [sum(1 for i in grp[1]) for grp in itertools.groupby(xt)]
             if max(cnts) > exclude:
                 loop.update()
                 continue
-=======
-        loop.set_description('Progress')
-        cnts = [sum(1 for i in grp[1]) for grp in itertools.groupby(xt)]
-        if max(cnts) > exclude:
-            loop.update()
-            continue
->>>>>>> 5c4f09a5d2ca42e9b1ea1c5c481b6bedb4ba043e
         wordList.write(''.join(xt) + '\n')
         loop.update()
 wordList.close()
