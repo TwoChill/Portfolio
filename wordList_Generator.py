@@ -1,6 +1,7 @@
 import itertools
 import sys
 import time
+import sys
 
 from tqdm.auto import tqdm
 
@@ -62,12 +63,20 @@ loop = tqdm(total=tline, position=0)
 
 for i in range(rng1, (rng2 + 1)):
     for xt in itertools.product(char, repeat=i):
+<<<<<<< HEAD
         loop.set_description('Progress..')
         if exclude != charLen:
             cnts = [sum(1 for i in grp[1]) for grp in itertools.groupby(xt)]
             if max(cnts) > exclude:
                 loop.update()
                 continue
+=======
+        loop.set_description('Progress')
+        cnts = [sum(1 for i in grp[1]) for grp in itertools.groupby(xt)]
+        if max(cnts) > exclude:
+            loop.update()
+            continue
+>>>>>>> 5c4f09a5d2ca42e9b1ea1c5c481b6bedb4ba043e
         wordList.write(''.join(xt) + '\n')
         loop.update()
 wordList.close()
