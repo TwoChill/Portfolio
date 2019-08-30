@@ -5,42 +5,42 @@ name = "Boolean Expression Quiz"
 
 # Dictonary with questions on the LEFT and the answers to the Right.
 dic_quiz = {
-"not False": "True",
-"not True": "False",
+    "not False": "True",
+    "not True": "False",
 
-"True or False": "True",
-"True or True": "True",
-"False or True": "True",
-"False or False": "False",
+    "True or False": "True",
+    "True or True": "True",
+    "False or True": "True",
+    "False or False": "False",
 
-"True and False": "False",
-"True and True": "True",
-"False and True": "False",
-"False and False": "False",
+    "True and False": "False",
+    "True and True": "True",
+    "False and True": "False",
+    "False and False": "False",
 
-"not(True or False)": "False",
-"not(True or True)": "False",
-"not(False or True)": "False",
-"not(False or False)": "True",
+    "not(True or False)": "False",
+    "not(True or True)": "False",
+    "not(False or True)": "False",
+    "not(False or False)": "True",
 
-"not(True and False)": "True",
-"not(True and True)": "False",
-"not(False and True)": "True",
-"not(False and False)": "True",
+    "not(True and False)": "True",
+    "not(True and True)": "False",
+    "not(False and True)": "True",
+    "not(False and False)": "True",
 
-"1 != 0": "True",
-"1 != 1": "False",
-"0 != 1": "True",
-"0 != 0": "False",
+    "1 != 0": "True",
+    "1 != 1": "False",
+    "0 != 1": "True",
+    "0 != 0": "False",
 
-"1 == 0": "False",
-"1 == 1": "True",
-"0 == 1": "False",
-"0 == 0": "True",
+    "1 == 0": "False",
+    "1 == 1": "True",
+    "0 == 1": "False",
+    "0 == 0": "True",
 }
 
 print("\n")
-print("=" * len(name),f"\n{name}")
+print("=" * len(name), f"\n{name}")
 print("=" * len(name))
 
 
@@ -48,12 +48,14 @@ def range_a(string):
     a = string[0]
     return a
 
+
 def range_b(string):
     b = string[1]
     return b
 
+
 def rapport():
-            print(f'''
+    print(f'''
       ==================================
       Boolean Expression Quiz -  Results:
       ==================================
@@ -64,16 +66,16 @@ def rapport():
      |       Your Grade:         {grade}      |
       ==================================
     ''')
-            print("Press CTRL + C to quit.")
-            try:
-                time.sleep(15)
-                exit()
-            except:
-                if KeyboardInterrupt:
-                    exit()
+    print("Press CTRL + C to quit.")
+    try:
+        time.sleep(5)
+        exit()
+    except KeyboardInterrupt:
+        exit()
+
 
 def rapport_2():
-            print(f'''
+    print(f'''
       ==================================
       Boolean Expression Quiz -  Results:
       ==================================
@@ -84,16 +86,15 @@ def rapport_2():
      |       Your Grade:         {grade}      |
       ==================================
     ''')
-            print("Press CTRL + C to quit.")
-            try:
-                time.sleep(15)
-                exit()
-            except:
-                if KeyboardInterrupt:
-                    exit()
+    print("Press CTRL + C to quit.")
+    try:
+        time.sleep(5)
+        exit()
+    except KeyboardInterrupt:
+        exit()
+
 
 def quit():
-    # if bigger, else normal
     if ((correct_answerd > 10) or (incorrect_answerd > 10)) or (total_answerd > 10):
         try:
             grade = int(correct_answerd * 10 / total_answerd)
@@ -108,8 +109,7 @@ def quit():
         rapport()
 
 
-
-randomnr = random.randint(0,26)
+randomnr = random.randint(0, 26)
 
 correct_answerd = 0
 total_answerd = 0
@@ -121,16 +121,16 @@ list_value = [v for v in dic_quiz]
 
 # Range values to pass into the function later.
 # Users can choose between questions (ranges).
-all_questions = 2,25
-_or_ = 2,5
-_and_ = 6,9
-or_and = 2,9
-not_or = 10,13
-not_and = 14,17
-not_or_not_and = 10,17
-not_equal = 18,21
-equal_to = 22,25
-not_equal_and_equal_to = 18,25
+all_questions = 2, 25
+_or_ = 2, 5
+_and_ = 6, 9
+or_and = 2, 9
+not_or = 10, 13
+not_and = 14, 17
+not_or_not_and = 10, 17
+not_equal = 18, 21
+equal_to = 22, 25
+not_equal_and_equal_to = 18, 25
 
 # This print block is to prompt user to choose a catagory.
 try:
@@ -183,9 +183,18 @@ try:
     elif ranges == 10:
         print("\n\t:> Not Equal (!=) & Equal To (==)")
         ranges = not_equal_and_equal_to
-except ValueError:
-    print("\n\t:> All Questions")
-    ranges = all_questions
+    else:
+        print("\n\t:> All Questions")
+        ranges = all_questions
+except:
+    if ValueError:
+        print("\n\t:> All Questions")
+        ranges = all_questions
+    else:
+        time.sleep(5)
+        exit()
+
+
 
 print("\n")
 print("=" * 32)
@@ -198,7 +207,7 @@ while True:
     reminder_count = 0
 
     # Random number generated which correlates to a random question being asked.
-    randomnr = random.randint(range_a(ranges),range_b(ranges))
+    randomnr = random.randint(range_a(ranges), range_b(ranges))
 
     # This will prevent the program from asking the same question.
     if (previous_randomnr == randomnr) and (reminder_count == 1):
@@ -213,10 +222,9 @@ while True:
 
     print("\n\nQuestion:\t-->\t{}".format(question))
     try:
-        answer = input("Description?:\t-->\t").capitalize()
-    except:
-        if KeyboardInterrupt:
-            exit()
+        answer = input("Evaluates to?:\t-->\t").capitalize()
+    except KeyboardInterrupt:
+        exit()
     if (answer == 'Quit') or (answer == 'Result'):
         quit()
 
@@ -232,7 +240,7 @@ while True:
             grade = 0
 
     elif answer != dic_quiz.get(question):
-        print("\n\n\t\t\t\t1INCORRECT!!\n\t\t\t\t===========")
+        print("\n\n\t\t\t\tINCORRECT!!\n\t\t\t\t===========")
         print("\nCorrect answer:\t-->\t\t", dic_quiz.get(question).upper())
         print("\t\t\t\t", ("=" * len(dic_quiz.get(question))))
         total_answerd += 1
