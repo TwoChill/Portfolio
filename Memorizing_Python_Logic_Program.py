@@ -195,7 +195,6 @@ except:
         exit()
 
 
-
 print("\n")
 print("=" * 32)
 print("Type 'quit' or 'result' to exit!")
