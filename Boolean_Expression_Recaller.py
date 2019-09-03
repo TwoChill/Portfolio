@@ -66,12 +66,8 @@ def rapport():
      |       Your Grade:         {grade}      |
       ==================================
     ''')
-    print("Press CTRL + C to quit.")
-    try:
-        time.sleep(5)
-        exit()
-    except KeyboardInterrupt:
-        exit()
+    time.sleep(5)
+    exit()
 
 
 def rapport_2():
@@ -86,12 +82,8 @@ def rapport_2():
      |       Your Grade:         {grade}      |
       ==================================
     ''')
-    print("Press CTRL + C to quit.")
-    try:
-        time.sleep(5)
-        exit()
-    except KeyboardInterrupt:
-        exit()
+    time.sleep(5)
+    exit()
 
 
 def quit():
@@ -135,7 +127,7 @@ not_equal_and_equal_to = 18, 25
 # This print block is to prompt user to choose a catagory.
 try:
     ranges = int(input(('''
-    Which do you want to learn?
+    Which do you want to recall?
     ===========================
 
      1. All Questions
