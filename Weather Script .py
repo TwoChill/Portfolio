@@ -1,18 +1,27 @@
+from pathlib import Path
 import platform
-import os
 import time
+import os
 
-name = 'Temperature Conversion Calculator\n'
+# This block gets the filename and uses it in the program.
+# It doesn't matter were the file is located or what the filename is or will be.
+filePath = str(Path(__file__).absolute())
+fileExtention = filePath[len(filePath) - 3:]
+directoryPath = str(os.path.dirname(os.path.abspath(__file__)))
+
+name = filePath[(len(directoryPath) + 1):-len(fileExtention)] + '\n'
 
 
 def sys_clear(name=None):
-    ''' Clears terminal screen for diffrent OS's '''
+    ''' Clears terminal screen for diffrent OS's
+    and takes a argument to print a string before clearing terminal screen'''
 
-    if 'linux' in platform.platform().lower():
+    if 'linux' or 'darwin' in platform.platform().lower():
         os.system('clear')
     elif 'windows' in platform.platform().lower():
         os.system('cls')
     else:
+        # !!! Try to make a code that sends a message to your twitter. Just because you can.
         print("Sorry, Your OS is not known to me yet.")
 
     if name == None:
