@@ -6,10 +6,13 @@ import os
 # This block gets the filename and uses it in the program.
 # It doesn't matter were the file is located or what the filename is or will be.
 filePath = str(Path(__file__).absolute())
-fileExtention = filePath[len(filePath) - 3:]
+fileExtention = filePath[len(filePath) - 4:]
 directoryPath = str(os.path.dirname(os.path.abspath(__file__)))
 
-name = filePath[(len(directoryPath) + 1):-len(fileExtention)] + '\n'
+scriptName = filePath[(len(directoryPath) + 1):-len(fileExtention)] + '\n\n\n'
+option1Name = 'Current Weather'
+option2Name = 'Temprature Converter'
+menuName = 'Menu'
 
 
 def sys_clear(name=None):
@@ -24,31 +27,33 @@ def sys_clear(name=None):
         # !!! Try to make a code that sends a message to your twitter. Just because you can.
         print("Sorry, Your OS is not known to me yet.")
 
+    # This function can take more the 1 text to be displayed after a system clear call.
     if name == None:
         []
     else:
-        print(name)
-
-
-sys_clear(name)
-
-# localWeather arg might be for data that we'll get from the API outside of the class
+        name = ''.join(name).split(',')
+        for i in name:
+            print(i)
 
 
 class WeatherBaloon(object):
+    # localWeather arg might be for data that we'll get from the API outside of the class
+
     def __init__(self, localWeather):
         self.localWeather = localWeather
 
     @staticmethod
     def menu():
-        sys_clear(name)
-        try:
-            ''' Class WeatherBaloon menu. The number of methodes this class has'''
-            print('Menu')
+        ''' Class WeatherBaloon menu. The number of methodes this class has'''
 
+        sys_clear([scriptName, menuName])
+
+        try:
             answer = int(input('''
-1. Check your current local weahter.
-2. Convert Fahrenheit to Celsius or vice versa.
+1. Current Weather
+2. Temprature Converter (°C <---> °F )
+
+
 3. Quit
 
 :> '''))
@@ -56,17 +61,23 @@ class WeatherBaloon(object):
             while True:
                 if answer == 1:
                     # WeatherBaloon.get_localweahter()
-                    print('TEST FACE')
-                    input('\nPress ENTEr to continue')
+                    sys_clear([scriptName, option1Name])
+                    print("\nI am working on this. Comming soon")
+                    itime.sleep(5)
+                    WeatherBaloon.menu()
+                    break
                 elif answer == 2:
-                    WeatherBaloon.get_tConv()
+                    WeatherBaloon.get_tConv(option2Name)
                 elif answer == 3:
                     WeatherBaloon.quit()
                     break
                 else:
                     WeatherBaloon.menu()
         except:
-            WeatherBaloon.quit()
+            if ValueError:
+                print("\n\nThat's not a number\n")
+                time.sleep(3)
+                WeatherBaloon.menu()
 
     @classmethod
     def get_localweahter(cls):
@@ -74,31 +85,37 @@ class WeatherBaloon(object):
         pass
 
     @staticmethod
-    def get_tConv():
+    def get_tConv(option2Name):
+        ''' Converts Fahrenheit to Celsius and vice versa'''
+
+        sys_clear([scriptName, option2Name])
+
         try:
-            while True:
-                try:
-                    sys_clear(name)
-                    answer = int(input('''
+            answer = int(input('''
 1. Fahrenheit --> Celsius
 2. Celsius --> Fahrenheit
 
+3. Back
+4. Quit
+
 :> '''))
+            while True:
+                if answer == 1:
+                    answer = '°F'
+                elif answer == 2:
+                    answer = '°C'
+                elif answer == 3:
+                    WeatherBaloon.menu()
+                    break
+                elif answer == 4:
+                    WeatherBaloon.quit()
+                else:
+                    WeatherBaloon.get_tConv(option2Name)
 
-                    if answer == 1:
-                        answer = '°F'
-                    elif answer == 2:
-                        answer = '°C'
-                except ValueError:
-                    print('Keyboard err9r')
-                    sys_clear(name)
-                    continue
-
-                sys_clear(name)
-
+                sys_clear([scriptName, option2Name])
                 temp = int(input(f"\nHow much {answer}?\n\n:> "))
 
-                sys_clear(name)
+                sys_clear([scriptName, option2Name])
 
                 if answer == '°F':
                     degree = int(round((temp - 32) * 5 / 9))
@@ -109,25 +126,25 @@ class WeatherBaloon(object):
                     print(f"\n{temp}°C is {degree}°F.\n")
 
                 time.sleep(5)
-                sys_clear(name)
+                sys_clear([scriptName, option2Name])
 
                 answer = input('\nContinue?: (Y/N)\n\n:> ')
                 if answer.lower() in ('y', 'yes', 'ok', 'oke', 'okee', 'sure', 'cool'):
                     WeatherBaloon.menu()
                 else:
-                    sys_clear(name)
-                    print('the else')
+                    sys_clear([scriptName, option2Name])
                     WeatherBaloon.quit()
-                    break
-        except KeyboardInterrupt:
-            sys_clear(name)
-            print('keyin')
-            WeatherBaloon.quit()
+        except:
+            if ValueError:
+                print("\n\nThat's not a number\n")
+                time.sleep(3)
+                WeatherBaloon.menu()
 
     @staticmethod
     def quit():
-        sys_clear(name)
+        sys_clear(scriptName)
         print('\nGoodbye\n')
+        quit()
 
 
 WeatherBaloon.menu()
