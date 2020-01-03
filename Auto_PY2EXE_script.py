@@ -97,8 +97,8 @@ run_Setup()
 os.system(f'python {directoryPath}/setup.py py2exe')
 
 # Should delete the 'setup.py' file after 10 seconds (Assuming the py2exe process takes LESS the 10 seconds to finish)
-print('EXITING PROGRAM IN 10 SECONDS!') 
+print('EXITING PROGRAM IN 10 SECONDS!')
 time.sleep(10)
-os.remove(f'python {directoryPath}/setup.py')
+os.remove(f'{directoryPath}/setup.py')
 
 quit()
