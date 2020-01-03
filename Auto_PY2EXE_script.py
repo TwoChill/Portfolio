@@ -90,14 +90,14 @@ setup(console="[{fileName}]")
     else:
         print(f'\n{fileName} found!\nExecuting py2exe')
 
-
+# Run the function
 run_Setup()
 
 # Executes the command in PowerShell to start the py2exe process.
 os.system(f'python {directoryPath}/setup.py py2exe')
 
 # Should delete the 'setup.py' file after 10 seconds (Assuming the py2exe process takes LESS the 10 seconds to finish)
-print('EXITING PROGRAM IN 10 SECONDS!')
+print('\n\nEXITING PROGRAM IN 10 SECONDS!')
 time.sleep(10)
 os.remove(f'{directoryPath}/setup.py')
 
