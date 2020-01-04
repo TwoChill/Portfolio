@@ -63,11 +63,15 @@ def run_Setup():
             print("\n\tI've detected", num,
                   "more files.\n\tWhich one do you want to use?\n\n")
             num = 1
-            for i in onlyPfiles:
+            for fn in onlyPfiles:
+                
+                # Replaces the '_' with whitespaces. Doesn't change the filename.
+                fn = fn.replace('_', " ")
+                
                 if num < 10 and fileExtention == ".py":
-                    print(str(num) + ". ", i)
+                    print(str(num) + ". ", fn)
                 elif num >= 10 and fileExtention == ".py":
-                    print(str(num) + ".", i)
+                    print(str(num) + ".", fn)
                 else:
                     num -= 1
                 num += 1
