@@ -17,7 +17,7 @@ directoryPath = str(os.path.dirname(os.path.abspath(__file__)))
 scriptName = '\t\t' + \
     filePath[(len(directoryPath) + 1):-len(fileExtention)] + '\n\n\n'
 option1Name = 'Current Weather'
-option2Name = '\tTemprature Converter'
+option2Name = '\tTemperature Converter'
 menuName = '\tMenu'
 
 
@@ -42,41 +42,41 @@ def sys_clear(name=None):
             Typing.text_decor(None, ['bold', 'underline'], i)
 
 
-class WeatherBaloon(object):
+class WeatherBalloon(object):
 
     @staticmethod
     def menu():
-        ''' Class WeatherBaloon menu. The number of methodes this class has'''
+        ''' Class WeatherBalloon menu. The number of methodes this class has'''
 
         sys_clear([scriptName, menuName])
 
         try:
             answer = int(input('''
-1. Weather Baloon
-2. Temprature Converter (°C <---> °F )
+1. Weather Ballon
+2. Temperature Converter (°C <---> °F )
 
 3. Quit
 
 :> '''))
             while True:
                 if answer == 1:
-                    WeatherBaloon.get_localweahter()
+                    WeatherBalloon.get_localweather()
                     break
                 elif answer == 2:
-                    WeatherBaloon.get_tConv(option2Name)
+                    WeatherBalloon.get_tConv(option2Name)
                 elif answer == 3:
-                    WeatherBaloon.quit()
+                    WeatherBalloon.quit()
                     break
                 else:
-                    WeatherBaloon.menu()
+                    WeatherBalloon.menu()
         except (ValueError, KeyboardInterrupt):
             print("\nThat's not a number!")
             time.sleep(3)
-            WeatherBaloon.menu()
+            WeatherBalloon.menu()
 
     @staticmethod
-    def get_localweahter():
-        ''' Get's local weather data from a weather API '''
+    def get_localweather():
+        ''' Get it's local weather data from a weather API '''
 
         sys_clear([scriptName, option1Name])
 
@@ -141,13 +141,13 @@ class WeatherBaloon(object):
             elif wind_dir == 'NE':
                 wind_dir = 'North East'
             elif wind_dir == 'NNE':
-                wind_dir = 'Norht / North East'
+                wind_dir = 'North / North East'
             elif wind_dir == 'N':
                 wind_dir = 'North'
             elif wind_dir == 'NNW':
                 wind_dir = 'North / North West'
             elif wind_dir == 'NW':
-                wind_dir = 'Nort West'
+                wind_dir = 'North West'
             elif wind_dir == 'WNW':
                 wind_dir = 'West / North West'
             elif wind_dir == 'W':
@@ -172,7 +172,7 @@ class WeatherBaloon(object):
 Local Time:\t\t {local_time}
 Observation Time:\t {observation_time}
 
-Temprature:\t\t {temperature}°{unit} - {weather_description}
+Temperature:\t\t {temperature}°{unit} - {weather_description}
 Feels Like:\t\t {feelslike}°{unit}
 
 Wind Speed:\t\t {wind_speed} Kph
@@ -194,31 +194,31 @@ Visibility:\t\t {visibility} Km
             while True:
                 answer = input('\nSelect another location?: (Y/N)\n\n:> ')
 
-                if answer.lower() in ('y', 'yes', 'ok', 'oke', 'okee', 'sure', 'cool'):
-                    WeatherBaloon.get_localweahter()
+                if answer.lower() in ('y', 'yes', 'ok', 'oke', 'okay', 'sure', 'cool'):
+                    WeatherBalloon.get_localweather()
                     break
                 else:
                     sys_clear([scriptName, option1Name])
                     answer = input('\nBack to main menu?: (Y/N)\n\n:> ')
 
-                    if answer.lower() in ('y', 'yes', 'ok', 'oke', 'okee', 'sure', 'cool'):
-                        WeatherBaloon.menu()
+                    if answer.lower() in ('y', 'yes', 'ok', 'oke', 'okay', 'sure', 'cool'):
+                        WeatherBalloon.menu()
                         break
                     else:
                         sys_clear([scriptName, option1Name])
-                        WeatherBaloon.quit()
+                        WeatherBalloon.quit()
                         break
                     break
         except KeyboardInterrupt:
-            WeatherBaloon.quit()
+            WeatherBalloon.quit()
         except (ValueError):
             print('\nThat is not a number!')
             time.sleep(3)
-            WeatherBaloon.get_localweahter()
+            WeatherBalloon.get_localweather()
         except (KeyError):
             print("\nI don't know were or what that is.")
             time.sleep(3)
-            WeatherBaloon.get_localweahter()
+            WeatherBalloon.get_localweather()
 
     @staticmethod
     def get_tConv(option2Name):
@@ -241,12 +241,12 @@ Visibility:\t\t {visibility} Km
                 elif answer == 2:
                     answer = '°C'
                 elif answer == 3:
-                    WeatherBaloon.menu()
+                    WeatherBalloon.menu()
                     break
                 elif answer == 4:
-                    WeatherBaloon.quit()
+                    WeatherBalloon.quit()
                 else:
-                    WeatherBaloon.get_tConv(option2Name)
+                    WeatherBalloon.get_tConv(option2Name)
 
                 sys_clear([scriptName, option2Name])
                 temp = int(input(f"\nHow much {answer}?\n\n:> "))
@@ -265,20 +265,20 @@ Visibility:\t\t {visibility} Km
                 sys_clear([scriptName, option2Name])
 
                 answer = input('\nContinue?: (Y/N)\n\n:> ')
-                if answer.lower() in ('y', 'yes', 'ok', 'oke', 'okee', 'sure', 'cool'):
-                    WeatherBaloon.menu()
+                if answer.lower() in ('y', 'yes', 'ok', 'oke', 'okay', 'sure', 'cool'):
+                    WeatherBalloon.menu()
                     break
                 else:
                     sys_clear([scriptName, option2Name])
                     answer = input('\nBack to main menu?: (Y/N)\n\n:> ')
-                    if answer.lower() in ('y', 'yes', 'ok', 'oke', 'okee', 'sure', 'cool'):
-                        WeatherBaloon.menu()
+                    if answer.lower() in ('y', 'yes', 'ok', 'oke', 'okay', 'sure', 'cool'):
+                        WeatherBalloon.menu()
                         break
                     else:
                         sys_clear([scriptName, option2Name])
-                        WeatherBaloon.quit()
+                        WeatherBalloon.quit()
         except (ValueError, KeyboardInterrupt):
-            WeatherBaloon.quit()
+            WeatherBalloon.quit()
 
     @staticmethod
     def quit():
@@ -357,4 +357,4 @@ class Typing(bcolors):
         print(text)
 
 
-WeatherBaloon.menu()
+WeatherBalloon.menu()
