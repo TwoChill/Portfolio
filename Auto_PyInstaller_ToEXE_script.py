@@ -29,6 +29,7 @@ def sys_clear():
 
 #######################################################################################################
 
+
 sys_clear()
 
 #######################################################################################################
@@ -45,9 +46,10 @@ while True:
         break
     else:
         answer = input('''\nInstall Pyinstaller now? (Y/N) :> ''')
+        time.sleep(1)
 
         # Clears the terminal of previous outputs.
-        time.sleep(1)
+        sys.stdout.write("\n")
         sys_clear()
 
         if answer in usr_answer[0]:
@@ -55,12 +57,12 @@ while True:
             version = sys.version[0]
             if int(version) <= 1:
                 os.system(f'pip install pyinstaller')
-                time.sleep(6)
+                time.sleep(4)
                 sys_clear()
                 break
             else:
                 os.system(f'pip{version} install pyinstaller')
-                time.sleep(6)
+                time.sleep(4)
                 sys_clear()
                 break
         else:
@@ -161,7 +163,8 @@ def run_Setup():
                 fileName = onlyPfiles[(num - 1)]
                 # Execute Pyinstaller with parm; onefile.
                 os.system(
-                    f'pyinstaller {fileName} --onefile')
+                    f'pyinstaller {fileName[:-3]} -w {fileName} --onefile --onedir')
+                time.sleep(1)
                 break
             else:
                 sys_clear()
@@ -177,7 +180,7 @@ def run_Setup():
     # If there is 1 .py file next to this script.
     else:
         fileName = onlyFiles[0]
-        sys.stdout.write(f'\n{fileName} found!\nExecuting Pyinstaller!\n')
+        sys.stdout.write(f'\n{fileName} found!\n\nExecuting Pyinstaller!\n')
 
 #######################################################################################################
 
