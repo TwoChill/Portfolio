@@ -16,6 +16,7 @@ usr_answer = [('Y', 'y', 'yes', 'Yes', 'YES', 'ok',
 
 #######################################################################################################
 
+
 def sys_clear():
     ''' Clears terminal screen for diffrent OS's '''
 
@@ -34,41 +35,46 @@ sys_clear()
 
 # While loop check for installation Pyinstaller
 while True:
-    answer = input('''
-Install Pyinstaller now? (Y/N) :> ''')
+    answer = input("\nIs Pyinstaller installed on your system? (Y/N) :> ")
 
-    os.system('clear')
+    # Clears the terminal of previous outputs.
+    time.sleep(1)
+    sys_clear()
 
     if answer in usr_answer[0]:
-        # Checking current Python version.
-        version = sys.version[0]
-        if int(version) <= 1:
-            os.system(f'pip install pyinstaller')
-            time.sleep(6)
-            os.system('clear')
-            break
-        else:
-            os.system(f'pip{version} install pyinstaller')
-            time.sleep(6)
-            os.system('clear')
-            break
+        break
     else:
-        answer = input(
-            "\nIs Pyinstaller already installed? (Y/N) :> ")
+        answer = input('''\nInstall Pyinstaller now? (Y/N) :> ''')
+
+        # Clears the terminal of previous outputs.
+        time.sleep(1)
+        sys_clear()
+
         if answer in usr_answer[0]:
-            sys.stdout.write("\n")
-            os.system('clear')
-            break
+            # Checking current Python version.
+            version = sys.version[0]
+            if int(version) <= 1:
+                os.system(f'pip install pyinstaller')
+                time.sleep(6)
+                sys_clear()
+                break
+            else:
+                os.system(f'pip{version} install pyinstaller')
+                time.sleep(6)
+                sys_clear()
+                break
         else:
-            os.system('clear')
-            answer = input("\nDo you want to quit? (Y/N) :> ")
+            answer = input('\nDo you want to exit this script? (Y/N) :> ')
+
             if answer in usr_answer[0]:
-                sys.stdout.write("\n\nExiting in 5 seconds!\n\n")
-                time.sleep(4)
+                time.sleep(3)
+                sys_clear()
+                print('\nExiting script!')
+                time.sleep(1)
                 quit()
             else:
-                # Restarts the while loop.
-                os.system('clear')
+                time.sleep(1)
+                sys_clear()
                 continue
 
 #######################################################################################################
@@ -103,7 +109,7 @@ def run_Setup():
             if '_.py' in onlyPfiles[num]:
                 onlyPfiles[num] = onlyPfiles[num][:(
                     len(onlyPfiles[num]) - 4)] + '.py'
-            
+
             # Writes the underscore filenames to the file.
             os.rename(fn, onlyPfiles[num])
             num += 1
@@ -124,7 +130,7 @@ def run_Setup():
 
                 # Replaces the '_' with whitespaces. Doesn't change the filename.
                 fn = fn.replace('_', " ")
-                
+
                 if num < 10 and fileExtention == ".py":
                     print(str(num) + ". ", fn)
                 elif num >= 10 and fileExtention == ".py":
@@ -143,7 +149,7 @@ def run_Setup():
                 except ValueError as e:
                     print("\nThat's not a number at all!")
                     continue
-                
+
             # Expect usr input to be greater then max_index of onlyPfile list.
             if num >= len(onlyPfiles):
                 num == len(onlyPfiles)
@@ -151,14 +157,14 @@ def run_Setup():
             answer = input("\nTurn '" + str(onlyPfiles[(num - 1)]
                                             ) + "' into a executable file? (Y/N) :> ")
             if answer in usr_answer[0]:
-                os.system('clear')
+                sys_clear()
                 fileName = onlyPfiles[(num - 1)]
                 # Execute Pyinstaller with parm; onefile.
                 os.system(
                     f'pyinstaller {fileName} --onefile')
                 break
             else:
-                os.system('clear')
+                sys_clear()
                 continue
 
     # If there are NO .py files next to this script.
@@ -170,6 +176,7 @@ def run_Setup():
 
     # If there is 1 .py file next to this script.
     else:
+        fileName = onlyFiles[0]
         sys.stdout.write(f'\n{fileName} found!\nExecuting Pyinstaller!\n')
 
 #######################################################################################################
@@ -180,10 +187,9 @@ run_Setup()
 
 
 # Should delete the 'setup.py' file after 10 seconds (Assuming the py2exe process takes LESS the 10 seconds to finish)
-time.sleep(5)
-os.system('clear')
+time.sleep(4)
 
-sys.stdout.write('\n\SUCCESSFUL!\n\n')
+sys.stdout.write('\nSUCCESSFUL!\n\n')
 
 time.sleep(10)
 
