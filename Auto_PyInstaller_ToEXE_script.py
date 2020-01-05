@@ -99,36 +99,36 @@ def run_Setup():
                  if isfile(join(directoryPath, f))]
 
     # Lists only the .py files in the directory of this script.
-    onlyPfiles = [f for f in onlyFiles if fileExtention in f]
+    onlyFiles = [f for f in onlyFiles if fileExtention in f]
 
     # File names can't have whitespaces in them. This loop replaces them with a underscore.
     num = 0
-    for fn in onlyPfiles:
-        if ' ' in onlyPfiles[num]:
-            onlyPfiles[num] = onlyPfiles[num].replace(' ', "_")
+    for fn in onlyFiles:
+        if ' ' in onlyFiles[num]:
+            onlyFiles[num] = onlyFiles[num].replace(' ', "_")
 
             # Makes sure all files end with '.py' (and not '_.py')
-            if '_.py' in onlyPfiles[num]:
-                onlyPfiles[num] = onlyPfiles[num][:(
-                    len(onlyPfiles[num]) - 4)] + '.py'
+            if '_.py' in onlyFiles[num]:
+                onlyFiles[num] = onlyFiles[num][:(
+                    len(onlyFiles[num]) - 4)] + '.py'
 
             # Writes the underscore filenames to the file.
-            os.rename(fn, onlyPfiles[num])
+            os.rename(fn, onlyFiles[num])
             num += 1
 
     # This variable will hold the correct filepath to uses for py2exe.
     fileName = ''  # LEAVE EMPTY!
 
     # If the program detects more then one Python file to convert to EXE.
-    if len(onlyPfiles) > 2:
-        num = len(onlyPfiles)
+    if len(onlyFiles) > 2:
+        num = len(onlyFiles)
 
         # Prints .py files to choose from.
         while True:
             print("\n\tI've detected", num,
                   "more files.\n\tWhich one do you want to use?\n\n")
             num = 1
-            for fn in onlyPfiles:
+            for fn in onlyFiles:
 
                 # Replaces the '_' with whitespaces. Doesn't change the filename.
                 fn = fn.replace('_', " ")
@@ -143,7 +143,7 @@ def run_Setup():
             while True:
                 try:
                     num = int(input('\n:> '))
-                    if num > len(onlyPfiles):
+                    if num > len(onlyFiles):
                         print(f"\n{num} is not a valid number")
                         continue
                     else:
@@ -153,14 +153,14 @@ def run_Setup():
                     continue
 
             # Expect usr input to be greater then max_index of onlyPfile list.
-            if num >= len(onlyPfiles):
-                num == len(onlyPfiles)
+            if num >= len(onlyFiles):
+                num == len(onlyFiles)
 
-            answer = input("\nTurn '" + str(onlyPfiles[(num - 1)]
+            answer = input("\nTurn '" + str(onlyFiles[(num - 1)]
                                             ) + "' into a executable file? (Y/N) :> ")
             if answer in usr_answer[0]:
                 sys_clear()
-                fileName = onlyPfiles[(num - 1)]
+                fileName = onlyFiles[(num - 1)]
                 # Execute Pyinstaller with parm; onefile.
                 os.system(
                     f'pyinstaller {fileName[:-3]} -w {fileName} --onefile --onedir')
@@ -171,7 +171,7 @@ def run_Setup():
                 continue
 
     # If there are NO .py files next to this script.
-    elif len(onlyPfiles) == 0:
+    elif len(onlyFiles) == 0:
         sys.stdout.write(
             "\nThere are no files to use in this directory!\n\nEXITING THE SCRIPT!")
         time.sleep(5)
