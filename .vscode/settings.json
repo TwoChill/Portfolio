@@ -1,0 +1,10 @@
+{
+    "cSpell.ignoreWords": [
+        "listdr",
+        "only",
+        "pfile",
+        "pfiles",
+        "pyinstaller"
+    ],
+    "python.pythonPath": "/bin/python3"
+}
