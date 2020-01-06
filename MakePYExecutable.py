@@ -36,17 +36,15 @@ sys_clear()
 
 # While loop check for installation Pyinstaller
 while True:
-    answer = input("\nIs Pyinstaller installed on your system? (Y/N) :> ")
+    answer = input("\nIs Pyinstaller installed on your Debian system? (Y/N) :> ")
 
     # Clears the terminal of previous outputs.
-    time.sleep(1)
     sys_clear()
 
     if answer in usr_answer[0]:
         break
     else:
         answer = input('''\nInstall Pyinstaller now? (Y/N) :> ''')
-        time.sleep(1)
 
         # Clears the terminal of previous outputs.
         sys.stdout.write("\n")
@@ -72,7 +70,6 @@ while True:
                 time.sleep(3)
                 sys_clear()
                 print('\nExiting script!')
-                time.sleep(1)
                 quit()
             else:
                 time.sleep(1)
@@ -89,7 +86,7 @@ fileExtention = filePath[len(filePath) - 3:]
 
 # Gets the directoryPath as a string.
 directoryPath = str(os.path.dirname(os.path.abspath(__file__)))
-
+print(directoryPath)
 #######################################################################################################
 
 
@@ -138,8 +135,11 @@ def run_Setup():
                 elif num >= 10 and fileExtention == ".py":
                     print(str(num) + ".", fn)
                 else:
+                    # When a file doesn't end with .py.
                     num -= 1
                 num += 1
+
+            # User input error handeling.
             while True:
                 try:
                     num = int(input('\n:> '))
@@ -152,19 +152,24 @@ def run_Setup():
                     print("\nThat's not a number at all!")
                     continue
 
-            # Expect usr input to be greater then max_index of onlyPfile list.
-            if num >= len(onlyFiles):
-                num == len(onlyFiles)
-
             answer = input("\nTurn '" + str(onlyFiles[(num - 1)]
                                             ) + "' into a executable file? (Y/N) :> ")
             if answer in usr_answer[0]:
                 sys_clear()
                 fileName = onlyFiles[(num - 1)]
-                # Execute Pyinstaller with parm; onefile.
+
+                # Execute Chmod.
+                os.system(f'chmod +x {fileName}')
+                print(f'\nExecuting command: "chmod +x {fileName}"\n')
+                time.sleep(6)
+                sys_clear()
+
+                # Execute Pyinstaller with parameter; onefile and onedirectory.
+                print(f'\nExecuting command: "pyinstaller {fileName} --onefile --onedir"\n')
+                time.sleep(6)
+                sys_clear()
                 os.system(
-                    f'pyinstaller {fileName[:-3]} -w {fileName} --onefile --onedir')
-                time.sleep(1)
+                    f'pyinstaller {fileName} --onefile --onedir')
                 break
             else:
                 sys_clear()
@@ -181,6 +186,7 @@ def run_Setup():
     else:
         fileName = onlyFiles[0]
         sys.stdout.write(f'\n{fileName} found!\n\nExecuting Pyinstaller!\n')
+    return fileName
 
 #######################################################################################################
 
@@ -190,9 +196,9 @@ run_Setup()
 
 
 # Should delete the 'setup.py' file after 10 seconds (Assuming the py2exe process takes LESS the 10 seconds to finish)
-time.sleep(4)
+time.sleep(2)
 
-sys.stdout.write('\nSUCCESSFUL!\n\n')
+print(f'\n\nYour file can be found in {directoryPath}/dist\n\nSCRIPT IS DONE!\n\n')
 
 time.sleep(10)
 
