@@ -86,7 +86,7 @@ fileExtention = filePath[len(filePath) - 3:]
 
 # Gets the directoryPath as a string.
 directoryPath = str(os.path.dirname(os.path.abspath(__file__)))
-print(directoryPath)
+
 #######################################################################################################
 
 
