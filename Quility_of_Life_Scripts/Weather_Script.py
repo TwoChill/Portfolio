@@ -32,8 +32,8 @@ def sys_clear(name=None):
         Typing(txtSpeed, "Sorry, Your OS is not known to me yet.")
 
     # This function can take more the 1 text to be displayed after a system clear call.
-    if name == None:
-        []
+    if name is None:
+        name = []
     else:
         name = ''.join(name).split(',')
         for i in name:
@@ -302,13 +302,13 @@ class Typing(bcolors):
 
     def __init__(self, txtSpeed, text=None):
         self.text = text
+        self.txtSpeed = txtSpeed
 
         if text is None:
-            self.text == []
+            self.text = []
         else:
             self.text = text
 
-        self.txtSpeed = txtSpeed
         self.bcolors = bcolors
 
         text = ''.join(self.text)
@@ -325,7 +325,7 @@ class Typing(bcolors):
     def text_decor(cls, color, decor=None, text=None):
         ''' This function decorates text with UNDERLINE and/or BOLD '''
 
-        if text == None:
+        if text is None:
             text = []
         elif color == 'red':
             text = bcolors.FAIL + text + bcolors.ENDC
@@ -338,8 +338,8 @@ class Typing(bcolors):
         else:
             text = text + bcolors.ENDC
 
-        if decor == None:
-            decor == []
+        if decor is None:
+            decor = []
         elif decor == ['bold', 'underline']:
             for i in decor:
                 if i == 'bold':
