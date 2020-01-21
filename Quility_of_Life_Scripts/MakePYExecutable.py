@@ -154,55 +154,6 @@ def run_Setup():
                     print("\nThat's not a number at all!")
                     continue
 
-            time.sleep(1)
-            answer = input("\nTurn '" + str(onlyFiles[(num - 1)]
-                                            ) + "' into a executable file? (Y/N) :> ")
-            time.sleep(1)
-
-            if answer in usr_answer[0]:
-                sys_clear()
-                fileName = onlyFiles[(num - 1)]
-
-                # Execute Chmod +x if platform is a Linux.
-                if 'linux' or 'windows' in platform.platform().lower():
-                    st = os.stat(f'{fileName}')
-
-                    if 'linux' in platform.platform().lower():
-                        # Change permission on file. user=7. group=7. other=7.
-                        answer = input(
-                            f'Your permission is needed to change permissions for your file: {fileName}\n\nUser:\tr/w/x\nGroup:\tr/w/x\nOther:\tr/w/x\n\n(Y/N) :> ')
-                        if answer in usr_answer[0]:
-                            # Changing permissions only on the .py file.
-                            os.system(f'sudo chmod -f 777 {fileName}')
-                            sys.stdout.write('\nChanging permissions...')
-                            time.sleep(5)
-                        else:
-                            sys.stdout.write('\nSkipping...')
-                            time.sleep(4)
-                            sys_clear()
-                    else:
-                        sys.stdout.write(
-                            '\nSORRY, ICACLS ON WINDOWS (and MACOSX) HAS YET TO BE ADDED TO THIS SCRIPT!')
-                        time.sleep(5)
-                        quit()
-                else:
-                    sys.stdout.write(
-                        '\nThis system is unknown to me. Plz contact me on what kind of system you are running this script.\n@ Github.com/TwoChill\n\nThank You!')
-                    time.sleep(5)
-                    quit()
-
-                # Execute Pyinstaller with parameter; onefile and onedirectory.
-                print(
-                    f'\n\nStarting PyInstaller..."\n')
-                time.sleep(5)
-                sys_clear()
-                os.system(
-                    f'sudo pyinstaller {fileName} --onefile --onedir')
-                break
-            else:
-                sys_clear()
-                continue
-
     # If there's NO .py files next to this script.
     elif len(onlyFiles) == 0:
         sys.stdout.write(
@@ -213,12 +164,60 @@ def run_Setup():
     # If there is 1 .py file next to this script.
     else:
         fileName = onlyFiles[0]
-        sys.stdout.write(f'\n{fileName} found!\n\nExecuting Pyinstaller!\n')
-    return fileName
+        sys.stdout.write(f'\n{fileName} found!\n\n')
+
+    time.sleep(4)
+
+    while True:
+        answer = input("Turn '" + f"{fileName}' into a executable file? (Y/N) :> ")
+        time.sleep(4)
+
+        if answer in usr_answer[0]:
+            sys_clear()
+            fileName = onlyFiles[(num - 1)]
+
+            if 'linux' or 'windows' or 'darwin' in platform.platform().lower():
+                st = os.stat(f'{fileName}')
+
+                # This is run if usr platform is a Linux system.
+                if 'linux' in platform.platform().lower():
+                    # Change permission on file. user=7. group=7. other=7.
+                    answer = input(
+                        f'\nYour permission is needed to change permissions for your file: {fileName}\n\nUser:\tr/w/x\nGroup:\tr/w/x\nOther:\tr/w/x\n\n(Y/N) :> ')
+                    sys_clear()
+
+                    if answer in usr_answer[0]:
+                        # Changing permissions only on the .py file.
+                        os.system(f'sudo chmod -f 777 {fileName}')
+                        sys.stdout.write('\nChanging permissions...')
+                        time.sleep(4)
+                    else:
+                        sys.stdout.write('\nSkipping...')
+                        time.sleep(4)
+                        sys_clear()
+                else:
+                    sys.stdout.write(
+                        '\nSORRY, ICACLS ON WINDOWS (and MACOSX) HAS YET TO BE ADDED TO THIS SCRIPT!')
+                    time.sleep(5)
+                    quit()
+            else:
+                sys.stdout.write(
+                    '\nThis system is unknown to me. Plz contact me on what kind of system you are running this script.\n\n@ Github.com/TwoChill\n\nThank You!')
+                time.sleep(5)
+                quit()
+
+            sys.stdout.write(f'\n\nStarting PyInstaller..."\n')
+            time.sleep(5)
+
+            # Execute Pyinstaller with parameter; onefile and onedirectory.
+            os.system(f'sudo pyinstaller {fileName} --onefile --onedir')
+
+            # Wait a few seconds before continuing the script.
+            time.sleep(4)
+            break
+
 
 #######################################################################################################
-
-
 # Run the function
 run_Setup()
 
