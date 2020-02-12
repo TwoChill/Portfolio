@@ -3,11 +3,51 @@ import time
 import platform
 import os
 import sys
+import stat
+
+# The script functionality changes depending on the variable argument.
 from sys import argv
 if len(argv) > 1:
-    argv_pressent = True
+    script_argv = True
 else:
-    argv_pressent = False
+    script_argv = False
+
+# Permissions Flags
+# 0 = Owner, 1 = Group, 2 = Other
+flags = {
+    0: {
+        0: 0,
+        1: stat.S_IXUSR,
+        2: stat.S_IWUSR,
+        3: stat.S_IXUSR | stat.S_IWUSR,
+        4: stat.S_IRUSR,
+        5: stat.S_IXUSR | stat.S_IRUSR,
+        6: stat.S_IWUSR | stat.S_IRUSR,
+        7: stat.S_IRWXU
+    },
+    1: {
+        0: 0,
+        1: stat.S_IXGRP,
+        2: stat.S_IWGRP,
+        3: stat.S_IXGRP | stat.S_IWGRP,
+        4: stat.S_IRGRP,
+        5: stat.S_IXGRP | stat.S_IRGRP,
+        6: stat.S_IWGRP | stat.S_IRGRP,
+        7: stat.S_IRWXG
+    },
+    2: {
+        0: 0,
+        1: stat.S_IXOTH,
+        2: stat.S_IWOTH,
+        3: stat.S_IXOTH | stat.S_IWOTH,
+        4: stat.S_IROTH,
+        5: stat.S_IXOTH | stat.S_IROTH,
+        6: stat.S_IWOTH | stat.S_IROTH,
+        7: stat.S_IRWXO
+    }
+}
+
+loadingTxt = "Changing Permissions"
 
 
 class MyClass(object):
@@ -15,45 +55,69 @@ class MyClass(object):
     def __init__(self):
         pass
 
-    def loadingAnimation(self):
+    def loadingAnimation(self, txt=None, newline=None):
+        if newline is True:
+            sys.stdout.write('\n')
+            sys.stdout.flush()
+
+            if txt is None:
+                txt = "Loading"
+
         for x in range(0, 5):
-            b = "Loading" + "." * x
+            b = txt + "." * x
             print(b, end="\r")
             time.sleep(.5)
 
-    def change_permissions(self, dir_path, argv_pressent):
+    def change_permissions(self, path, argv_pressent):
         if 'linux' in platform.platform().lower():
-            os.system('ls -al')
+            os.system('ls -d  -al */')
 
         # Get basename of 1 folder INSIDE os.getcwd()
-        basename = f'{os.path.basename(dirNameGood)}'
+        basename = f'{os.path.basename(path)}'
 
         # ask for OCTALS if argv is NOT FOUND:
         if argv_pressent is False:
-            argv_pressent = int(input(
-                f'\nWhich permissions should be given to all files in \'{basename}\'?'))
+
+            choose_flag = f'''
+Which \'Flag\' should be assigned to \'{basename}\':
+
+    User:\tr/w/x\t-->\t4/2/1\tsum = 7
+    Group:\tr/w/x\t-->\t4/2/1\tsum = 7
+    Other:\tr/w/x\t-->\t4/2/1\tsum = 7
+
+(IF YOU DON\'T KNOW WHAT FLAGS ARE, PLEASE DISCONTINUE!)'''
+
+            sys.stdout.write(choose_flag)
+            sys.stdout.flush()
+
+            usr_flag = int(input('\n\n\nEnter Flag :> '))
 
             # Confirmation
             while True:
-                answer = input(
-                    f'\nAre you sure you want to give \'{argv_pressent[0]}\' to \'{basename}\'? (Y/N) :> ').upper()
+                sys_clear()
+                os.system("ls -d -al */")
+                sys.stdout.write(choose_flag)
+                sys.stdout.flush()
 
-                # AFTHER AND IS A MINI-FIX OR WORKAROUND. SHOULD ACCEPT ONLY CHMOD OCTALS AND NOT JUST ANY 3 DIGITS.
-                if answer in ('Y', 'YES') and 4 > len(argv_pressent[0]) == 3:
+                answer = input(
+                    f'\n\nEntered Flag: \'{usr_flag}\' correct? (Y/N) :> ').upper()
+
+                # AFTHER AND IS A MINI-FIX OR WORKAROUND. SHOULD ACCEPT ONLY CHMOD OCTAL AND NOT JUST ANY 3 DIGITS.
+                if answer in ('Y', 'YES') and usr_flag == sum():
 
                     if 'linux' in platform.platform().lower():
                         sys_clear()
-                        os.system('ls -al')
+                        os.system('ls -d  -al */')
 
-                        self.loadingAnimation()
+                        self.loadingAnimation(loadingTxt, True)
                         os.chmod(os.getcwd(), int(argv_pressent))
                         sys_clear()
-                        os.system('ls -al')
+                        os.system("ls -d  -al */")
 
                     # Other platforms
                     else:
                         sys_clear()
-                        self.loadingAnimation()
+                        self.loadingAnimation(loadingTxt, True)
                         os.chmod(os.getcwd(), int(argv_pressent))
 
                 elif answer in ('N', 'NO'):
@@ -61,30 +125,43 @@ class MyClass(object):
                 else:
                     sys.stdout.write('\nThat\'s not correct. Try Again\n')
                     sys.stdout.flush()
-            # directly use chmod to change all files inside that directory
-            # display current permissions
+
         elif argv_pressent is True:
-            self.loadingAnimation()
-            os.chmod(dirNameGood, int(argv[1]))
+            self.loadingAnimation(loadingTxt, True)
+            
+            mode = []
+            for i in range(len(argv[1])):
+                for n in argv[1][i]:
+                    mode.append(flags[i][int(n)])
+            mode = sum(mode)
+
+            # For each file in dir_path, change permission of file first.. // GOES ONLY 1 LEVEL DEEP FOR NOW
+            for file in os.listdir(dir_path):
+                os.chmod(f'{dir_path}/{file}', mode)
+
+            # ..then change permission of parent directory
+            os.chmod(f'{dir_path}', mode)
+
             sys_clear()
-            os.system("ls -al")
+            os.system(f"ls -d  -al */;cd {os.path.basename(dir_path)};ls -l *")
+
+            # Exit script
+            time.sleep(1)
+            sys.stdout.write('\nPermissions Change!\n\n')
+            sys.stdout.flush()
+            time.sleep(2)
 
     def get_folder_path(self):
-        # 1. change to file's working directory
-        # Can you change permissions if cwd is the target?
 
-        # CHANGE CODE TO FILEPATH
+        # Change directory to current file path.
         os.chdir(os.path.dirname(Path(__file__)))
 
-        # 2. make a list of directories in cwd
-        name_of_dirs = next(os.walk('.'))[1]
+        # Make a list of subdirectories in current working directory.
+        name_of_dirs = [fn for fn in next(os.walk('.'))[1]]
         nr_of_dirs = len(name_of_dirs)
 
         # source: https://stackoverflow.com/questions/141291/how-to-list-only-top-level-directories-in-python
         # If there's MORe then 1 directory next to this scirpt.
-
-        # sys_clear('\n')
-        # self.loadingAnimation()
 
         if nr_of_dirs > 1:
 
@@ -101,6 +178,8 @@ class MyClass(object):
 
             answer = int(input('\n:> '))
 
+            sys_clear()
+
             for n in range(1, (nr_of_dirs + 1)):
                 if answer == n:
                     return f'{os.getcwd()}/{dir_names[n]}'
@@ -114,40 +193,21 @@ class MyClass(object):
             sys.stdout.flush()
 
 
-def sys_clear(print_statement=None):
+def sys_clear():
     ''' Clears terminal screen for diffrent OS's '''
     os.system('cls||clear')
 
-    if type(print_statement) == 'str':
-        sys.stdout.write(print_statement + '\n')
-        sys.stdout.flush()
-    else:
-        print_statement
 
-
-# Dual functionality of script.
+# Clears terminal screen
 sys_clear()
 
-# Standard first item in argv is the scripts name
-# If script is run with argument variable
-
-# Create instance
+# Create object
 clss = MyClass()
 
-# If 777 is given
-if len(argv) > 1:
-    argv[1] = '0' + argv[1]
-    print(argv)
-    time.sleep(3)
 
-    dirNameGood = clss.get_folder_path()
-
-    clss.change_permissions(dirNameGood, argv_pressent)
-    # get path of file
-else:
-    print('ARGV NOT found')
-    time.sleep(3)
-    clss.get_folder_path()
+# If an argument variable is given..
+dir_path = clss.get_folder_path()
+clss.change_permissions(dir_path, script_argv)
 
 
 # Source: https://stackoverflow.com/questions/15607903/python-module-os-chmodfile-664-does-not-change-the-permission-to-rw-rw-r-bu#17776766
