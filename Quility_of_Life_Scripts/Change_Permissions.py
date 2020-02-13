@@ -4,7 +4,7 @@ import platform
 import os
 import sys
 import stat
-
+import itertools
 # The script functionality changes depending on the variable argument.
 from sys import argv
 if len(argv) > 1:
@@ -90,45 +90,76 @@ Which \'Flag\' should be assigned to \'{basename}\':
             sys.stdout.write(choose_flag)
             sys.stdout.flush()
 
-            usr_flag = int(input('\n\n\nEnter Flag :> '))
-
             # Confirmation
             while True:
+                # Clear Screen with printstatement
+                sys_clear()
+                os.system("ls -d -al */")
+                sys.stdout.write(choose_flag)
+                sys.stdout.flush()
+
+                usr_flag = int(input('\n\n\nEnter Flag :>\t'))
+
+                if str(usr_flag) in flag_combinations():
+                    pass
+                else:
+                    # Clear Screen with printstatement
+                    sys_clear()
+                    os.system("ls -d -al */")
+                    sys.stdout.write(choose_flag)
+                    sys.stdout.flush()
+
+                    sys.stdout.write(
+                        '\n\n\nThat\'s not a valid FLAG. Try Again...')
+                    sys.stdout.flush()
+                    time.sleep(3)
+                    continue
+
+                # Clear Screen with printstatement
                 sys_clear()
                 os.system("ls -d -al */")
                 sys.stdout.write(choose_flag)
                 sys.stdout.flush()
 
                 answer = input(
-                    f'\n\nEntered Flag: \'{usr_flag}\' correct? (Y/N) :> ').upper()
+                    f'\n\n\nEntered Flag :>\t\'{usr_flag}\'\n\n\nAre You Sure? (Y/N) :> ').upper()
 
                 # AFTHER AND IS A MINI-FIX OR WORKAROUND. SHOULD ACCEPT ONLY CHMOD OCTAL AND NOT JUST ANY 3 DIGITS.
-                if answer in ('Y', 'YES') and usr_flag == sum():
+                if answer in ('Y', 'YES'):
 
                     if 'linux' in platform.platform().lower():
                         sys_clear()
                         os.system('ls -d  -al */')
 
                         self.loadingAnimation(loadingTxt, True)
-                        os.chmod(os.getcwd(), int(argv_pressent))
+
+                        os.chmod(os.getcwd(), usr_flag)
                         sys_clear()
                         os.system("ls -d  -al */")
+
+                        break
 
                     # Other platforms
                     else:
                         sys_clear()
                         self.loadingAnimation(loadingTxt, True)
-                        os.chmod(os.getcwd(), int(argv_pressent))
+                        os.chmod(os.getcwd(), usr_flag)
 
+                        # Think about other platforms
+                        sys_clear()
+
+                # Quits the script immediately.
                 elif answer in ('N', 'NO'):
                     break
                 else:
                     sys.stdout.write('\nThat\'s not correct. Try Again\n')
                     sys.stdout.flush()
+                    continue
 
         elif argv_pressent is True:
             self.loadingAnimation(loadingTxt, True)
-            
+
+            # Maby Itertools has a better and faster way
             mode = []
             for i in range(len(argv[1])):
                 for n in argv[1][i]:
@@ -191,6 +222,23 @@ Which \'Flag\' should be assigned to \'{basename}\':
         else:
             sys.stdout.write('\nNo directories found!\n')
             sys.stdout.flush()
+
+
+def flag_combinations():
+    ''' Gets all CHMOD Flag combinations '''
+    mode = []
+
+    max_combinations = range(len(flags[0]))
+    result = itertools.combinations_with_replacement(max_combinations, 3)
+
+    for i in result:
+        j = str(i)
+        k = j.replace("(", "")
+        y = k. replace(")", "")
+        s = y.replace(", ", "")
+        mode.append(s)
+
+    return mode
 
 
 def sys_clear():
