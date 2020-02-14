@@ -1,7 +1,5 @@
-# Change Permissions
-
-Do you have a directory with files which user permissions needs to be changed?
-This script is for you!
+# Quality of Life Scripts
+These scripts can make certain tasks easier
 <br>
 <br>
 ## Getting Started
