@@ -227,8 +227,8 @@ Choose a \'''' + bcolors.BOLD + '''Flag''' + bcolors.ENDC + '''\' to be assigned
             sys.stdout.flush()
             time.sleep(2)
 
-    def get_folder_path(self):
-        ''' Get folder path of which to change permissions. '''
+    def get_directory_path(self):
+        ''' Get directory path of which to change permissions. '''
 
         # Change directory to current file path.
         os.chdir(os.path.dirname(Path(__file__)))
@@ -273,7 +273,7 @@ Choose a \'''' + bcolors.BOLD + '''Flag''' + bcolors.ENDC + '''\' to be assigned
                 if answer == n:
                     return f'{os.getcwd()}/{dir_names[n]}', f'{dir_names[n]}'
 
-        # get DELETEME
+        # Get the directory's path
         elif nr_of_dirs == 1:
             return f'{os.getcwd()}/{name_of_dirs[0]}'
 
@@ -345,5 +345,5 @@ sys_clear()
 clss = MyClass()
 
 # If an argument variable is given..
-dir_path, dir_name = clss.get_folder_path()
+dir_path, dir_name = clss.get_directory_path()
 clss.change_permissions(dir_path, dir_name, script_argv)
