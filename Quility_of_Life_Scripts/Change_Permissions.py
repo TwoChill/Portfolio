@@ -148,7 +148,7 @@ Choose a \'''' + bcolors.BOLD + '''Flag''' + bcolors.ENDC + '''\' to be assigned
                 if answer in ('Y', 'YES'):
 
                     if 'linux' in platform.platform().lower():
-                        
+
                         # Clear Screen
                         sys_clear()
 
@@ -156,14 +156,14 @@ Choose a \'''' + bcolors.BOLD + '''Flag''' + bcolors.ENDC + '''\' to be assigned
                         os.system('ls -d  -al */')
 
                         self.loadingAnimation(loadingTxt, True)
-                        
+
                         # Get correct flag
                         usr_flag = flag_interpreter(usr_flag, flags)
 
                         # Change file permissions in parent directory
                         for file in os.listdir(path):
                             os.chmod(f'{path}/{file}', usr_flag)
-                        
+
                         # Change parent directory permissions
                         os.chmod(f'{path}', usr_flag)
 
@@ -185,7 +185,7 @@ Choose a \'''' + bcolors.BOLD + '''Flag''' + bcolors.ENDC + '''\' to be assigned
                         # Change file permissions in parent directory
                         for file in os.listdir(path):
                             os.chmod(f'{path}/{file}', usr_flag)
-                        
+
                         # Change parent directory permissions
                         os.chmod(f'{path}', usr_flag)
 
@@ -278,8 +278,13 @@ Choose a \'''' + bcolors.BOLD + '''Flag''' + bcolors.ENDC + '''\' to be assigned
             return f'{os.getcwd()}/{name_of_dirs[0]}'
 
         else:
-            sys.stdout.write('\nNo directories found!\n')
+            sys.stdout.write(bcolors.BOLD + '\nNo directories found!' + bcolors.ENDC + '\n\nPlace this script in the ' +
+                             bcolors.BOLD + 'same ' + bcolors.ENDC + 'directory as the target\'s directory\n\n')
+            time.sleep(6)
             sys.stdout.flush()
+
+            # Exit script
+            quit()
 
 
 class bcolors:
