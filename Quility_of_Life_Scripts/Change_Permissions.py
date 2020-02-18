@@ -79,7 +79,7 @@ class MyClass(object):
         if argv_pressent is False:
 
             choose_flag = f'''
-Choose a \'''' + bcolors.BOLD + '''Flag''' + bcolors.ENDC + '''\' to be assigned to''' + bcolors.BOLD + ''' ALL''' + bcolors.ENDC + f''' files --> \'{os.path.basename(path)}\':''' + bcolors.FAIL + '''
+Choose a \'''' + bcolors.BOLD + '''Flag''' + bcolors.ENDC + '''\' to be assigned to''' + bcolors.BOLD + ''' ALL''' + bcolors.ENDC + f''' files --> \'''' + bcolors.UNDERLINE + f'{os.path.basename(path)}' + bcolors.ENDC + ''' \':''' + bcolors.RED + '''
 
     User:\tr/w/x\t-->\t4/2/1\tsum = 7
     Group:\tr/w/x\t-->\t4/2/1\tsum = 7
@@ -249,7 +249,7 @@ Choose a \'''' + bcolors.BOLD + '''Flag''' + bcolors.ENDC + '''\' to be assigned
 
                 for n, i in enumerate(next(os.walk('.'))[1], 1):
                     sys.stdout.write(
-                        bcolors.FAIL + f'{n}. {i}\n' + bcolors.ENDC)
+                        bcolors.RED + f'{n}. {i}\n' + bcolors.ENDC)
                     sys.stdout.flush()
 
                     # Append to dictionary to map numbers to directory names.
@@ -275,7 +275,7 @@ Choose a \'''' + bcolors.BOLD + '''Flag''' + bcolors.ENDC + '''\' to be assigned
 
         # Get the directory's path
         elif nr_of_dirs == 1:
-            return f'{os.getcwd()}/{name_of_dirs[0]}'
+            return f'{os.getcwd()}/{name_of_dirs[0]}', f'{name_of_dirs[0]}'
 
         else:
             sys.stdout.write(bcolors.BOLD + '\nNo directories found!' + bcolors.ENDC + '\n\nPlace this script in the ' +
@@ -290,10 +290,10 @@ Choose a \'''' + bcolors.BOLD + '''Flag''' + bcolors.ENDC + '''\' to be assigned
 class bcolors:
     ''' Text colors to use in the Terminal '''
     HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
+    BLUE = '\033[94m'
+    GREEN = '\033[92m'
+    ORANGE = '\033[93m'
+    RED = '\033[91m'
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
