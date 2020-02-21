@@ -2,9 +2,8 @@ import os
 import platform
 import random
 import time
-import itertools
 
-# Source: https://codereview.stackexchange.com/questions/82103/ascii-fication-of-playing-cards
+# Source: Idea Inspiration: https://codereview.stackexchange.com/questions/82103/ascii-fication-of-playing-cards
 
 
 class Cards(object):
@@ -44,7 +43,7 @@ class Cards(object):
         # Creates a list of list which will contain the lines of the card itself.
         card_index = [i for i in range(nr_of_cards)]
         lines = [[] for i in range(9)]
-        rand_comb_cards = {}
+        random_result = {}
         ascii_cards = {}
         space = ' ' * 4
 
@@ -52,7 +51,7 @@ class Cards(object):
             card_nr = random.randint(1, 14)
             suit_nr = random.randint(0, 3)
 
-            # Specific Card
+            # Renameing High-Cards
             if card_nr == 1:
                 card_nr = 'A'
             elif card_nr == 11:
@@ -63,31 +62,59 @@ class Cards(object):
                 card_nr = 'K'
             elif card_nr == 14:
                 card_nr = 'Joker'
+            # Joker's special symbol index nr.
                 suit_nr = 4
                 space = ''
-            elif card_nr == 10:
-                space = ' ' * 3
-            else:
+
+            # The 'Joker' card has differences in whitespaces and thus will use its own tempalte.
+            if card_nr == 'Joker':
+                lines[0].append('╔═════════╗')
+                lines[1].append('║{}    {}║'.format(card_nr, space))
+                lines[2].append('║         ║')
+                lines[3].append('║         ║')
+                lines[4].append('║    {}    ║'.format(
+                    list(self.suits.values())[suit_nr].upper()))
+                lines[5].append('║         ║')
+                lines[6].append('║         ║')
+                lines[7].append('║{}    {}║'.format(space, card_nr))
+                lines[8].append('╚═════════╝')
                 space = ' ' * 4
 
-            lines[0].append('╔═════════╗')
-            lines[1].append('║{}    {}║'.format(card_nr, space))
-            lines[2].append('║         ║')
-            lines[3].append('║         ║')
-            lines[4].append('║    {}    ║'.format(
-                list(self.suits.values())[suit_nr].upper()))
-            lines[5].append('║         ║')
-            lines[6].append('║         ║')
-            lines[7].append('║{}    {}║'.format(space, card_nr))
-            lines[8].append('╚═════════╝')
+            elif card_nr == 10:
+                # '10' has two characters. There for diffrent whitespaces.
+                space = ' ' * 3
+                lines[0].append('╔═════════╗')
+                lines[1].append('║{}    {}║'.format(card_nr, space))
+                lines[2].append('║         ║')
+                lines[3].append('║         ║')
+                lines[4].append('║    {}    ║'.format(
+                    list(self.suits.values())[suit_nr].upper()))
+                lines[5].append('║         ║')
+                lines[6].append('║         ║')
+                lines[7].append('║{}    {}║'.format(space, card_nr))
+                lines[8].append('╚═════════╝')
+                space = ' ' * 4
+
+            else:
+                # The 'Other' cards are using this template.
+                lines[0].append('╔═════════╗')
+                lines[1].append('║{}    {}║'.format(card_nr, space))
+                lines[2].append('║         ║')
+                lines[3].append('║         ║')
+                lines[4].append('║    {}    ║'.format(
+                    list(self.suits.values())[suit_nr].upper()))
+                lines[5].append('║         ║')
+                lines[6].append('║         ║')
+                lines[7].append('║{}    {}║'.format(space, card_nr))
+                lines[8].append('╚═════════╝')
 
             # Dictionary of the random card combination
-            rand_comb_cards[card_nr] = suit_nr
+            random_result[card_nr] = suit_nr
 
             # Append key = index. v are the cards lines
             ascii_cards[card_index[n]] = lines
 
-        return ascii_cards, rand_comb_cards
+        return ascii_cards, random_result
 
 
 class Dealer(object):
