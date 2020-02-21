@@ -66,7 +66,7 @@ class Cards(object):
                 suit_nr = 4
                 space = ''
 
-            # The 'Joker' card has differences in whitespaces and thus will use its own tempalte.
+            # The 'Joker' card has differences in whitespaces and thus will use its own template.
             if card_nr == 'Joker':
                 lines[0].append('╔═════════╗')
                 lines[1].append('║{}    {}║'.format(card_nr, space))
