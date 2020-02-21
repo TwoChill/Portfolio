@@ -115,6 +115,19 @@ class Cards(object):
             ascii_cards[card_index[n]] = lines
 
         return ascii_cards, random_result
+    
+    def get_all_combinations(self):
+        """Get All Card Combinations
+        Mabye there is a way to NOT use a methode ..
+        Returns a dictionary of the card combinations
+        """
+        card_nr_lst = []
+        suit_names = []
+        for k, v in self.all_card_combinations.items():
+            card_nr_lst.append(k)
+            suit_names.append(v)
+            
+        return card_nr_lst, suit_names, self.suits
 
 
 class Dealer(object):
@@ -155,6 +168,16 @@ class Checker(object):
 class Bet(object):
     pass
 
+class bcolors:
+    HEADER = '\033[95m'
+    BLUE = '\033[94m'
+    GREEN = '\033[92m'
+    ORANGE = '\033[93m'
+    RED = '\033[91m'
+    BLACK = '\033[98m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
 
 def sys_clear(OnScreen=None):
     ''' Clears terminal screen for diffrent OS's '''
