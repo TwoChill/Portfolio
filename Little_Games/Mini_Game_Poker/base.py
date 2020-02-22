@@ -181,13 +181,15 @@ class bcolors:
 
 def sys_clear(OnScreen=None):
     ''' Clears terminal screen for diffrent OS's '''
-
-    if 'linux' in platform.platform().lower():
+    if 'ipad' in platform.platform().lower():
+        import console
+        console.clear()
+    elif 'linux' or 'Darwin' in platform.platform().lower():
         os.system('clear')
     elif 'windows' in platform.platform().lower():
         os.system('cls')
     else:
-        print("Sorry, Your OS is not known to me yet.")
+        print(f"Sorry, OS: {platform.platform()} is not known to me yet.")
 
     if OnScreen is None:
         pass
