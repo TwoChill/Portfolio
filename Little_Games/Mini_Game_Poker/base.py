@@ -43,7 +43,7 @@ class Cards(object):
         # Creates a list of list which will contain the lines of the card itself.
         card_index = [i for i in range(nr_of_cards)]
         lines = [[] for i in range(9)]
-        random_result = {}
+        random_result = []
         ascii_cards = {}
         space = ' ' * 4
 
@@ -108,8 +108,9 @@ class Cards(object):
                 lines[7].append('║{}    {}║'.format(space, card_nr))
                 lines[8].append('╚═════════╝')
 
-            # Dictionary of the random card combination
-            random_result[card_nr] = suit_nr
+            # list of the random card combination // Double cards are exclude in dictionaries //
+            random_result.append(card_nr)
+            random_result.append(suit_nr)
 
             # Append key = index. v are the cards lines
             ascii_cards[card_index[n]] = lines
@@ -118,7 +119,7 @@ class Cards(object):
     
     def get_all_combinations(self):
         """Get All Card Combinations
-        Mabye there is a way to NOT use a methode ..
+        Maybe there is a way to NOT use a methode ..
         Returns a dictionary of the card combinations
         """
         card_nr_lst = []
@@ -169,12 +170,15 @@ class Bet(object):
     pass
 
 class bcolors:
-    HEADER = '\033[95m'
+    PURPLE = '\033[95m'
     BLUE = '\033[94m'
     GREEN = '\033[92m'
     ORANGE = '\033[93m'
     RED = '\033[91m'
-    BLACK = '\033[98m'
+    BLACK = '\033[30m'
+    GREY = '\33[90m'
+    BLINK1 = '\33[5m'
+    BLINK2 = '\33[6m'
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
