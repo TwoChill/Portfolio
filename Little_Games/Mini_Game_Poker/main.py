@@ -21,11 +21,14 @@ end = 6
 start_cardNr = 1
 end_cardNr = 2
 
+# TEST VARIABLES #
+print('\t\t', SETS_CARDS_SUITS)
+
 # The cards are printed on 9 lines.
 for lines_down in range(9):
     card_lines.append(MARGIN_BETWEEN.join(ascii_cards[(NR_OF_CARDS - 1)][lines_down]))
 
-# Changes Color of cards based on the suit
+# Changes Color of cards barsed on the suit
 for line in card_lines:
     # Change AND to OR and all colors disapears. Good to know when building function to turn of color
     if line != card_lines[1] and line != card_lines[4] and line != card_lines[7]:
