@@ -53,79 +53,83 @@ class Cards(object):
         # Creates a list of list which will contain the lines of the card itself.
         card_index = [i for i in range(NR_OF_CARDS)]
         lines = [[] for i in range(9)]
-        random_result = []
+        SETS_CARDS_SUITS = set()
         ascii_cards = {}
         space = ' ' * 4
 
-        for random_card_values in range(NR_OF_CARDS):
-            card_nr = random.randint(11, 14)
-            suit_nr = random.randint(0, 3)                          # MAX: 3
+        # While duplicate card is made, makes another diffrent one
+        while len(SETS_CARDS_SUITS) < NR_OF_CARDS:
+            for random_card_values in range(NR_OF_CARDS):
+                card_nr = random.randint(1, 14)
+                suit_sym = random.randint(0, 3)                          # MAX: 3
 
-            # Renameing High-Cards
-            if card_nr == 1:
-                card_nr = 'A'
-            elif card_nr == 11:
-                card_nr = 'J'
-            elif card_nr == 12:
-                card_nr = 'Q'
-            elif card_nr == 13:
-                card_nr = 'K'
-            elif card_nr == 14:
-                card_nr = 'Joker'
-            # Joker's special symbol index nr.
-                suit_nr = 4
-                space = ''
+                # Renameing High-Cards
+                if card_nr == 1:
+                    card_nr = 'A'
+                elif card_nr == 11:
+                    card_nr = 'J'
+                elif card_nr == 12:
+                    card_nr = 'Q'
+                elif card_nr == 13:
+                    card_nr = 'K'
+                elif card_nr == 14:
+                    card_nr = 'Joker'
+                # Joker's special symbol index nr.
+                    suit_sym = 4
+                    space = ''
 
-            # The 'Joker' card has differences in whitespaces and thus will use its own template.
-            if card_nr == 'Joker':
-                lines[0].append('╔═════════╗')
-                lines[1].append('║{}    {}║'.format(card_nr, space))
-                lines[2].append('║         ║')
-                lines[3].append('║         ║')
-                lines[4].append('║    {}    ║'.format(
-                    list(self.suits.values())[suit_nr].upper()))
-                lines[5].append('║         ║')
-                lines[6].append('║         ║')
-                lines[7].append('║{}    {}║'.format(space, card_nr))
-                lines[8].append('╚═════════╝')
-                space = ' ' * 4
+                # The 'Joker' card has differences in whitespaces and thus will use its own template.
+                if card_nr == 'Joker':
+                    lines[0].append('╔═════════╗')
+                    lines[1].append('║{}    {}║'.format(card_nr, space))
+                    lines[2].append('║         ║')
+                    lines[3].append('║         ║')
+                    lines[4].append('║    {}    ║'.format(
+                        list(self.suits.values())[suit_sym].upper()))
+                    lines[5].append('║         ║')
+                    lines[6].append('║         ║')
+                    lines[7].append('║{}    {}║'.format(space, card_nr))
+                    lines[8].append('╚═════════╝')
+                    space = ' ' * 4
 
-            elif card_nr == 10:
-                # '10' has two characters. There for diffrent whitespaces.
-                space = ' ' * 3
-                lines[0].append('╔═════════╗')
-                lines[1].append('║{}    {}║'.format(card_nr, space))
-                lines[2].append('║         ║')
-                lines[3].append('║         ║')
-                lines[4].append('║    {}    ║'.format(
-                    list(self.suits.values())[suit_nr].upper()))
-                lines[5].append('║         ║')
-                lines[6].append('║         ║')
-                lines[7].append('║{}    {}║'.format(space, card_nr))
-                lines[8].append('╚═════════╝')
-                space = ' ' * 4
+                elif card_nr == 10:
+                    # '10' has two characters. There for diffrent whitespaces.
+                    space = ' ' * 3
+                    lines[0].append('╔═════════╗')
+                    lines[1].append('║{}    {}║'.format(card_nr, space))
+                    lines[2].append('║         ║')
+                    lines[3].append('║         ║')
+                    lines[4].append('║    {}    ║'.format(
+                        list(self.suits.values())[suit_sym].upper()))
+                    lines[5].append('║         ║')
+                    lines[6].append('║         ║')
+                    lines[7].append('║{}    {}║'.format(space, card_nr))
+                    lines[8].append('╚═════════╝')
+                    space = ' ' * 4
 
-            else:
-                # The 'Other' cards are using this template.
-                lines[0].append('╔═════════╗')
-                lines[1].append('║{}    {}║'.format(card_nr, space))
-                lines[2].append('║         ║')
-                lines[3].append('║         ║')
-                lines[4].append('║    {}    ║'.format(
-                    list(self.suits.values())[suit_nr].upper()))
-                lines[5].append('║         ║')
-                lines[6].append('║         ║')
-                lines[7].append('║{}    {}║'.format(space, card_nr))
-                lines[8].append('╚═════════╝')
+                else:
+                    # The 'Other' cards are using this template.
+                    lines[0].append('╔═════════╗')
+                    lines[1].append('║{}    {}║'.format(card_nr, space))
+                    lines[2].append('║         ║')
+                    lines[3].append('║         ║')
+                    lines[4].append('║    {}    ║'.format(
+                        list(self.suits.values())[suit_sym].upper()))
+                    lines[5].append('║         ║')
+                    lines[6].append('║         ║')
+                    lines[7].append('║{}    {}║'.format(space, card_nr))
+                    lines[8].append('╚═════════╝')
 
-            # list of the random card combination // Double cards are exclude in dictionaries //
-            random_result.append(card_nr)
-            random_result.append(suit_nr)
+                # Add to set (no duplicates allowed)
+                SETS_CARDS_SUITS.add((card_nr, suit_sym))
+
+
+                
 
             # Append key = index. v are the cards lines
             ascii_cards[card_index[random_card_values]] = lines
 
-        return ascii_cards, random_result
+        return ascii_cards, SETS_CARDS_SUITS
 
     def get_all_combinations(self):
         """Get All Card Combinations

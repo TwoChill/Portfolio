@@ -12,7 +12,7 @@ NR_OF_CARDS = 5
 MARGIN_LEFT = ' ' * 1
 MARGIN_BETWEEN = ' ' * 2
 
-ascii_cards, random_card_lines = cards.create_cards(NR_OF_CARDS)
+ascii_cards, SETS_CARDS_SUITS = cards.create_cards(NR_OF_CARDS)
 suit_names, suit_symbols_dict = cards.get_all_combinations()
 card_lines = []
 combi_card_list = []
@@ -21,8 +21,11 @@ end = 6
 start_cardNr = 1
 end_cardNr = 2
 
-for next_down in range(9):
-    card_lines.append(MARGIN_BETWEEN.join(ascii_cards[1][next_down]))
+# The cards are printed on 9 lines.
+for lines_down in range(9):
+    card_lines.append(MARGIN_BETWEEN.join(ascii_cards[(NR_OF_CARDS - 1)][lines_down]))
+
+# Changes Color of cards based on the suit
 for line in card_lines:
     # Change AND to OR and all colors disapears. Good to know when building function to turn of color
     if line != card_lines[1] and line != card_lines[4] and line != card_lines[7]:
@@ -129,4 +132,3 @@ for line in card_lines:
                 start_cardNr += 22
                 end_cardNr += 22
             print(MARGIN_LEFT, line)
-
