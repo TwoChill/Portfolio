@@ -23,13 +23,14 @@ class Cards(object):
     """ Everything to do with creating cards.
     Keeps track.
     """
-    # These comprihansions should be calculated only when needed. Does noting but take up resources
+    # These comprehensions should be calculated only when needed. Does noting but take up resources
 
     def __init__(self, NR_OF_CARDS, suits, all_card_combinations):
         self.NR_OF_CARDS = NR_OF_CARDS
         self.MARGIN_BETWEEN = ' ' * 2
         self.MARGIN_LEFT = ' ' * 2
-        self.MARGIN_HITME = ' ' * ((len(payout[payout.find('┏'):payout.find('┓')])) // 6)
+        self.MARGIN_HITME = ' ' * \
+            ((len(payout[payout.find('┏'):payout.find('┓')])) // 6)
         self.set_cards_suits = set()
         self.suits = suits
         self.all_card_combinations = all_card_combinations
@@ -221,8 +222,8 @@ class Dealer(Cards):
 
                 if line == ascii_lines[7]:
                     # Resetting values of these variables for the last line in the card
-                    start = 5
-                    end = 6
+                    start_line = 5
+                    end_line = 6
                     start_cardNr = 9
                     end_cardNr = 10
 
@@ -261,10 +262,11 @@ class Dealer(Cards):
                             line = line.replace(
                                 'Joker', bcolors.ORANGE + 'Joker' + bcolors.ENDC)
 
-                        start += 13
-                        end += 13
+                        start_line += 13
+                        end_line += 13
                         start_cardNr += 22
                         end_cardNr += 22
+
                     the_colored_flop.append(f'{self.MARGIN_LEFT}{line}')
 
         return the_colored_flop
@@ -294,23 +296,24 @@ class Dealer(Cards):
             time.sleep(0.09)
             sys_clear(OnScreen=payout)
             for line in back_ascii_cards:
-                print(f'{self.MARGIN_LEFT}' + (line + f'{self.MARGIN_BETWEEN}') * nr)
+                print(f'{self.MARGIN_LEFT}' +
+                      (line + f'{self.MARGIN_BETWEEN}') * nr)
         time.sleep(2)
 
-        
         # copy backascii card to change and print without changing the original
         # for x in range(nr of cards)
         # for loop nr of lines (9)
-        
+
         # string slice first card
-        # print na elke line(9)
-        # add certain amout to sliceing
+        # print na each line(9)
+        # add certain  to sliceing
         # add time delay
 
         # String slice first lines of first card
         # Replace those with front cards
         # Print whole list
-        # Repeate Nr of card times
+        # Repeat Nr of card times
+
     def check_combination(self, player_combination):
         """Check Card Combination
         Checks to see if the final combination is a winning combination.
@@ -328,7 +331,7 @@ class Select(object):
 
 
 class Checker(object):
-    # gebruik variable 'set_cards_suits'
+    # use variable 'set_cards_suits'
     pass
 
 
