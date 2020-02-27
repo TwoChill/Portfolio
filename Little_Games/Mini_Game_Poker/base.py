@@ -45,6 +45,7 @@ class Cards(object):
         lines = [[] for _ in range(9)]
         front_ascii_cards = {}
         space = ' ' * 4
+<<<<<<< HEAD
         set_cards_suits = set()
 
         for line_index in range(NR_OF_CARDS):
@@ -52,6 +53,14 @@ class Cards(object):
             suit_sym = random.randint(0, 3)             # MAX: 3
 
             # Renaming High-Cards
+=======
+
+        for random_card_values in range(NR_OF_CARDS):
+            card_nr = random.randint(1, 14)
+            suit_sym = random.randint(0, 3)             # MAX: 3
+
+            # Renameing High-Cards
+>>>>>>> master
             if card_nr == 1:
                 card_nr = 'A'
             elif card_nr == 11:
@@ -108,12 +117,21 @@ class Cards(object):
                 lines[7].append('║{}    {}║'.format(space, card_nr))
                 lines[8].append('╚═════════╝')
 
+<<<<<<< HEAD
             if f'{(card_nr, suit_sym)}' in set_cards_suits:
                 # Discard Multiple Card Combinations
                 set_cards_suits.remove((card_nr, suit_sym))
 
             # Add Card Combinations to a Set
             set_cards_suits.update((card_nr, suit_sym))
+=======
+            if f'{(card_nr, suit_sym)}' in SETS_CARDS_SUITS:
+                # Discard Multiple Card Combinations
+                SETS_CARDS_SUITS.remove((card_nr, suit_sym))
+
+            # Add Card Combinations to a Set
+            SETS_CARDS_SUITS.update((card_nr, suit_sym))
+>>>>>>> master
 
             # Append key = index. v are the cards lines
             front_ascii_cards[card_index[line_index]] = lines
@@ -141,6 +159,7 @@ class Dealer(Cards):
             "One Pair": 1
         }
 
+<<<<<<< HEAD
     def shuffles_cards(self, front_ascii_cards, NR_OF_CARDS):
         """Dealer deals the flop"""
 
@@ -275,6 +294,10 @@ class Dealer(Cards):
         """Prints The ASCII Cards
         Prints the backcover of the cards, then the individual cards
         """
+=======
+    def deal_flop(self, ascii_cards):
+        """Dealer deals the flop"""
+>>>>>>> master
 
         # Prints empty  as standard
         back_ascii_cards = ['╔═════════╗'] + ['║' + bcolors.RED +
