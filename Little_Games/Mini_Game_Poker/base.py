@@ -2,6 +2,7 @@ import os
 import platform
 import random
 import time
+# Between lines 31/28
 
 payout = f"""
 ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ Payout ━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
@@ -12,7 +13,8 @@ payout = f"""
 ┃ \tFour of a Kind\tx 10\t\tTwo Pair\tx 2\t  ┃
 ┃ \tFull House\tx 8\t\tOne Pair\tx 1\t  ┃
 ┃\t\t\t\t\t\t\t\t  ┃
-┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩"""
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+"""
 
 # Source: Idea Inspiration: https://codereview.stackexchange.com/questions/82103/ascii-fication-of-playing-cards
 
@@ -22,46 +24,43 @@ class Cards(object):
 
     Keeps track.
     """
+    # These comprihansions should be calculated only when needed. Does noting but take up resources
 
-    def __init__(self):
-        self.card_nrs = [i for i in range(1, 15)]
-        self.suits = {'Spades': '♠', 'Diamonds': '♦',
-                      'Hearts': '♥', 'Clubs': '♣', 'Joker': '§'}
-        self.all_card_combinations = {
-            k: list(self.suits.keys()) for k in self.card_nrs for v in self.suits.items() if v != 'Joker'}
-        # 4 Jokers Added
-        self.all_card_combinations[len(
-            self.card_nrs) + 1] = ['Joker' for i in range(len(self.suits))]
-        self.multiplier_winning_combination = {
-            "Five of a Kind": 100,
-            "Royal Flush": 50,
-            "Straight Flush": 30,
-            "Four of a Kind": 20,
-            "Full House": 10,
-            "Flush": 8,
-            "Straight": 7,
-            "Three of a Kind": 5,
-            "Two Pair": 3,
-            "One Pair": 1
-        }
+    def __init__(self, NR_OF_CARDS, suits, all_card_combinations):
+        self.NR_OF_CARDS = NR_OF_CARDS
+        self.MARGIN_BETWEEN = ' ' * 2
+        self.MARGIN_LEFT = ' ' * 2
+        self.set_cards_suits = set()
+        self.suits = suits
+        self.all_card_combinations = all_card_combinations
 
-    def create_cards(self, NR_OF_CARDS, card_position=None):
+    def create_cards(self, NR_OF_CARDS):
         """Create Cards
 
         Creates card combinations and returns ASCII- type cards based on the given index
+
         """
         # Creates a list of list which will contain the lines of the card itself.
         card_index = [i for i in range(NR_OF_CARDS)]
-        lines = [[] for i in range(9)]
-        SETS_CARDS_SUITS = set()
-        ascii_cards = {}
+        lines = [[] for _ in range(9)]
+        front_ascii_cards = {}
         space = ' ' * 4
+<<<<<<< HEAD
+        set_cards_suits = set()
+
+        for line_index in range(NR_OF_CARDS):
+            card_nr = random.randint(1, 14)
+            suit_sym = random.randint(0, 3)             # MAX: 3
+
+            # Renaming High-Cards
+=======
 
         for random_card_values in range(NR_OF_CARDS):
             card_nr = random.randint(1, 14)
             suit_sym = random.randint(0, 3)             # MAX: 3
 
             # Renameing High-Cards
+>>>>>>> master
             if card_nr == 1:
                 card_nr = 'A'
             elif card_nr == 11:
@@ -118,41 +117,215 @@ class Cards(object):
                 lines[7].append('║{}    {}║'.format(space, card_nr))
                 lines[8].append('╚═════════╝')
 
+<<<<<<< HEAD
+            if f'{(card_nr, suit_sym)}' in set_cards_suits:
+                # Discard Multiple Card Combinations
+                set_cards_suits.remove((card_nr, suit_sym))
+
+            # Add Card Combinations to a Set
+            set_cards_suits.update((card_nr, suit_sym))
+=======
             if f'{(card_nr, suit_sym)}' in SETS_CARDS_SUITS:
                 # Discard Multiple Card Combinations
                 SETS_CARDS_SUITS.remove((card_nr, suit_sym))
 
             # Add Card Combinations to a Set
             SETS_CARDS_SUITS.update((card_nr, suit_sym))
+>>>>>>> master
 
             # Append key = index. v are the cards lines
-            ascii_cards[card_index[random_card_values]] = lines
+            front_ascii_cards[card_index[line_index]] = lines
 
-        return ascii_cards, SETS_CARDS_SUITS
-
-    def get_all_combinations(self):
-        """Get All Card Combinations
-        Maybe there is a way to NOT use a methode ..
-        Returns a dictionary of the card combinations
-        """
-
-        suit_names = []
-        for k, v in self.all_card_combinations.items():
-            suit_names.append(v)
-
-        return suit_names[1], self.suits
+        return front_ascii_cards
 
 
-class Dealer(object):
+class Dealer(Cards):
     """Everything to do with the dealing for the cards
     """
 
-    def __init__(self):
+    def __init__(self, NR_OF_CARDS, suits, all_card_combinations):
+        Cards.__init__(self, NR_OF_CARDS, suits, all_card_combinations)
         self.DoubleDown = False
+        self.winning_multipliers = {
+            "Five of a Kind": 100,
+            "Royal Flush": 50,
+            "Straight Flush": 30,
+            "Four of a Kind": 20,
+            "Full House": 10,
+            "Flush": 8,
+            "Straight": 7,
+            "Three of a Kind": 5,
+            "Two Pair": 3,
+            "One Pair": 1
+        }
 
-    def deal_flop(self, ascii_cards):
+<<<<<<< HEAD
+    def shuffles_cards(self, front_ascii_cards, NR_OF_CARDS):
         """Dealer deals the flop"""
 
+        start_line = 5
+        end_line = 6
+        start_cardNr = 1
+        end_cardNr = 2
+        the_colored_flop = []
+        ascii_lines = []
+
+        # The cards are printed on 9 lines.
+        for lines_down in range(9):
+            ascii_lines.append(self.MARGIN_BETWEEN.join(
+                front_ascii_cards[0][lines_down]))
+
+        # append each line to a set or list to return as a whole
+        # Changes Color of cards based on the suit
+        for line in ascii_lines:
+            # Change AND to OR and all colors disapears. Good to know when building function to turn of color
+            if line != ascii_lines[1] and line != ascii_lines[4] and line != ascii_lines[7]:
+                the_colored_flop.append(f'{self.MARGIN_LEFT}{line}')
+            else:
+                # Color for the upper card numbers
+                if line == ascii_lines[1]:
+                    for nr_of_card in range(NR_OF_CARDS):
+
+                        # Change 'Clubs' and 'Spades' to color BLACK
+                        if self.suits['Clubs'] in ascii_lines[4][start_line:end_line] or self.suits['Spades'] in ascii_lines[4][start_line:end_line]:
+                            startLine = line[:start_cardNr]
+                            colorLine = bcolors.GREY + \
+                                line[start_cardNr:end_cardNr] + \
+                                bcolors.ENDC
+                            if '10' in line[start_cardNr:(end_cardNr + 1)]:
+                                end_cardNr += 1
+                                colorLine = bcolors.GREY + \
+                                    line[start_cardNr:end_cardNr] + \
+                                    bcolors.ENDC
+                            endLine = line[end_cardNr:]
+                            line = startLine + colorLine + endLine
+
+                        # Change 'Heart' and 'Diamonds' to color RED
+                        elif self.suits['Hearts'] in ascii_lines[4][start_line:end_line] or self.suits['Diamonds'] in ascii_lines[4][start_line:end_line]:
+                            startLine = line[:start_cardNr]
+                            colorLine = bcolors.RED + \
+                                line[start_cardNr:end_cardNr] + \
+                                bcolors.ENDC
+                            if '10' in line[start_cardNr:(end_cardNr + 1)]:
+                                end_cardNr += 1
+                                colorLine = bcolors.RED + \
+                                    line[start_cardNr:end_cardNr] + \
+                                    bcolors.ENDC
+                            endLine = line[end_cardNr:]
+                            line = startLine + colorLine + endLine
+
+                        # If Joker, change them all to 1 color
+                        elif self.suits['Joker'] in ascii_lines[4] and 'mJoker' not in line:
+                            line = line.replace(
+                                'Joker', bcolors.ORANGE + 'Joker' + bcolors.ENDC)
+
+                        start_line += 13
+                        end_line += 13
+                        start_cardNr += 22
+                        end_cardNr += 22
+
+                    the_colored_flop.append(f'{self.MARGIN_LEFT}{line}')
+
+                if line == ascii_lines[4]:
+
+                    for suit_name in [k for k, v in self.suits.items()]:
+                        if 'Clubs' in suit_name or 'Spades' in suit_name:
+                            line = line.replace(
+                                self.suits[f'{suit_name}'], bcolors.GREY + self.suits[f'{suit_name}'] + bcolors.ENDC)
+                        elif 'Hearts' in suit_name or 'Diamonds' in suit_name:
+                            line = line.replace(
+                                self.suits[f'{suit_name}'], bcolors.RED + self.suits[f'{suit_name}'] + bcolors.ENDC)
+                        else:  # Make ELIF
+                            line = line.replace(
+                                self.suits[f'{suit_name}'], bcolors.ORANGE + self.suits[f'{suit_name}'] + bcolors.ENDC)
+                    the_colored_flop.append(f'{self.MARGIN_LEFT}{line}')
+
+                if line == ascii_lines[7]:
+                    # Resetting values of these variables for the last line in the card
+                    start = 5
+                    end = 6
+                    start_cardNr = 9
+                    end_cardNr = 10
+
+                    for nr_of_card in range(NR_OF_CARDS):
+
+                        # Change 'Clubs' and 'Spades' to color BLACK
+                        if self.suits['Clubs'] in ascii_lines[4][start_line:end_line] or self.suits['Spades'] in ascii_lines[4][start_line:end_line]:
+                            startLine = line[:(start_cardNr - 1)]
+                            colorLine = bcolors.GREY + \
+                                line[start_cardNr - 1:end_cardNr] + \
+                                bcolors.ENDC
+                            if '10' in line[start_cardNr:(end_cardNr + 1)]:
+                                end_cardNr += 1
+                                colorLine = bcolors.GREY + \
+                                    line[start_cardNr:end_cardNr] + \
+                                    bcolors.ENDC
+                            endLine = line[end_cardNr:]
+                            line = startLine + colorLine + endLine
+
+                        # Change 'Heart' and 'Diamonds' to color RED
+                        elif self.suits['Hearts'] in ascii_lines[4][start_line:end_line] or self.suits['Diamonds'] in ascii_lines[4][start_line:end_line]:
+                            startLine = line[:(start_cardNr - 1)]
+                            colorLine = bcolors.RED + \
+                                line[(start_cardNr - 1):end_cardNr] + \
+                                bcolors.ENDC
+                            if '10' in line[start_cardNr:(end_cardNr + 1)]:
+                                end_cardNr += 1
+                                colorLine = bcolors.RED + \
+                                    line[start_cardNr:end_cardNr] + \
+                                    bcolors.ENDC
+                            endLine = line[end_cardNr:]
+                            line = startLine + colorLine + endLine
+
+                        # If Joker on the Turn, change them all to 1 color
+                        elif self.suits['Joker'] in ascii_lines[4] and 'mJoker' not in line:
+                            line = line.replace(
+                                'Joker', bcolors.ORANGE + 'Joker' + bcolors.ENDC)
+
+                        start += 13
+                        end += 13
+                        start_cardNr += 22
+                        end_cardNr += 22
+                    the_colored_flop.append(f'{self.MARGIN_LEFT}{line}')
+
+        return the_colored_flop
+
+    def deals_cards(self, ascii_lines, NR_OF_CARDS):
+        """Prints The ASCII Cards
+        Prints the backcover of the cards, then the individual cards
+        """
+=======
+    def deal_flop(self, ascii_cards):
+        """Dealer deals the flop"""
+>>>>>>> master
+
+        # Prints empty  as standard
+        back_ascii_cards = ['╔═════════╗'] + ['║' + bcolors.RED +
+                                              '░░░░░░░░░' + bcolors.ENDC + '║'] * 2 + ['║' + bcolors.RED + '░░░░X░░░░' + bcolors.ENDC + '║'] * 3 + ['║' + bcolors.RED + '░░░░░░░░░' + bcolors.ENDC + '║'] * 2 + ['╚═════════╝']
+
+        # Prints back of cards side for side
+        time.sleep(1.5)
+        for nr in range(1, (NR_OF_CARDS + 1)):
+            time.sleep(0.2)
+            sys_clear(OnScreen=payout)
+            for line in back_ascii_cards:
+                print(f'{self.MARGIN_LEFT}' + (line + f'{self.MARGIN_BETWEEN}') * nr, end='\n', flush=True)
+        time.sleep(2)
+
+        
+        # copy backascii card to change and print without changing the original
+        # for x in range(nr of cards)
+        # for loop nr of lines (9)
+        
+        # string slice first card
+        # print na elke line(9)
+        # add certain amout to sliceing
+        # add time delay
+
+        # String slice first lines of first card
+        # Replace those with front cards
+        # Print whole list
+        # Repeate Nr of card times
     def check_combination(self, player_combination):
         """Check Card Combination
 
@@ -171,6 +344,7 @@ class Select(object):
 
 
 class Checker(object):
+    # gebruik variable 'set_cards_suits'
     pass
 
 
