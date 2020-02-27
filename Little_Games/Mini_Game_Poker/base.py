@@ -5,7 +5,7 @@ import time
 # Between lines 31/28
 
 payout = f"""
-┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ Payout ━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ Payout ━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 ┃\t\t\t\t\t\t\t\t  ┃
 ┃\tFive of a Kind\tx 100\t\tFlush\t\tx 7\t  ┃
 ┃ \tRoyal Flush\tx 50\t\tStraight\tx 5\t  ┃
@@ -21,7 +21,6 @@ payout = f"""
 
 class Cards(object):
     """ Everything to do with creating cards.
-
     Keeps track.
     """
     # These comprihansions should be calculated only when needed. Does noting but take up resources
@@ -30,22 +29,20 @@ class Cards(object):
         self.NR_OF_CARDS = NR_OF_CARDS
         self.MARGIN_BETWEEN = ' ' * 2
         self.MARGIN_LEFT = ' ' * 2
+        self.MARGIN_HITME = ' ' * ((len(payout[payout.find('┏'):payout.find('┓')])) // 6)
         self.set_cards_suits = set()
         self.suits = suits
         self.all_card_combinations = all_card_combinations
 
     def create_cards(self, NR_OF_CARDS):
         """Create Cards
-
         Creates card combinations and returns ASCII- type cards based on the given index
-
         """
         # Creates a list of list which will contain the lines of the card itself.
         card_index = [i for i in range(NR_OF_CARDS)]
         lines = [[] for _ in range(9)]
         front_ascii_cards = {}
         space = ' ' * 4
-<<<<<<< HEAD
         set_cards_suits = set()
 
         for line_index in range(NR_OF_CARDS):
@@ -53,14 +50,6 @@ class Cards(object):
             suit_sym = random.randint(0, 3)             # MAX: 3
 
             # Renaming High-Cards
-=======
-
-        for random_card_values in range(NR_OF_CARDS):
-            card_nr = random.randint(1, 14)
-            suit_sym = random.randint(0, 3)             # MAX: 3
-
-            # Renameing High-Cards
->>>>>>> master
             if card_nr == 1:
                 card_nr = 'A'
             elif card_nr == 11:
@@ -117,21 +106,12 @@ class Cards(object):
                 lines[7].append('║{}    {}║'.format(space, card_nr))
                 lines[8].append('╚═════════╝')
 
-<<<<<<< HEAD
             if f'{(card_nr, suit_sym)}' in set_cards_suits:
                 # Discard Multiple Card Combinations
                 set_cards_suits.remove((card_nr, suit_sym))
 
             # Add Card Combinations to a Set
             set_cards_suits.update((card_nr, suit_sym))
-=======
-            if f'{(card_nr, suit_sym)}' in SETS_CARDS_SUITS:
-                # Discard Multiple Card Combinations
-                SETS_CARDS_SUITS.remove((card_nr, suit_sym))
-
-            # Add Card Combinations to a Set
-            SETS_CARDS_SUITS.update((card_nr, suit_sym))
->>>>>>> master
 
             # Append key = index. v are the cards lines
             front_ascii_cards[card_index[line_index]] = lines
@@ -159,7 +139,6 @@ class Dealer(Cards):
             "One Pair": 1
         }
 
-<<<<<<< HEAD
     def shuffles_cards(self, front_ascii_cards, NR_OF_CARDS):
         """Dealer deals the flop"""
 
@@ -294,22 +273,28 @@ class Dealer(Cards):
         """Prints The ASCII Cards
         Prints the backcover of the cards, then the individual cards
         """
-=======
-    def deal_flop(self, ascii_cards):
-        """Dealer deals the flop"""
->>>>>>> master
+        enter = f"""{self.MARGIN_HITME}""" + bcolors.RED + f"""
+{self.MARGIN_HITME}██╗  ██╗██╗████████╗    ███╗   ███╗███████╗
+{self.MARGIN_HITME}██║  ██║██║╚══██╔══╝    ████╗ ████║██╔════╝
+{self.MARGIN_HITME}███████║██║   ██║       ██╔████╔██║█████╗  
+{self.MARGIN_HITME}██╔══██║██║   ██║       ██║╚██╔╝██║██╔══╝  
+{self.MARGIN_HITME}██║  ██║██║   ██║       ██║ ╚═╝ ██║███████╗
+{self.MARGIN_HITME}╚═╝  ╚═╝╚═╝   ╚═╝       ╚═╝     ╚═╝╚══════╝""" + bcolors.ENDC + f"""
 
+{self.MARGIN_HITME}{self.MARGIN_HITME}    Press Enter
+"""
         # Prints empty  as standard
         back_ascii_cards = ['╔═════════╗'] + ['║' + bcolors.RED +
                                               '░░░░░░░░░' + bcolors.ENDC + '║'] * 2 + ['║' + bcolors.RED + '░░░░X░░░░' + bcolors.ENDC + '║'] * 3 + ['║' + bcolors.RED + '░░░░░░░░░' + bcolors.ENDC + '║'] * 2 + ['╚═════════╝']
 
         # Prints back of cards side for side
-        time.sleep(1.5)
+        input(f'{enter}')
+
         for nr in range(1, (NR_OF_CARDS + 1)):
-            time.sleep(0.2)
+            time.sleep(0.09)
             sys_clear(OnScreen=payout)
             for line in back_ascii_cards:
-                print(f'{self.MARGIN_LEFT}' + (line + f'{self.MARGIN_BETWEEN}') * nr, end='\n', flush=True)
+                print(f'{self.MARGIN_LEFT}' + (line + f'{self.MARGIN_BETWEEN}') * nr)
         time.sleep(2)
 
         
@@ -328,7 +313,6 @@ class Dealer(Cards):
         # Repeate Nr of card times
     def check_combination(self, player_combination):
         """Check Card Combination
-
         Checks to see if the final combination is a winning combination.
         If so, returns the name of the combination with it's corresponding multiplier
         """
