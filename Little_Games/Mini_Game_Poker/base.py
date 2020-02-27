@@ -279,9 +279,16 @@ class Dealer(Cards):
         # Prints empty  as standard
         back_ascii_cards = ['╔═════════╗'] + ['║' + bcolors.RED +
                                               '░░░░░░░░░' + bcolors.ENDC + '║'] * 2 + ['║' + bcolors.RED + '░░░░X░░░░' + bcolors.ENDC + '║'] * 3 + ['║' + bcolors.RED + '░░░░░░░░░' + bcolors.ENDC + '║'] * 2 + ['╚═════════╝']
-        for line in back_ascii_cards:
-            print(f'{self.MARGIN_LEFT}' +
-                  (line + f'{self.MARGIN_BETWEEN}') * self.NR_OF_CARDS)
+
+        # Prints back of cards side for side
+        time.sleep(1.5)
+        for nr in range(1, (NR_OF_CARDS + 1)):
+            time.sleep(0.2)
+            sys_clear(OnScreen=payout)
+            for line in back_ascii_cards:
+                print(f'{self.MARGIN_LEFT}' + (line + f'{self.MARGIN_BETWEEN}') * nr, end='\n', flush=True)
+        time.sleep(2)
+
         
         # copy backascii card to change and print without changing the original
         # for x in range(nr of cards)
