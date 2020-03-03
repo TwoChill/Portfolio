@@ -1,7 +1,7 @@
-import os
 import platform
 import random
 import time
+
 # Between lines 31/28
 
 payout = f"""
@@ -9,7 +9,7 @@ payout = f"""
 ┃\t\t\t\t\t\t\t\t  ┃
 ┃\tFive of a Kind\tx 100\t\tFlush\t\tx 7\t  ┃
 ┃ \tRoyal Flush\tx 50\t\tStraight\tx 5\t  ┃
-┃ \tStraight Flush\tx 20\t\tThree of a Kind\tx 3\t  ┃ 
+┃ \tStraight Flush\tx 20\t\tThree of a Kind\tx 3\t  ┃
 ┃ \tFour of a Kind\tx 10\t\tTwo Pair\tx 2\t  ┃
 ┃ \tFull House\tx 8\t\tOne Pair\tx 1\t  ┃
 ┃\t\t\t\t\t\t\t\t  ┃
@@ -140,14 +140,14 @@ class Dealer(Cards):
             "One Pair": 1
         }
 
-    def shuffles_cards(self, front_ascii_cards, NR_OF_CARDS):
+    def shuffles(self, front_ascii_cards, NR_OF_CARDS):
         """Dealer deals the flop"""
 
         start_line = 5
         end_line = 6
         start_cardNr = 1
         end_cardNr = 2
-        the_colored_flop = []
+        the_flop = []
         ascii_lines = []
 
         # The cards are printed on 9 lines.
@@ -160,7 +160,7 @@ class Dealer(Cards):
         for line in ascii_lines:
             # Change AND to OR and all colors disapears. Good to know when building function to turn of color
             if line != ascii_lines[1] and line != ascii_lines[4] and line != ascii_lines[7]:
-                the_colored_flop.append(f'{self.MARGIN_LEFT}{line}')
+                the_flop.append(line)
             else:
                 # Color for the upper card numbers
                 if line == ascii_lines[1]:
@@ -204,7 +204,7 @@ class Dealer(Cards):
                         start_cardNr += 22
                         end_cardNr += 22
 
-                    the_colored_flop.append(f'{self.MARGIN_LEFT}{line}')
+                    the_flop.append(line)
 
                 if line == ascii_lines[4]:
 
@@ -218,7 +218,7 @@ class Dealer(Cards):
                         else:  # Make ELIF
                             line = line.replace(
                                 self.suits[f'{suit_name}'], bcolors.ORANGE + self.suits[f'{suit_name}'] + bcolors.ENDC)
-                    the_colored_flop.append(f'{self.MARGIN_LEFT}{line}')
+                    the_flop.append(line)
 
                 if line == ascii_lines[7]:
                     # Resetting values of these variables for the last line in the card
@@ -267,30 +267,33 @@ class Dealer(Cards):
                         start_cardNr += 22
                         end_cardNr += 22
 
-                    the_colored_flop.append(f'{self.MARGIN_LEFT}{line}')
+                    the_flop.append(line)
 
-        return the_colored_flop
+        return the_flop
 
-    def deals_cards(self, ascii_lines, NR_OF_CARDS):
+    def deals_cards(self, the_flop, NR_OF_CARDS):
         """Prints The ASCII Cards
         Prints the backcover of the cards, then the individual cards
         """
-        enter = f"""{self.MARGIN_HITME}""" + bcolors.RED + f"""
+
+        start_line = 0
+        end_line = 11
+        the_flop_copy = the_flop
+
+        hit_me = f"""{self.MARGIN_HITME}""" + bcolors.RED + f"""
 {self.MARGIN_HITME}██╗  ██╗██╗████████╗    ███╗   ███╗███████╗
 {self.MARGIN_HITME}██║  ██║██║╚══██╔══╝    ████╗ ████║██╔════╝
-{self.MARGIN_HITME}███████║██║   ██║       ██╔████╔██║█████╗  
-{self.MARGIN_HITME}██╔══██║██║   ██║       ██║╚██╔╝██║██╔══╝  
+{self.MARGIN_HITME}███████║██║   ██║       ██╔████╔██║█████╗
+{self.MARGIN_HITME}██╔══██║██║   ██║       ██║╚██╔╝██║██╔══╝
 {self.MARGIN_HITME}██║  ██║██║   ██║       ██║ ╚═╝ ██║███████╗
 {self.MARGIN_HITME}╚═╝  ╚═╝╚═╝   ╚═╝       ╚═╝     ╚═╝╚══════╝""" + bcolors.ENDC + f"""
 
-{self.MARGIN_HITME}{self.MARGIN_HITME}    Press Enter
+{self.MARGIN_HITME}{self.MARGIN_HITME}    """ + bcolors.UNDERLINE + 'Press Enter' + bcolors.ENDC + """
 """
-        # Prints empty  as standard
+        # Prints empty as standard
         back_ascii_cards = ['╔═════════╗'] + ['║' + bcolors.RED +
                                               '░░░░░░░░░' + bcolors.ENDC + '║'] * 2 + ['║' + bcolors.RED + '░░░░X░░░░' + bcolors.ENDC + '║'] * 3 + ['║' + bcolors.RED + '░░░░░░░░░' + bcolors.ENDC + '║'] * 2 + ['╚═════════╝']
-
-        # Prints back of cards side for side
-        input(f'{enter}')
+        input(f'{hit_me}')
 
         for nr in range(1, (NR_OF_CARDS + 1)):
             time.sleep(0.09)
@@ -298,39 +301,62 @@ class Dealer(Cards):
             for line in back_ascii_cards:
                 print(f'{self.MARGIN_LEFT}' +
                       (line + f'{self.MARGIN_BETWEEN}') * nr)
+        
+        # Time to wait before the flop is shown to the player.
         time.sleep(2)
+        sys_clear(OnScreen=payout)
+        # The flop is being shown to the player
+        for line in the_flop:
+            print(f'{self.MARGIN_LEFT}' + line)
 
-        # copy backascii card to change and print without changing the original
-        # for x in range(nr of cards)
-        # for loop nr of lines (9)
-
-        # string slice first card
-        # print na each line(9)
-        # add certain  to sliceing
-        # add time delay
-
-        # String slice first lines of first card
-        # Replace those with front cards
-        # Print whole list
-        # Repeat Nr of card times
-
-    def check_combination(self, player_combination):
-        """Check Card Combination
-        Checks to see if the final combination is a winning combination.
-        If so, returns the name of the combination with it's corresponding multiplier
-        """
-    pass
+        # Time to wait before the player can select one or more cards
+        time.sleep(1.5)
 
 
 class DoubleDown(object):
     pass
 
 
-class Select(object):
+class Select(Cards):
+
+    def __init__(self, the_flop, NR_OF_CARDS, suits, all_card_combinations):
+        Cards.__init__(self, NR_OF_CARDS, suits, all_card_combinations)
+        self.the_flop = the_flop
+
+    def selects(self, the_flop):
+        """Select cards to swap
+        Player can choose and select/highlight cards to swap"""
+
+        # !! with keyboard LEFT and RIGHT, reprint the flop (if LEFT KEY, slice indices are incremented by X amount or decrement)
+        sys_clear(OnScreen=payout)
+        # The first card
+        for line in the_flop:
+            # The FIRST and LAST line
+            if line[:11] == the_flop[0][:11] or line == the_flop[8][:11]:
+                line = bcolors.PURPLE + line[:11] + bcolors.ENDC + line[11:]
+            # The UPPER CARD NR
+            elif line[:20] == the_flop[1][:20]:
+                line = bcolors.PURPLE + line[:1] + bcolors.ENDC + line[1:17] + \
+                    bcolors.PURPLE + line[17:21] + bcolors.ENDC + line[21:]
+            elif line[:20] == the_flop[4][:20]:
+                line = bcolors.PURPLE + line[:1] + bcolors.ENDC + line[1:15] + \
+                    bcolors.PURPLE + line[15:20] + bcolors.ENDC + line[20:]
+            elif line[:20] == the_flop[7][:20]:
+                line = bcolors.PURPLE + line[:1] + bcolors.ENDC + line[1:19] + \
+                    bcolors.PURPLE + line[19:20] + bcolors.ENDC + line[20:]
+            else:
+                line = bcolors.PURPLE + line[:11] + bcolors.ENDC + line[11:]
+            
+            print(f'{self.MARGIN_LEFT}' + line)
+        # import curses
+        # !! The second card has an increment or decrement of X + print the whole lot
+        # If 'ENTER' or certain key is pressed for card swap (every 'enter' is a new print call with diffrent info)
+        ## select methode. that 'remembers' selected card
+        ### confirmation cards to swap
+        ### generate new cards, print them in the correct space(string slice)
+        #### Call calulate methode etc
+
     pass
-
-
-class Checker(object):
     # use variable 'set_cards_suits'
     pass
 
@@ -356,6 +382,8 @@ class bcolors:
 
 def sys_clear(OnScreen=None):
     ''' Clears terminal screen for diffrent OS's '''
+    import os
+
     if 'ipad' in platform.platform().lower():
         import console
         console.clear()
