@@ -1,6 +1,9 @@
+import keyboard
+import copy
 import platform
 import random
 import time
+
 
 # Between lines 31/28
 
@@ -31,8 +34,8 @@ class Cards(object):
         self.MARGIN_LEFT = ' ' * 2
         self.MARGIN_HITME = ' ' * \
             ((len(payout[payout.find('┏'):payout.find('┓')])) // 6)
-        self.set_cards_suits = set()
         self.suits = suits
+        self.set_cards_suits = set()
         self.all_card_combinations = all_card_combinations
 
     def create_cards(self, NR_OF_CARDS):
@@ -47,77 +50,84 @@ class Cards(object):
         set_cards_suits = set()
 
         for line_index in range(NR_OF_CARDS):
-            card_nr = random.randint(1, 14)
-            suit_sym = random.randint(0, 3)             # MAX: 3
+            while len(set_cards_suits) <= NR_OF_CARDS or len(lines[8]) < len(set_cards_suits):
 
-            # Renaming High-Cards
-            if card_nr == 1:
-                card_nr = 'A'
-            elif card_nr == 11:
-                card_nr = 'J'
-            elif card_nr == 12:
-                card_nr = 'Q'
-            elif card_nr == 13:
-                card_nr = 'K'
-            elif card_nr == 14:
-                card_nr = 'Joker'
-            # Joker's special symbol index nr.
-                suit_sym = 4
-                space = ''
+                card_nr = random.randint(1, 14)
+                suit_sym = random.randint(0, 3)             # MAX: 3
 
-            # The 'Joker' card has differences in whitespaces and thus will use its own template.
-            if card_nr == 'Joker':
-                lines[0].append('╔═════════╗')
-                lines[1].append('║{}    {}║'.format(card_nr, space))
-                lines[2].append('║         ║')
-                lines[3].append('║         ║')
-                lines[4].append('║    {}    ║'.format(
-                    list(self.suits.values())[suit_sym].upper()))
-                lines[5].append('║         ║')
-                lines[6].append('║         ║')
-                lines[7].append('║{}    {}║'.format(space, card_nr))
-                lines[8].append('╚═════════╝')
-                space = ' ' * 4
+                if (card_nr, suit_sym) in set_cards_suits:
+                    # Discard Multiple Card Combinations
+                    set_cards_suits.remove((card_nr, suit_sym))
+                    continue
 
-            elif card_nr == 10:
-                # '10' has two characters. There for diffrent whitespaces.
-                space = ' ' * 3
-                lines[0].append('╔═════════╗')
-                lines[1].append('║{}    {}║'.format(card_nr, space))
-                lines[2].append('║         ║')
-                lines[3].append('║         ║')
-                lines[4].append('║    {}    ║'.format(
-                    list(self.suits.values())[suit_sym].upper()))
-                lines[5].append('║         ║')
-                lines[6].append('║         ║')
-                lines[7].append('║{}    {}║'.format(space, card_nr))
-                lines[8].append('╚═════════╝')
-                space = ' ' * 4
+                if len(lines[8]) == 5:
+                    break
 
-            else:
-                # The 'Other' cards are using this template.
-                lines[0].append('╔═════════╗')
-                lines[1].append('║{}    {}║'.format(card_nr, space))
-                lines[2].append('║         ║')
-                lines[3].append('║         ║')
-                lines[4].append('║    {}    ║'.format(
-                    list(self.suits.values())[suit_sym].upper()))
-                lines[5].append('║         ║')
-                lines[6].append('║         ║')
-                lines[7].append('║{}    {}║'.format(space, card_nr))
-                lines[8].append('╚═════════╝')
+                # Add Card Combinations to a Set
+                set_cards_suits.add((card_nr, suit_sym))
 
-            if f'{(card_nr, suit_sym)}' in set_cards_suits:
-                # Discard Multiple Card Combinations
-                set_cards_suits.remove((card_nr, suit_sym))
+                # Renaming High-Cards
+                if card_nr == 1:
+                    card_nr = 'A'
+                elif card_nr == 11:
+                    card_nr = 'J'
+                elif card_nr == 12:
+                    card_nr = 'Q'
+                elif card_nr == 13:
+                    card_nr = 'K'
+                elif card_nr == 14:
+                    card_nr = 'Joker'
+                # Joker's special symbol index nr.
+                    suit_sym = 4
+                    space = ''
 
-            # Add Card Combinations to a Set
-            set_cards_suits.update((card_nr, suit_sym))
+                # The 'Joker' card has differences in whitespaces and thus will use its own template.
+                if card_nr == 'Joker':
+                    lines[0].append('╔═════════╗')
+                    lines[1].append('║{}    {}║'.format(card_nr, space))
+                    lines[2].append('║         ║')
+                    lines[3].append('║         ║')
+                    lines[4].append('║    {}    ║'.format(
+                        list(self.suits.values())[suit_sym].upper()))
+                    lines[5].append('║         ║')
+                    lines[6].append('║         ║')
+                    lines[7].append('║{}    {}║'.format(space, card_nr))
+                    lines[8].append('╚═════════╝')
+                    space = ' ' * 4
+
+                elif card_nr == 10:
+                    # '10' has two characters. There for diffrent whitespaces.
+                    space = ' ' * 3
+                    lines[0].append('╔═════════╗')
+                    lines[1].append('║{}    {}║'.format(card_nr, space))
+                    lines[2].append('║         ║')
+                    lines[3].append('║         ║')
+                    lines[4].append('║    {}    ║'.format(
+                        list(self.suits.values())[suit_sym].upper()))
+                    lines[5].append('║         ║')
+                    lines[6].append('║         ║')
+                    lines[7].append('║{}    {}║'.format(space, card_nr))
+                    lines[8].append('╚═════════╝')
+                    space = ' ' * 4
+
+                else:
+                    # The 'Other' cards are using this template.
+                    lines[0].append('╔═════════╗')
+                    lines[1].append('║{}    {}║'.format(card_nr, space))
+                    lines[2].append('║         ║')
+                    lines[3].append('║         ║')
+                    lines[4].append('║    {}    ║'.format(
+                        list(self.suits.values())[suit_sym].upper()))
+                    lines[5].append('║         ║')
+                    lines[6].append('║         ║')
+                    lines[7].append('║{}    {}║'.format(space, card_nr))
+                    lines[8].append('╚═════════╝')
 
             # Append key = index. v are the cards lines
+
             front_ascii_cards[card_index[line_index]] = lines
 
-        return front_ascii_cards
+        return front_ascii_cards, set_cards_suits
 
 
 class Dealer(Cards):
@@ -153,7 +163,7 @@ class Dealer(Cards):
         # The cards are printed on 9 lines.
         for lines_down in range(9):
             ascii_lines.append(self.MARGIN_BETWEEN.join(
-                front_ascii_cards[0][lines_down]))
+                front_ascii_cards[0][4][lines_down]))
 
         # append each line to a set or list to return as a whole
         # Changes Color of cards based on the suit
@@ -164,7 +174,7 @@ class Dealer(Cards):
             else:
                 # Color for the upper card numbers
                 if line == ascii_lines[1]:
-                    for nr_of_card in range(NR_OF_CARDS):
+                    for _ in range(NR_OF_CARDS):
 
                         # Change 'Clubs' and 'Spades' to color BLACK
                         if self.suits['Clubs'] in ascii_lines[4][start_line:end_line] or self.suits['Spades'] in ascii_lines[4][start_line:end_line]:
@@ -227,7 +237,7 @@ class Dealer(Cards):
                     start_cardNr = 9
                     end_cardNr = 10
 
-                    for nr_of_card in range(NR_OF_CARDS):
+                    for _ in range(NR_OF_CARDS):
 
                         # Change 'Clubs' and 'Spades' to color BLACK
                         if self.suits['Clubs'] in ascii_lines[4][start_line:end_line] or self.suits['Spades'] in ascii_lines[4][start_line:end_line]:
@@ -276,10 +286,6 @@ class Dealer(Cards):
         Prints the backcover of the cards, then the individual cards
         """
 
-        start_line = 0
-        end_line = 11
-        the_flop_copy = the_flop
-
         hit_me = f"""{self.MARGIN_HITME}""" + bcolors.RED + f"""
 {self.MARGIN_HITME}██╗  ██╗██╗████████╗    ███╗   ███╗███████╗
 {self.MARGIN_HITME}██║  ██║██║╚══██╔══╝    ████╗ ████║██╔════╝
@@ -301,10 +307,11 @@ class Dealer(Cards):
             for line in back_ascii_cards:
                 print(f'{self.MARGIN_LEFT}' +
                       (line + f'{self.MARGIN_BETWEEN}') * nr)
-        
+
         # Time to wait before the flop is shown to the player.
         time.sleep(2)
         sys_clear(OnScreen=payout)
+
         # The flop is being shown to the player
         for line in the_flop:
             print(f'{self.MARGIN_LEFT}' + line)
@@ -326,36 +333,124 @@ class Select(Cards):
     def selects(self, the_flop):
         """Select cards to swap
         Player can choose and select/highlight cards to swap"""
+        the_flop_copy = copy.deepcopy(the_flop)
 
-        # !! with keyboard LEFT and RIGHT, reprint the flop (if LEFT KEY, slice indices are incremented by X amount or decrement)
+        start_a = 0
+        end_a = 11
+        start_b = 0
+        end_b = 1
+        end_c = 19
+        index_line = 0
+        card_position = 1           # First card is highlighted automatically
+
         sys_clear(OnScreen=payout)
         # The first card
-        for line in the_flop:
-            # The FIRST and LAST line
-            if line[:11] == the_flop[0][:11] or line == the_flop[8][:11]:
-                line = bcolors.PURPLE + line[:11] + bcolors.ENDC + line[11:]
-            # The UPPER CARD NR
-            elif line[:20] == the_flop[1][:20]:
-                line = bcolors.PURPLE + line[:1] + bcolors.ENDC + line[1:17] + \
-                    bcolors.PURPLE + line[17:21] + bcolors.ENDC + line[21:]
-            elif line[:20] == the_flop[4][:20]:
-                line = bcolors.PURPLE + line[:1] + bcolors.ENDC + line[1:15] + \
-                    bcolors.PURPLE + line[15:20] + bcolors.ENDC + line[20:]
-            elif line[:20] == the_flop[7][:20]:
-                line = bcolors.PURPLE + line[:1] + bcolors.ENDC + line[1:19] + \
-                    bcolors.PURPLE + line[19:20] + bcolors.ENDC + line[20:]
+        while True:
+            sys_clear(OnScreen=payout)
+            for line in the_flop:
+                # # Might be usefull later on if numbers try to go negative.
+                # if start_a < 0:
+                #     start_a = 0
+                #     end_a = 11
+
+                # The FIRST cardline
+                if line[start_a:end_a] == the_flop[0][start_a:end_a]:
+                    the_flop_copy.remove(the_flop_copy[0])
+                    line = bcolors.PURPLE + \
+                        line[start_a:end_a] + bcolors.ENDC + line[end_a:]
+                    if card_position >= 2:
+                        line = the_flop[0][:start_a] + line
+                    the_flop_copy.insert(0, line)
+
+                # The LAST cardline
+                elif line[start_a:end_a] == the_flop[8][start_a:end_a]:
+                    the_flop_copy.remove(the_flop_copy[8])
+                    line = bcolors.PURPLE + \
+                        line[start_a:end_a] + bcolors.ENDC + line[end_a:]
+                    if card_position >= 2:
+                        line = the_flop[8][:start_a] + line
+                    the_flop_copy.insert(8, line)
+
+                # The UPPER CARDNR Line
+                elif line[start_b:(end_c + 1)] == the_flop[1][start_b:(end_c + 1)]:
+                    the_flop_copy.remove(the_flop_copy[1])
+                    line = bcolors.PURPLE + line[start_b:end_b] + bcolors.ENDC + line[end_b:end_c] + \
+                        bcolors.PURPLE + \
+                        line[end_c:(end_c + 1)] + bcolors.ENDC + \
+                        line[(end_c + 1):]
+                    if card_position >= 2:
+                        line = the_flop[1][:start_b] + line
+                    the_flop_copy.insert(1, line)
+
+                # The MIDDEL CARDSUITT Line
+                elif line[start_b:(end_c + 1)] == the_flop[4][start_b:(end_c + 1)]:
+                    the_flop_copy.remove(the_flop_copy[4])
+                    line = bcolors.PURPLE + line[start_b:end_b] + bcolors.ENDC + line[end_b:end_c] + \
+                        bcolors.PURPLE + \
+                        line[end_c:(end_c + 1)] + bcolors.ENDC + \
+                        line[(end_c + 1):]
+                    if card_position >= 2:
+                        line = the_flop[4][:start_b] + line
+                    the_flop_copy.insert(4, line)
+
+                # The BOTTOM CARDNR Line
+                elif line[start_b:(end_c + 1)] == the_flop[7][start_b:(end_c + 1)]:
+                    the_flop_copy.remove(the_flop_copy[7])
+                    line = bcolors.PURPLE + line[start_b:end_b] + bcolors.ENDC + line[end_b:end_c] + \
+                        bcolors.PURPLE + \
+                        line[end_c:(end_c + 1)] + bcolors.ENDC + \
+                        line[(end_c + 1):]
+                    if card_position >= 2:
+                        line = the_flop[7][:start_b] + line
+                    the_flop_copy.insert(7, line)
+
+                # LINES IN BETWEEN
+                else:
+                    # Very Ugly solution (Get index of the normal lines)
+                    if index_line == 0:
+                        index_line = 2
+                    elif index_line == 2:
+                        index_line = 3
+                    elif index_line == 3:
+                        index_line = 5
+                    elif index_line == 5:
+                        index_line = 6
+
+                    the_flop_copy.remove(the_flop_copy[index_line])
+                    line = bcolors.PURPLE + \
+                        line[start_a:end_a] + bcolors.ENDC + line[end_a:]
+                    if card_position >= 2:
+                        line = the_flop[index_line][:start_a] + line
+                    the_flop_copy.insert(index_line, line)
+
+            # Prints 'highlighted' cards on screen
+            for line in the_flop_copy:
+                print(f'{self.MARGIN_LEFT}' + line)
+
+            # <-- Should be arrow key press Right or Left
+            time.sleep(0.8)
+            if card_position < 5:
+                card_position += 1
+                start_a += (13)
+                end_a += (13)
+                start_b += (22)
+                end_b += (22)
+                end_c += (22)
+                index_line = 0
+                continue
             else:
-                line = bcolors.PURPLE + line[:11] + bcolors.ENDC + line[11:]
-            
-            print(f'{self.MARGIN_LEFT}' + line)
+                break
+
         # import curses
         # !! The second card has an increment or decrement of X + print the whole lot
         # If 'ENTER' or certain key is pressed for card swap (every 'enter' is a new print call with diffrent info)
-        ## select methode. that 'remembers' selected card
-        ### confirmation cards to swap
-        ### generate new cards, print them in the correct space(string slice)
-        #### Call calulate methode etc
+        # select methode. that 'remembers' selected card
+        # confirmation cards to swap
+        # generate new cards, print them in the correct space(string slice)
+        # Call calculate methode etc
 
+    def replace_select(self, the_flop):
+        pass
     pass
     # use variable 'set_cards_suits'
     pass

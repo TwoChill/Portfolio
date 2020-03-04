@@ -6,7 +6,8 @@ import time
 clss.sys_clear(OnScreen=clss.payout)
 
 card_nrs = [i for i in range(1, 15)]
-suits = {'Spades': '♠', 'Diamonds': '♦', 'Hearts': '♥', 'Clubs': '♣', 'Joker': '§'}
+suits = {'Spades': '♠', 'Diamonds': '♦',
+         'Hearts': '♥', 'Clubs': '♣', 'Joker': '§'}
 suits.pop('Joker')
 
 # Dictionary of per card nr and there suits. Exclude the joker which is appended on the last line 4 times.
@@ -16,12 +17,13 @@ suits['Joker'] = '§'
 
 NR_OF_CARDS = 5
 
-# Create instanse of cards
+# Create instance of cards
 cards = clss.Cards(NR_OF_CARDS, suits, all_card_combinations)
 
 # Creates the Flop (Front Acsii-Cards)
 dealer = clss.Dealer(NR_OF_CARDS, suits, all_card_combinations)
 the_flop = dealer.shuffles(cards.create_cards(NR_OF_CARDS), NR_OF_CARDS)
+
 
 # Deals the Flop
 dealer.deals_cards(the_flop, NR_OF_CARDS)
