@@ -1,9 +1,9 @@
-import keyboard
+from pynput import keyboard
 import copy
 import platform
 import random
 import time
-
+import os
 
 # Between lines 31/28
 
@@ -329,12 +329,13 @@ class Select(Cards):
     def __init__(self, the_flop, NR_OF_CARDS, suits, all_card_combinations):
         Cards.__init__(self, NR_OF_CARDS, suits, all_card_combinations)
         self.the_flop = the_flop
+        self.the_flop_copy = copy.deepcopy(the_flop)
 
     def selects(self, the_flop):
         """Select cards to swap
         Player can choose and select/highlight cards to swap"""
-        the_flop_copy = copy.deepcopy(the_flop)
 
+        global start_a, end_a, start_b, end_b, end_c, index_line, card_position
         start_a = 0
         end_a = 11
         start_b = 0
@@ -355,54 +356,54 @@ class Select(Cards):
 
                 # The FIRST cardline
                 if line[start_a:end_a] == the_flop[0][start_a:end_a]:
-                    the_flop_copy.remove(the_flop_copy[0])
+                    self.the_flop_copy.remove(self.the_flop_copy[0])
                     line = bcolors.PURPLE + \
                         line[start_a:end_a] + bcolors.ENDC + line[end_a:]
                     if card_position >= 2:
                         line = the_flop[0][:start_a] + line
-                    the_flop_copy.insert(0, line)
+                    self.the_flop_copy.insert(0, line)
 
                 # The LAST cardline
                 elif line[start_a:end_a] == the_flop[8][start_a:end_a]:
-                    the_flop_copy.remove(the_flop_copy[8])
+                    self.the_flop_copy.remove(self.the_flop_copy[8])
                     line = bcolors.PURPLE + \
                         line[start_a:end_a] + bcolors.ENDC + line[end_a:]
                     if card_position >= 2:
                         line = the_flop[8][:start_a] + line
-                    the_flop_copy.insert(8, line)
+                    self.the_flop_copy.insert(8, line)
 
                 # The UPPER CARDNR Line
                 elif line[start_b:(end_c + 1)] == the_flop[1][start_b:(end_c + 1)]:
-                    the_flop_copy.remove(the_flop_copy[1])
+                    self.the_flop_copy.remove(self.the_flop_copy[1])
                     line = bcolors.PURPLE + line[start_b:end_b] + bcolors.ENDC + line[end_b:end_c] + \
                         bcolors.PURPLE + \
                         line[end_c:(end_c + 1)] + bcolors.ENDC + \
                         line[(end_c + 1):]
                     if card_position >= 2:
                         line = the_flop[1][:start_b] + line
-                    the_flop_copy.insert(1, line)
+                    self.the_flop_copy.insert(1, line)
 
                 # The MIDDEL CARDSUITT Line
                 elif line[start_b:(end_c + 1)] == the_flop[4][start_b:(end_c + 1)]:
-                    the_flop_copy.remove(the_flop_copy[4])
+                    self.the_flop_copy.remove(self.the_flop_copy[4])
                     line = bcolors.PURPLE + line[start_b:end_b] + bcolors.ENDC + line[end_b:end_c] + \
                         bcolors.PURPLE + \
                         line[end_c:(end_c + 1)] + bcolors.ENDC + \
                         line[(end_c + 1):]
                     if card_position >= 2:
                         line = the_flop[4][:start_b] + line
-                    the_flop_copy.insert(4, line)
+                    self.the_flop_copy.insert(4, line)
 
                 # The BOTTOM CARDNR Line
                 elif line[start_b:(end_c + 1)] == the_flop[7][start_b:(end_c + 1)]:
-                    the_flop_copy.remove(the_flop_copy[7])
+                    self.the_flop_copy.remove(self.the_flop_copy[7])
                     line = bcolors.PURPLE + line[start_b:end_b] + bcolors.ENDC + line[end_b:end_c] + \
                         bcolors.PURPLE + \
                         line[end_c:(end_c + 1)] + bcolors.ENDC + \
                         line[(end_c + 1):]
                     if card_position >= 2:
                         line = the_flop[7][:start_b] + line
-                    the_flop_copy.insert(7, line)
+                    self.the_flop_copy.insert(7, line)
 
                 # LINES IN BETWEEN
                 else:
@@ -416,46 +417,31 @@ class Select(Cards):
                     elif index_line == 5:
                         index_line = 6
 
-                    the_flop_copy.remove(the_flop_copy[index_line])
+                    self.the_flop_copy.remove(self.the_flop_copy[index_line])
                     line = bcolors.PURPLE + \
                         line[start_a:end_a] + bcolors.ENDC + line[end_a:]
                     if card_position >= 2:
                         line = the_flop[index_line][:start_a] + line
-                    the_flop_copy.insert(index_line, line)
+                    self.the_flop_copy.insert(index_line, line)
 
             # Prints 'highlighted' cards on screen
-            for line in the_flop_copy:
+            for line in self.the_flop_copy:
                 print(f'{self.MARGIN_LEFT}' + line)
 
             # <-- Should be arrow key press Right or Left
-            time.sleep(0.8)
-            if card_position < 5:
-                card_position += 1
-                start_a += (13)
-                end_a += (13)
-                start_b += (22)
-                end_b += (22)
-                end_c += (22)
-                index_line = 0
-                continue
+            if card_position < self.NR_OF_CARDS:
+                listener = keyboard.Listener(on_press=on_press)
+                listener.start()  # start to listen on a separate thread
+                listener.join()  # remove if main thread is polling self.keys
             else:
-                break
-
-        # import curses
-        # !! The second card has an increment or decrement of X + print the whole lot
-        # If 'ENTER' or certain key is pressed for card swap (every 'enter' is a new print call with diffrent info)
-        # select methode. that 'remembers' selected card
-        # confirmation cards to swap
-        # generate new cards, print them in the correct space(string slice)
-        # Call calculate methode etc
+                listener = keyboard.Listener(on_press=on_press)
+                listener.start()  # start to listen on a separate thread
+                listener.join()
 
     def replace_select(self, the_flop):
         pass
-    pass
-    # use variable 'set_cards_suits'
-    pass
-
-
+    
+    
 class Bet(object):
     pass
 
@@ -473,6 +459,35 @@ class bcolors:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
+
+
+def on_press(key):
+    try:
+        k = key.char  # single-char keys
+    except Exception:
+        k = key.name  # other keys
+    if k in ['right']:  # keys of interest
+        global start_a, end_a, start_b, end_b, end_c, index_line, card_position
+        card_position += 1
+        start_a += (13)
+        end_a += (13)
+        start_b += (22)
+        end_b += (22)
+        end_c += (22)
+        index_line = 0
+        return False
+    elif k in ['left']:  # keys of interest
+        card_position -= 1
+        start_a -= (13)
+        end_a -= (13)
+        start_b -= (22)
+        end_b -= (22)
+        end_c -= (22)
+        index_line = 0
+        return False
+    else:
+        return False
+        # return False  # stop listener; remove this if want more keys
 
 
 def sys_clear(OnScreen=None):
