@@ -4,7 +4,9 @@ import platform
 import random
 import time
 import os
-
+if __name__ == "__main__":
+    import main
+    import functions as func
 # Between lines 31/28
 
 payout = f"""
@@ -50,8 +52,7 @@ class Cards(object):
         set_cards_suits = set()
 
         for line_index in range(NR_OF_CARDS):
-            while len(set_cards_suits) <= NR_OF_CARDS or len(lines[8]) < len(set_cards_suits):
-
+            while len(set_cards_suits) < NR_OF_CARDS or len(lines[8]) < len(set_cards_suits):
                 card_nr = random.randint(1, 14)
                 suit_sym = random.randint(0, 3)             # MAX: 3
 
@@ -60,11 +61,11 @@ class Cards(object):
                     set_cards_suits.remove((card_nr, suit_sym))
                     continue
 
-                if len(lines[8]) == 5:
-                    break
-
                 # Add Card Combinations to a Set
                 set_cards_suits.add((card_nr, suit_sym))
+
+                if len(lines[8]) == 5:
+                    break
 
                 # Renaming High-Cards
                 if card_nr == 1:
@@ -151,7 +152,7 @@ class Dealer(Cards):
         }
 
     def shuffles(self, front_ascii_cards, NR_OF_CARDS):
-        """Dealer deals the flop"""
+        """Colors the cards"""
 
         start_line = 5
         end_line = 6
@@ -163,7 +164,7 @@ class Dealer(Cards):
         # The cards are printed on 9 lines.
         for lines_down in range(9):
             ascii_lines.append(self.MARGIN_BETWEEN.join(
-                front_ascii_cards[0][4][lines_down]))
+                front_ascii_cards[4][lines_down]))
 
         # append each line to a set or list to return as a whole
         # Changes Color of cards based on the suit
@@ -331,10 +332,10 @@ class Select(Cards):
         self.the_flop = the_flop
         self.the_flop_copy = copy.deepcopy(the_flop)
 
-    def selects(self, the_flop):
+    def color_selects(self, the_flop):
         """Select cards to swap
         Player can choose and select/highlight cards to swap"""
-
+        
         global start_a, end_a, start_b, end_b, end_c, index_line, card_position
         start_a = 0
         end_a = 11
@@ -344,8 +345,7 @@ class Select(Cards):
         index_line = 0
         card_position = 1           # First card is highlighted automatically
 
-        sys_clear(OnScreen=payout)
-        # The first card
+        # Places a 'selective' color around a card
         while True:
             sys_clear(OnScreen=payout)
             for line in the_flop:
@@ -357,7 +357,7 @@ class Select(Cards):
                 # The FIRST cardline
                 if line[start_a:end_a] == the_flop[0][start_a:end_a]:
                     self.the_flop_copy.remove(self.the_flop_copy[0])
-                    line = bcolors.PURPLE + \
+                    line = bcolors.BLUE + \
                         line[start_a:end_a] + bcolors.ENDC + line[end_a:]
                     if card_position >= 2:
                         line = the_flop[0][:start_a] + line
@@ -366,7 +366,7 @@ class Select(Cards):
                 # The LAST cardline
                 elif line[start_a:end_a] == the_flop[8][start_a:end_a]:
                     self.the_flop_copy.remove(self.the_flop_copy[8])
-                    line = bcolors.PURPLE + \
+                    line = bcolors.BLUE + \
                         line[start_a:end_a] + bcolors.ENDC + line[end_a:]
                     if card_position >= 2:
                         line = the_flop[8][:start_a] + line
@@ -375,8 +375,8 @@ class Select(Cards):
                 # The UPPER CARDNR Line
                 elif line[start_b:(end_c + 1)] == the_flop[1][start_b:(end_c + 1)]:
                     self.the_flop_copy.remove(self.the_flop_copy[1])
-                    line = bcolors.PURPLE + line[start_b:end_b] + bcolors.ENDC + line[end_b:end_c] + \
-                        bcolors.PURPLE + \
+                    line = bcolors.BLUE + line[start_b:end_b] + bcolors.ENDC + line[end_b:end_c] + \
+                        bcolors.BLUE + \
                         line[end_c:(end_c + 1)] + bcolors.ENDC + \
                         line[(end_c + 1):]
                     if card_position >= 2:
@@ -386,8 +386,8 @@ class Select(Cards):
                 # The MIDDEL CARDSUITT Line
                 elif line[start_b:(end_c + 1)] == the_flop[4][start_b:(end_c + 1)]:
                     self.the_flop_copy.remove(self.the_flop_copy[4])
-                    line = bcolors.PURPLE + line[start_b:end_b] + bcolors.ENDC + line[end_b:end_c] + \
-                        bcolors.PURPLE + \
+                    line = bcolors.BLUE + line[start_b:end_b] + bcolors.ENDC + line[end_b:end_c] + \
+                        bcolors.BLUE + \
                         line[end_c:(end_c + 1)] + bcolors.ENDC + \
                         line[(end_c + 1):]
                     if card_position >= 2:
@@ -397,8 +397,8 @@ class Select(Cards):
                 # The BOTTOM CARDNR Line
                 elif line[start_b:(end_c + 1)] == the_flop[7][start_b:(end_c + 1)]:
                     self.the_flop_copy.remove(self.the_flop_copy[7])
-                    line = bcolors.PURPLE + line[start_b:end_b] + bcolors.ENDC + line[end_b:end_c] + \
-                        bcolors.PURPLE + \
+                    line = bcolors.BLUE + line[start_b:end_b] + bcolors.ENDC + line[end_b:end_c] + \
+                        bcolors.BLUE + \
                         line[end_c:(end_c + 1)] + bcolors.ENDC + \
                         line[(end_c + 1):]
                     if card_position >= 2:
@@ -418,7 +418,7 @@ class Select(Cards):
                         index_line = 6
 
                     self.the_flop_copy.remove(self.the_flop_copy[index_line])
-                    line = bcolors.PURPLE + \
+                    line = bcolors.BLUE + \
                         line[start_a:end_a] + bcolors.ENDC + line[end_a:]
                     if card_position >= 2:
                         line = the_flop[index_line][:start_a] + line
@@ -440,14 +440,14 @@ class Select(Cards):
 
     def replace_select(self, the_flop):
         pass
-    
-    
+
+
 class Bet(object):
     pass
 
 
 class bcolors:
-    PURPLE = '\033[95m'
+    BLUE = '\033[95m'
     BLUE = '\033[94m'
     GREEN = '\033[92m'
     ORANGE = '\033[93m'
@@ -468,27 +468,34 @@ def on_press(key):
         k = key.name  # other keys
     if k in ['right']:  # keys of interest
         global start_a, end_a, start_b, end_b, end_c, index_line, card_position
-        card_position += 1
-        start_a += (13)
-        end_a += (13)
-        start_b += (22)
-        end_b += (22)
-        end_c += (22)
-        index_line = 0
-        return False
-    elif k in ['left']:  # keys of interest
-        card_position -= 1
-        start_a -= (13)
-        end_a -= (13)
-        start_b -= (22)
-        end_b -= (22)
-        end_c -= (22)
-        index_line = 0
-        return False
-    else:
-        return False
-        # return False  # stop listener; remove this if want more keys
 
+        if card_position > 4:
+            return start_a, end_a, start_b, end_b, end_c, index_line, card_position
+        else:
+            card_position += 1
+            start_a += (13)
+            end_a += (13)
+            start_b += (22)
+            end_b += (22)
+            end_c += (22)
+            index_line = 0
+            return False
+    elif k in ['left']:  # keys of interest
+
+        if card_position < 2:
+            return start_a, end_a, start_b, end_b, end_c, index_line, card_position
+        else:
+            card_position -= 1
+            start_a -= (13)
+            end_a -= (13)
+            start_b -= (22)
+            end_b -= (22)
+            end_c -= (22)
+            index_line = 0
+            return False
+    else:
+        return start_a, end_a, start_b, end_b, end_c, index_line, card_position
+        # return False  # stop listener; remove this if want more keys
 
 def sys_clear(OnScreen=None):
     ''' Clears terminal screen for diffrent OS's '''
