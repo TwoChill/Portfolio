@@ -25,12 +25,10 @@ dealer = clss.Dealer(NR_OF_CARDS, suits, all_card_combinations)
 front_ascii_cards, set_cards_suits = cards.create_cards(NR_OF_CARDS)
 the_flop = dealer.shuffles(front_ascii_cards, NR_OF_CARDS)
 
-print(set_cards_suits)
-
 # Deals the Flop
 dealer.deals_cards(the_flop, NR_OF_CARDS)
 
 
 # Player select cards
 player = clss.Select(the_flop, NR_OF_CARDS, suits, all_card_combinations)
-player.color_selects(the_flop)
+player.select_cards(the_flop)
