@@ -350,7 +350,7 @@ class Select(Cards):
         while True:
             sys_clear(OnScreen=payout)
 
-            #!!! If 'CTRL' is NOT PRESSED (remember_select will always be empty)
+            #!!! If 'CTRL' is NOT PRESSED (If it IS ......... )
             if remember_select == {}:
                 for line in the_flop:
                 
@@ -484,7 +484,7 @@ def on_press(key):
     
     global start_a, end_a, start_b, end_b, end_c, index_line, card_position, remember_select
 
-    remember_select = {}
+    # remember_select = {}
     
     try:
         k = key.char  # single-char keys
@@ -520,20 +520,17 @@ def on_press(key):
             return False
         
     elif k in ['ctrl']:
-        def add_slices(start_a, end_a, start_b, end_b, end_c, index_line, card_position):
-            remember_select['card_position'] = card_position
-            remember_select['start_a'] = start_a
-            remember_select['end_a'] = end_a
-            remember_select['start_b'] = start_b
-            remember_select['end_b'] = end_b
-            remember_select['end_c'] = end_c
-            remember_select['index_line'] = index_line
+        remember_select['card_position'] = card_position
+        remember_select['start_a'] = start_a
+        remember_select['end_a'] = end_a
+        remember_select['start_b'] = start_b
+        remember_select['end_b'] = end_b
+        remember_select['end_c'] = end_c
+        remember_select['index_line'] = index_line
         
-        add_slices(start_a, end_a, start_b, end_b, end_c, index_line, card_position)
-
         print(remember_select)
     
-        return start_a, end_a, start_b, end_b, end_c, index_line, card_position, remember_select
+        return remember_select
         # remember card position fist (KEY)
         # string slice numbers are (VALUE)
         # in next printing remember the index slicing of the selected
