@@ -31,4 +31,4 @@ dealer.deals_cards(the_flop, NR_OF_CARDS)
 
 # Player select cards
 player = clss.Select(the_flop, NR_OF_CARDS, suits, all_card_combinations)
-player.select_cards(the_flop)
+player.highlight_card(the_flop)
